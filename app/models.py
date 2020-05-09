@@ -24,6 +24,8 @@ class BaseAddress(models.Model):
     bairro = models.CharField(max_length=200, blank=True, null=True, verbose_name='Bairro')
     endereco = models.CharField(max_length=300, blank=True, null=True, verbose_name='Endereço')
     numero = models.CharField(max_length=5, blank=True, null=True, verbose_name='Número')
+    cidade = models.CharField(max_length=200, blank=True, null=True, verbose_name='Cidade')
+    estado = models.CharField(max_length=200, blank=True, null=True, verbose_name='Estado')
     complemento = models.CharField(max_length=300, blank=True, null=True, verbose_name='Ponto de Referência')
     lat = models.CharField(max_length=300, blank=True, null=True)
     lng = models.CharField(max_length=300, blank=True, null=True)
