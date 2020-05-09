@@ -1,0 +1,765 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <section>
+        <!-- *** HOMEPAGE CAROUSEL ***
+_________________________________________________________ -->
+
+        <div class="home-carousel">
+
+            <div class="dark-mask"></div>
+
+            <div class="container">
+                <div class="homepage owl-carousel">
+                    <div class="item">
+                        <div class="row">
+
+                            <div class="col-sm-7 text-center">
+                                <img class="img-responsive"
+                                     src="{% static 'theme/img/template-mac.png' %}" alt="">
+                            </div>
+
+                            <div class="col-sm-5">
+                                <h2> Construa hoje mesmo seu site</h2>
+                                <ul class="list-style-none">
+                                    <li>Sites modernos e atraentes</li>
+                                    <li>Disponível em todas plataformas</li>
+                                    <li>+ painel de administração</li>
+                                    <li>+ email marketing</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-5 right">
+                                <h1>Design Clean</h1>
+                                <ul class="list-style-none">
+                                    <li>Construímos designs limpos</li>
+                                    <li>Tela cheia ou Boxed Mode</li>
+                                    <li>Seguimos o padrão de cores do cliente</li>
+                                    <li>Disponível para todos os navegadores</li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-7">
+                                <img class="img-responsive"
+                                     src="{% static 'theme/img/template-easy-customize.png' %}"
+                                     alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <img class="img-responsive"
+                                     src="{% static 'theme/img/template-easy-code.png' %}" alt="">
+                            </div>
+                            <div class="col-sm-5">
+                                <h1>Crie hoje sua Loja Online</h1>
+                                <ul class="list-style-none">
+                                    <li>Plataforma de fácil uso</li>
+                                    <li>Diversos sistemas de pagamento</li>
+                                    <li>Fácil implantação</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.project owl-slider -->
+            </div>
+        </div>
+
+        <!-- *** HOMEPAGE CAROUSEL END *** -->
+    </section>
+
+
+    <div class="container">
+        <style>
+            .main-title {
+                font-weight: 700;
+                text-align: center;
+                margin: 50px 0;
+            }
+
+            .margin-bottom-20 {
+                margin-bottom: 20px;
+            }
+
+            .margin-bottom-50 {
+                margin-bottom: 50px;
+            }
+
+            /* =================================
+            Price Table
+            ================================= */
+            .price-table {
+                background: none;
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+                border-radius: 0;
+                border: 7px solid #eeeeee;
+                -moz-transition: all .3s ease;
+                -o-transition: all .3s ease;
+                -webkit-transition: all .3s ease;
+            }
+
+            .price-table:hover {
+                background: rgba(0, 0, 0, .03);
+                border-color: #0093DD;
+            }
+
+            .price-table .price-table-heading {
+                color: #333333;
+                background: #f9f9f9;
+                padding: 10px 0;
+                margin: 0;
+            }
+
+            .price-table .price-table-heading .title {
+                color: #333333;
+                font-weight: 900;
+                letter-spacing: 1px;
+            }
+
+            .price-table > .price-table-body {
+                color: #FFFFFF;
+                background: #0093DD;
+                padding: 50px 0 30px;
+                -moz-transition: all .3s ease;
+                -o-transition: all .3s ease;
+                -webkit-transition: all .3s ease;
+            }
+
+            .price-table > .price-table-body .value {
+                font-size: 46px;
+                font-weight: 300;
+                color: #FFFFFF;
+                padding: 0;
+            }
+
+            .price-table > .price-table-body .value small {
+                font-size: 16px;
+            }
+
+            .price-table > .list-group {
+                color: #333;
+                font-weight: 400;
+                margin-bottom: 0;
+            }
+
+            .price-table > .list-group .list-group-item {
+                color: #333;
+                font-weight: 400;
+                -webkit-border-radius: 0;
+                -moz-border-radius: 0;
+                border-radius: 0;
+            }
+
+            .price-table .btn {
+                -webkit-border-radius: 3px;
+                -moz-border-radius: 3px;
+                border-radius: 3px;
+                font-weight: 700;
+            }
+
+            .price-table-footer {
+                background: #eeeeee;
+                padding: 15px 0;
+            }
+        </style>
+
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="heading">
+                        <h2>Loja Online</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <!-- Price Table Item -->
+                    <div class="price-table text-center">
+                        <div class="price-table-heading">
+                            <h4 class="title">Blog/Portal</h4>
+                        </div>
+                        <div class="price-table-body">
+                            <p style="font-size: 40px; margin-bottom: 0px;">10x</p>
+                            <p class="value">R$ 140,00
+                            </p>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Domínio Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Hospedagem Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                1GB de Dados
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Sem Mensalidade
+                            </li>
+                        </ul>
+                        <div class="price-table-footer"><a class="btn btn-lg btn-success"
+                                                           href="http://loja.caiomarinho.me/blogportal-wordpress"
+                                                           target="_blank">COMPRAR</a></div>
+                    </div>
+                    <!-- END Price Table Item -->
+
+                    <!-- START: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                    <div class="col-xs-12 col-sm-12 margin-bottom-20"></div>
+                    <!-- END: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <!-- Price Table Item -->
+                    <div class="price-table text-center">
+                        <div class="price-table-heading">
+                            <h4 class="title">Web App</h4>
+                        </div>
+                        <div class="price-table-body">
+                            <p style="font-size: 40px; margin-bottom: 0px;">10x</p>
+                            <p class="value">R$ 200,00
+                            </p>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Domínio Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Hospedagem Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                **Escalável
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                R$ 39,90
+                            </li>
+                        </ul>
+                        <div class="price-table-footer"><a class="btn btn-lg btn-success"
+                                                           href="http://loja.caiomarinho.me/webapp-"
+                                                           target="_blank">COMPRAR</a></div>
+                    </div>
+                    <!-- END Price Table Item -->
+
+                    <!-- START: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                    <div class="col-xs-12 col-sm-12 margin-bottom-20"></div>
+                    <!-- END: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <!-- Price Table Item -->
+                    <div class="price-table text-center">
+                        <div class="price-table-heading">
+                            <h4 class="title">Web Site Simples</h4>
+                        </div>
+                        <div class="price-table-body">
+                            <p style="font-size: 40px; margin-bottom: 0px;">10x</p>
+                            <p class="value">R$ 140,00
+                            </p>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Domínio Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Hospedagem Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                1GB de Dados
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Sem Mensalidade
+                            </li>
+                        </ul>
+                        <div class="price-table-footer"><a class="btn btn-lg btn-success"
+                                                           href="http://loja.caiomarinho.me/web"
+                                                           target="_blank">COMPRAR</a></div>
+                    </div>
+                    <!-- END Price Table Item -->
+
+                    <!-- START: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                    <div class="col-xs-12 col-sm-12 margin-bottom-20"></div>
+                    <!-- END: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <!-- Price Table Item -->
+                    <div class="price-table text-center">
+                        <div class="price-table-heading">
+                            <h4 class="title">Ecommerce</h4>
+                        </div>
+                        <div class="price-table-body">
+                            <p style="font-size: 40px; margin-bottom: 0px;">10x</p>
+                            <p class="value">R$ 259,90
+                            </p>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Domínio Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                Hospedagem Grátis
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                **Escalável
+                            </li>
+                            <li class="list-group-item"><i class="icon-ok text-success"></i>
+                                **Ver na plataforma
+                            </li>
+                        </ul>
+                        <div class="price-table-footer"><a class="btn btn-lg btn-success"
+                                                           href="http://loja.caiomarinho.me/ecommerce-completo"
+                                                           target="_blank">COMPRAR</a></div>
+                    </div>
+                    <!-- END Price Table Item -->
+
+                    <!-- START: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                    <div class="col-xs-12 col-sm-12 margin-bottom-20"></div>
+                    <!-- END: Will be visible in tablet and mobile devices to make gap between tow price items -->
+                </div>
+            </div>
+        </section>
+
+        <script>
+            $(document).ready(function () {
+
+//Sort random function
+                function random(owlSelector) {
+                    owlSelector.children().sort(function () {
+                        return Math.round(Math.random()) - 0.5;
+                    }).each(function () {
+                        $(this).appendTo(owlSelector);
+                    });
+                }
+
+                $("#owl-wrap").owlCarousel({
+                    navigation: true,
+                    navigationText: [
+                        "<i class='icon-chevron-left icon-white'><</i>",
+                        "<i class='icon-chevron-right icon-white'>></i>"
+                    ],
+                    beforeInit: function (elem) {
+//Parameter elem pointing to $("#owl-demo")
+                        random(elem);
+                    }
+
+                });
+
+            });
+
+
+            // Nivo Lightbox
+            $('a.btn-success').nivoLightbox({
+                effect: 'fadeScale',                             // The effect to use when showing the lightbox
+                theme: 'default',                           // The lightbox theme to use
+                keyboardNav: true,                          // Enable/Disable keyboard navigation (left/right/escape)
+                clickOverlayToClose: true,                  // If false clicking the "close" button will be the only way to close the lightbox
+                onInit: function () {
+                },                       // Callback when lightbox has loaded
+                beforeShowLightbox: function () {
+                },           // Callback before the lightbox is shown
+                afterShowLightbox: function (lightbox) {
+                },    // Callback after the lightbox is shown
+                beforeHideLightbox: function () {
+                },           // Callback before the lightbox is hidden
+                afterHideLightbox: function () {
+                },            // Callback after the lightbox is hidden
+                onPrev: function (element) {
+                },                // Callback when the lightbox gallery goes to previous item
+                onNext: function (element) {
+                },                // Callback when the lightbox gallery goes to next item
+                errorMessage: 'The requested content cannot be loaded. Please try again later.' // Error message when content can't be loaded
+            });
+        </script>
+    </div>
+
+    <!-- *** LOGIN MODAL END *** -->
+    <div class="container">
+
+        <section>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="heading">
+                        <h2>Sobre Mim</h2>
+                    </div>
+
+                    <p class="lead">Atuando como desenvolvedor, tenho trabalhado com sistemas
+                        multiplataforma por 3 anos
+                        no mercado. Estou disposto a colocar seu segmento na forma digital, e
+                        facilitar para seus
+                        clientes o acesso a sua firma. Nestes anos venho desenvolvendo
+                        aplicativos, websites, sistemas
+                        de mail marketing, de gerenciamento, call marketing, entre outros
+                        serviços. </p>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="panel-group accordion" id="accordionThree">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+
+                                    <a data-toggle="collapse" data-parent="#accordionThree"
+                                       href="#collapse3a">
+
+                                        Sistemas de acordo com os requisitos do cliente
+
+                                    </a>
+
+                                </h4>
+                            </div>
+                            <div id="collapse3a" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p>Este sistema, sendo ele aplicativo, website,
+                                                ecommerce ou social media,
+                                                desenvolvo de acordo com o desejo do cliente.
+                                                Sistema único, e focado no
+                                                problema da sua empresa. </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+
+                                    <a data-toggle="collapse" data-parent="#accordionThree"
+                                       href="#collapse3b">
+
+                                        Moderno e Eficaz.
+
+                                    </a>
+
+                                </h4>
+                            </div>
+                            <div id="collapse3b" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p>Utilizo as ferramentas mais modernas, tornando a
+                                                usabilidade mais
+                                                confortável possível.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+
+                                    <a data-toggle="collapse" data-parent="#accordionThree"
+                                       href="#collapse3c">
+
+                                        Por que contratar um Freelancer?
+
+                                    </a>
+
+                                </h4>
+                            </div>
+                            <div id="collapse3c" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        <li>Contato direto 24/7</li>
+                                        <li>Preço abaixo do mercado</li>
+                                        <li>Sem burocracias</li>
+                                        <li>Confiabilidade e Fidelidade</li>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="heading">
+                        <h2>Skills</h2>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="90"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 95%">
+                            Ecommerce
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="85"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                            Search Engine Marketing
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="100"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                            Webdesign
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="100"
+                             aria-valuemin="0" aria-valuemax="100" style="width: 99%">
+                            Apps
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <section class="bar background-pentagon no-mb">
+        <div class="container">
+            <div class="row showcase">
+                <div class="col-md-3 col-sm-6">
+                    <div class="item">
+                        <div class="icon"><i class="fa fa-desktop"></i>
+                        </div>
+                        <h4><span class="counter">22</span><br>
+
+                            Websites Criados</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="item">
+                        <div class="icon"><i class="fa fa-users"></i>
+                        </div>
+                        <h4><span class="counter">30</span><br>
+
+                            Clientes Satisfeitos</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="item">
+                        <div class="icon"><i class="fa fa-copy"></i>
+                        </div>
+                        <h4><span class="counter">45</span><br>
+
+                            Projetos</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="item">
+                        <div class="icon"><i class="fa fa-mobile"></i>
+                        </div>
+                        <h4><span class="counter">8</span><br>
+
+                            Aplicativos Feitos</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+    <section class="bar background-white">
+        <div class="container">
+            <div class="col-md-12">
+                <div class="heading text-center">
+                    <h2>Serviços</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="box-simple">
+                            <div class="icon">
+                                <i class="fa fa-desktop"></i>
+                            </div>
+                            <h3>Websites</h3>
+
+                            <p>Posso construir para você um belo site estático ou dinâmico.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box-simple">
+                            <div class="icon">
+                                <i class="fa fa-mobile"></i>
+                            </div>
+                            <h3>Apps</h3>
+
+                            <p>O mercado de aplicativos é crescente, e a partir de R$600,00
+                                podemos construir para
+                                você.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box-simple">
+                            <div class="icon">
+                                <i class="fa fa-th-large"></i>
+                            </div>
+                            <h3>ERP</h3>
+
+                            <p>Criamos um sistema de gerenciamento para sua empresa de acordo
+                                com seus requisitos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="box-simple">
+                            <div class="icon">
+                                <i class="fa fa-gift "></i>
+                            </div>
+                            <h3>e-commerce</h3>
+
+                            <p>Venda seus produtos e serviços online, e fature muito mais.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box-simple">
+                            <div class="icon">
+                                <i class="fa fa-envelope-o"></i>
+                            </div>
+                            <h3>Email Marketing</h3>
+
+                            <p>Crie um mail listing para sua empresa e mantenha um
+                                relacionamento com seus clientes.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box-simple">
+                            <div class="icon">
+                                <i class="fa fa-line-chart"></i>
+                            </div>
+                            <h3>social media</h3>
+
+                            <p>Podemos criar para você todo serviço de Marketing Digital para
+                                sua empresa. </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bar background-gray no-mb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading text-center">
+                        <h2>Clientes</h2>
+                    </div>
+
+                    <ul class="owl-carousel customers">
+                        <li class="item">
+                            <img src="{% static 'theme/img/amxcg.png' %}" alt=""
+                                 class="img-responsive"
+                                 style="height: 100px;">
+                        </li>
+                        <li class="item">
+                            <img src="{% static 'theme/img/nossotatame.png' %}" alt=""
+                                 class="img-responsive"
+                                 style="height: 100px;">
+                        </li>
+                        <li class="item">
+                            <img src="{% static 'theme/img/imperialfruts.png' %}" alt=""
+                                 class="img-responsive"
+                                 style="height: 100px;">
+                        </li>
+                        <li class="item">
+                            <img src="{% static 'theme/img/clickmototaxi.png' %}" alt=""
+                                 class="img-responsive"
+                                 style="height: 100px;">
+                        </li>
+                        <li class="item">
+                            <img src="{% static 'theme/img/rafaelmotos.png' %}" alt=""
+                                 class="img-responsive"
+                                 style="height: 100px;">
+                        </li>
+                        <li class="item">
+                            <img src="{% static 'theme/img/soumonstro.png' %}" alt=""
+                                 class="img-responsive"
+                                 style="height: 100px;">
+                        </li>
+                    </ul>
+                    <!-- /.owl-carousel -->
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="bar background-white no-mb">
+        <div class="container" data-animate="fadeInUpBig">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading text-center">
+                        <h2>Ultimos Projetos</h2>
+                    </div>
+
+
+                    <div class="row portfolio">
+                        {% for p in projetos %}
+                            <div class="col-sm-4">
+                                <div class="box-image">
+                                    <div class="image">
+                                        {% for foto in p.foto_set.all %}
+                                            {% if foto.principal %}
+                                                <img src="{{ foto.foto.url }}"
+                                                     alt="{{ p.titulo }}"
+                                                     class="img-responsive"
+                                                     style="height: 300px;">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="bg"></div>
+                                    <div class="name">
+                                        <h3><a href="/projeto/{{ p.id }}">{{ p.titulo }}</a>
+                                        </h3>
+                                    </div>
+                                    <div class="text">
+                                        <p class="hidden-sm">{{ p.desc|truncatechars:60 }}</p>
+
+                                        <p class="buttons">
+                                            <a href="/projeto/{{ p.id }}"
+                                               class="btn btn-template-transparent-primary">Ver</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- /.item -->
+
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="see-more">
+                        <p>Deseja ver todos nossos projetos ?</p>
+
+                        <a href="/projetos" class="btn btn-template-main">Ver todos
+                            projetos</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            $('#inicio').addClass('active');
+        });
+    </script>
+
+{% endblock %}
