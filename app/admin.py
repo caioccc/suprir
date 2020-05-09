@@ -2,7 +2,20 @@ from django.contrib import admin
 
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
-    AdicionalEscolhido
+    AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
+    ContratoDeServico, ComentarioServico
+
+
+def approve_selected(modeladmin, request, queryset):
+    queryset.update(is_approved=True)
+
+
+def desapprove_selected(modeladmin, request, queryset):
+    queryset.update(is_approved=False)
+
+
+approve_selected.short_description = "Aprovar itens selecionados"
+desapprove_selected.short_description = "Desaprovar itens selecionados"
 
 
 class FotoServicoInline(admin.TabularInline):
@@ -30,6 +43,7 @@ class AdicionalEscolhidoInline(admin.TabularInline):
 
 
 class ClienteAdmin(admin.ModelAdmin):
+    list_filter = ('estado', 'cidade', 'is_online',)
     search_fields = (
         'user__first_name', 'cpf', 'cnpj',
     )
@@ -52,6 +66,7 @@ class ProfissionalAdmin(admin.ModelAdmin):
     inlines = [
         ServicoInline,
     ]
+    actions = [approve_selected, desapprove_selected]
     search_fields = (
         'user__first_name', 'cpf', 'cnpj',
     )
@@ -64,39 +79,45 @@ class ProfissionalAdmin(admin.ModelAdmin):
 
 
 class CategoriaDeServicoAdmin(admin.ModelAdmin):
-    list_filter = ('disponivel')
+    list_filter = ('disponivel', 'is_approved',)
+    actions = [approve_selected, desapprove_selected]
     search_fields = (
         'profissional__user__first_name', 'categoria', 'profissional__cpf', 'profissional__cnpj',
     )
     list_display = (
-        'categoria', 'id', 'profissional', 'disponivel', 'created_at')
+        'categoria', 'id', 'profissional', 'disponivel', 'is_approved', 'created_at',)
 
 
 class ServicoAdmin(admin.ModelAdmin):
-    list_filter = ('disponivel')
+    list_filter = ('disponivel', 'is_approved',)
     inlines = [
         AdicionalDeServicoInline,
         FotoServicoInline
     ]
+    actions = [approve_selected, desapprove_selected]
     search_fields = (
         'profissional__user__first_name', 'categoria__categoria',
     )
-    list_display = ('titulo', 'id', 'categoria', 'valor_base', 'profissional', 'disponivel', 'created_at')
+    list_display = (
+        'titulo', 'id', 'categoria', 'valor_base', 'profissional', 'disponivel', 'is_approved', 'created_at')
 
 
 class AdicionalDeServicoAdmin(admin.ModelAdmin):
-    list_filter = ('disponivel')
+    list_filter = ('disponivel', 'is_approved',)
+    actions = [approve_selected, desapprove_selected]
     search_fields = (
         'servico__titulo',
     )
-    list_display = ('titulo', 'id', 'servico', 'valor', 'disponivel', 'created_at')
+    list_display = ('titulo', 'id', 'servico', 'valor', 'disponivel', 'is_approved', 'created_at')
 
 
 class FotoServicoAdmin(admin.ModelAdmin):
+    list_filter = ('is_approved',)
+    actions = [approve_selected, desapprove_selected]
     search_fields = (
         'servico__titulo',
     )
-    list_display = ('servico', 'id', 'url', 'created_at')
+    list_display = ('servico', 'id', 'url', 'is_approved', 'created_at')
 
 
 class FormaPagamentoAdmin(admin.ModelAdmin):
@@ -130,7 +151,7 @@ class ItemServicoAdmin(admin.ModelAdmin):
 
 class AdicionalEscolhidoAdmin(admin.ModelAdmin):
     list_filter = (
-        'item_servico__servico__profissional__estado', 'item_servico_servico__profissional__cidade',
+        'item_servico__servico__profissional__estado', 'item_servico__servico__profissional__cidade',
         'item_servico__carrinho__forma_pagamento')
     search_fields = (
         'item_servico__servico__titulo', 'item_servico__servico__profissional__cpf',
@@ -141,13 +162,13 @@ class AdicionalEscolhidoAdmin(admin.ModelAdmin):
 
 class ContratoDeServicoAdmin(admin.ModelAdmin):
     list_filter = (
-        'carrinho__profissional__estado', 'carrinho__profissional__cidade', 'item_servico__servico__forma_pagamento')
+        'carrinho__profissional__estado', 'carrinho__profissional__cidade', 'carrinho__forma_pagamento')
     search_fields = (
         'carrinho__cliente__user__first_name', 'carrinho__profissional__user__first_name',
         'carrinho__profissional__cpf',
         'carrinho__profissional__cnpj', 'carrinho__cliente__cpf', 'carrinho__cliente__cnpj',
     )
-    list_display = ('carrinho', 'id', 'status', 'carrinho__valor_total', 'created_at')
+    list_display = ('carrinho', 'id', 'status', 'created_at')
 
 
 class ComentarioServicoAdmin(admin.ModelAdmin):
@@ -158,3 +179,18 @@ class ComentarioServicoAdmin(admin.ModelAdmin):
         'cliente__cnpj',
     )
     list_display = ('servico', 'id', 'cliente', 'created_at')
+
+
+admin.site.register(Cliente, ClienteAdmin)
+admin.site.register(Profissional, ProfissionalAdmin)
+admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
+admin.site.register(CategoriaDeServico, CategoriaDeServicoAdmin)
+admin.site.register(Servico, ServicoAdmin)
+admin.site.register(AdicionalDeServico, AdicionalDeServicoAdmin)
+admin.site.register(FotoServico, FotoServicoAdmin)
+admin.site.register(FormaPagamento, FormaPagamentoAdmin)
+admin.site.register(CarrinhoDeServicos, CarrinhoDeServicosAdmin)
+admin.site.register(ItemServico, ItemServicoAdmin)
+admin.site.register(AdicionalEscolhido, AdicionalEscolhidoAdmin)
+admin.site.register(ContratoDeServico, ContratoDeServicoAdmin)
+admin.site.register(ComentarioServico, ComentarioServicoAdmin)

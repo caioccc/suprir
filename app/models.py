@@ -123,6 +123,7 @@ class CategoriaDeServico(TimeStamped):
     categoria = models.CharField(max_length=300, blank=True, null=True, )
     profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
     disponivel = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s" % self.categoria
@@ -142,6 +143,7 @@ class Servico(TimeStamped):
     valor_base = models.CharField(max_length=300, blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True)
     disponivel = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
 
     def __str__(self):
         return "%s" % self.titulo
@@ -164,6 +166,7 @@ class AdicionalDeServico(TimeStamped):
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
     valor = models.CharField(max_length=10)
     disponivel = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s' % self.titulo
@@ -184,6 +187,7 @@ class FotoServico(TimeStamped):
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
     url = models.URLField(blank=True, null=True)
     file = models.FileField(blank=True, null=True)
+    is_approved = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s' % self.url
