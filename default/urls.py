@@ -17,11 +17,15 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from app.views import IndexView
+from app.views.LoginModule import LoginView, LogoutView
+from app.views.StoreModule import IndexView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^admin/', admin.site.urls),
     url(r'^admin/login/$', auth_views.login),
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^account/logout/$', LogoutView.as_view(), name='logout'),
+
 ]
