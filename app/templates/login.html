@@ -7,7 +7,7 @@
         <!-- ============================ COMPONENT LOGIN   ================================= -->
         <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
             <div class="card-body">
-                <h4 class="card-title mb-4">Log in</h4>
+                <h4 class="card-title mb-4">Entrar no Sistema</h4>
                 <form action="" method="post">{% csrf_token %}
                     <!--
                     {#                    <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-user-login.html#"#}
@@ -20,6 +20,7 @@
                     -->
                     <div class="form-group">
                         {{ form.username }}
+                        <small class="form-text text-muted">Insira apenas números do CELULAR com DDD</small>
                     </div> <!-- form-group// -->
                     <div class="form-group">
                         {{ form.password }}
@@ -42,12 +43,18 @@
         </div> <!-- card .// -->
 
         <p class="text-center mt-4">Não tem conta? <a
-                href="#">Registre-se</a></p>
+                href="{% url 'registro-cliente' %}">Registre-se</a></p>
         <br><br>
         <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 
 
     </section>
+
+    <script>
+        $(document).ready(function () {
+           // $('[name=username]').inputmask('(99) 9999[9]-9999');
+        });
+    </script>
     <!-- ========================= SECTION CONTENT END// ========================= -->
 
 {% endblock %}

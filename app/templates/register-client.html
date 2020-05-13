@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content padding-y">
+
+        <!-- ============================ COMPONENT REGISTER   ================================= -->
+        <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+            <article class="card-body">
+                <header class="mb-4"><h4 class="card-title">Registro de Cliente</h4></header>
+                <form action="" method="post">{% csrf_token %}
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>Nome</label>
+                            {{ form.nome }}
+                        </div> <!-- form-group end.// -->
+                        <div class="col form-group">
+                            <label>Sobrenome</label>
+                            {{ form.sobrenome }}
+                        </div> <!-- form-group end.// -->
+                    </div> <!-- form-row end.// -->
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>CEP</label>
+                            {{ form.cep }}
+                            <small class="form-text text-muted">Insira apenas números</small>
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>Endereço</label>
+                            {{ form.endereco }}
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>Número</label>
+                            {{ form.numero }}
+                        </div> <!-- form-group end.// -->
+                        <div class="col form-group">
+                            <label>Bairro</label>
+                            {{ form.bairro }}
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>Cidade</label>
+                            {{ form.cidade }}
+                        </div> <!-- form-group end.// -->
+                        <div class="col form-group">
+                            <label>Estado</label>
+                            {{ form.estado }}
+                            <small class="form-text text-muted">Insira apenas a SIGLA</small>
+                        </div> <!-- form-group end.// -->
+
+                    </div> <!-- form-row.// -->
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>Login</label>
+                            {{ form.telefone }}
+                            <small class="form-text text-muted">Insira apenas números do CELULAR com DDD</small>
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Criar senha</label>
+                            {{ form.password }}
+                        </div> <!-- form-group end.// -->
+                        <div class="form-group col-md-6">
+                            <label>Repetir senha</label>
+                            <input class="form-control" type="password">
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"> Registrar</button>
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <label class="custom-control custom-checkbox"> <input type="checkbox"
+                                                                              class="custom-control-input" checked="">
+                            <div class="custom-control-label"> Eu estou de acordo com os <a
+                                    href="#">termos e
+                                condições</a></div>
+                        </label>
+                    </div> <!-- form-group end.// -->
+                </form>
+            </article><!-- card-body.// -->
+        </div> <!-- card .// -->
+        <p class="text-center mt-4">Já possui uma conta? <a
+                href="{% url 'login' %}">Entre Aqui!</a></p>
+        <br><br>
+        <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+
+        <script>
+            $(document).ready(function () {
+                $('[name=cidade],[name=estado],[name=endereco], [name=bairro]').attr('readonly', true);
+                $('[name=cep]').focusout(function () {
+                    $('#loading').show();
+                    var cep = $('[name=cep]');
+                    var cepCode = cep.val().replace('.', '').replace('-', '');
+                    console.log('cep pesquisado:', cepCode);
+                    if (cepCode.length <= 0) {
+                        $('#loading').hide();
+                        return;
+                    }
+
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://ws.apicep.com/busca-cep/api/cep.json',
+                        data: {code: cepCode},
+                        success: function (result) {
+                            $('#loading').hide();
+                            if (result.status == 0) {
+                                alert(result.message || "Houve um erro desconhecido");
+                                return;
+                            } else {
+                                //$('[name=cidade],[name=estado],[name=endereco], [name=numero], [name=bairro]').attr('readonly', false);
+                                $('[name=cep]').val(result.code);
+                                $('[name=cidade]').val(result.city);
+                                var index = result.address.search('-');
+                                if (index != -1) {
+                                    address = result.address.substring(0, index);
+                                } else {
+                                    address = result.address;
+                                }
+                                $('[name=endereco]').val(address);
+                                $('[name=bairro]').val(result.district);
+                                $('[name=estado]').val(result.state);
+                            }
+                        }
+                    });
+                });
+
+            });
+
+
+        </script>
+
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

@@ -17,8 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from app.views.LoginModule import LoginView, LogoutView
-from app.views.StoreModule import IndexView
+from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional
+from app.views.StoreModule import IndexView, AreaProfissional
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -27,5 +27,8 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^account/logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^registro/$', RegistroCliente.as_view(), name='registro-cliente'),
+    url(r'^area-profissional/$', AreaProfissional.as_view(), name='area-profissional'),
+    url(r'^area-profissional/registro/$', RegistroProfissional.as_view(), name='registro-profissional'),
 
 ]

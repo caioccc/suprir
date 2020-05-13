@@ -51,6 +51,12 @@
 
     <link rel="stylesheet" href="{% static 'theme-store/css/sweetalert.min.css' %}">
 
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+
     {#    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"#}
     {#          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">#}
 </head>
@@ -109,7 +115,7 @@
                         </div>
                         {% if not user.is_authenticated %}
                             <div class="widget-header mr-3">
-                                <a href="{% url 'login' %}"
+                                <a href="{% url 'registro-cliente' %}"
                                    class="widget-view">
                                     <div class="icon-area">
                                         <i class="fa fa-user-plus" aria-hidden="true"></i>
@@ -118,34 +124,17 @@
                                 </a>
                             </div>
                         {% endif %}
-                        <div class="widget-header mr-3">
-                            <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
-                               class="widget-view">
-                                <div class="icon-area">
-                                    <i class="fa fa-comment-dots"></i>
-                                    <span class="notify">1</span>
-                                </div>
-                                <small class="text"> Message </small>
-                            </a>
-                        </div>
-                        <div class="widget-header mr-3">
-                            <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
-                               class="widget-view">
-                                <div class="icon-area">
-                                    <i class="fa fa-store"></i>
-                                </div>
-                                <small class="text"> Orders </small>
-                            </a>
-                        </div>
-                        <div class="widget-header">
-                            <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
-                               class="widget-view">
-                                <div class="icon-area">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </div>
-                                <small class="text"> Cart </small>
-                            </a>
-                        </div>
+                        {% if not user.is_authenticated %}
+                            <div class="widget-header">
+                                <a href="{% url 'area-profissional' %}"
+                                   class="widget-view">
+                                    <div class="icon-area">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                    <small class="text" style="max-width: 180px;"> Área para Profissionais </small>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div> <!-- widgets-wrap.// -->
                 </div> <!-- col.// -->
             </div> <!-- row.// -->
@@ -364,7 +353,8 @@
 </footer>
 <!-- ========================= FOOTER END // ========================= -->
 
-
+{% include 'utils/loading.html' %}
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 <script type="text/javascript" src="{% static 'theme-store/js/sweetalert.min.js' %}"></script>
 
 {% if messages %}
