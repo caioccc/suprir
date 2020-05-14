@@ -33,9 +33,9 @@ def get_qtd_servicos_em_andamento(user):
 
 
 @register.filter
-def get_qtd_carrinhos_em_aberto(user):
+def get_carrinhos_em_aberto(user):
     try:
-        return len(user.profissional.carrinhodeservicos_set.filter(status=True))
+        return user.profissional.carrinhodeservicos_set.order_by('-created_at').filter(status=True)
     except (Exception,):
         return 0
 

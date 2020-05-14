@@ -41,7 +41,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h4>{{ user|get_qtd_carrinhos_em_aberto }}</h4>
+                    <h4>{{ user|get_carrinhos_em_aberto|length }}</h4>
 
                     <p>Possiveis pedidos de Serviço</p>
                 </div>
@@ -106,7 +106,7 @@
                                             <td>
                                                 {{ contrato.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
                                             </td>
-                                            <td>{{ contrato.cliente.user.username }}</td>
+                                            <td>{{ contrato.cliente.telefone_1 }}</td>
                                             <td>{{ contrato.carrinho.valor_total|floatformat:2 }}</td>
                                             <td> {{ contrato.carrinho.forma_pagamento }}</td>
                                             <td>
@@ -128,16 +128,81 @@
                                                 {{ contrato.created_at|date:"d/m/Y G:i" }}
                                             </td>
                                             <td>
-                                                <!-- <a href="{% url 'edit_produto' contrato.pk %}"> <i
+                                                <!-- <a href=""> <i
                                                         class="fa fa-eye"></i></a> -->
                                                 <a href="#"> <i
                                                         class="fa fa-eye"></i></a>
                                             </td>
                                             <td>
-                                                <!--<a href="{% url 'delete_produto' contrato.pk %}"> <i
+                                                <!--<a href=""> <i
                                                         class="fa fa-trash-o"></i></a> -->
                                                 <a href="#"> <i
                                                         class="fa fa-sign-out"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary" id="carrinhos_em_aberto">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Carrinhos em Aberto (Possíveis pedidos de Serviço)
+                    </h3>
+                </div>
+                <div class="box-header">
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table_cart" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>CLIENTE</th>
+                                        <th>TELEFONE</th>
+                                        <th>DATA</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for carrinho in user|get_carrinhos_em_aberto %}
+                                        <tr>
+                                            <td>
+                                                {{ carrinho.id }}
+                                            </td>
+                                            <td>
+                                                {{ carrinho.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
+                                            </td>
+                                            <td>{{ carrinho.cliente.telefone_1 }}</td>
+                                            <td>
+                                                {{ carrinho.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td class="text-center">
+                                                <!-- <a href=""> <i
+                                                        class="fa fa-eye"></i></a> -->
+                                                <a href="#" class="btn btn-default"> <i
+                                                        class="fa fa-whatsapp"></i></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <!--<a href=""> <i
+                                                        class="fa fa-trash-o"></i></a> -->
+                                                <a href="#" class="btn btn-default"> <i
+                                                        class="fa fa-phone-square"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -157,7 +222,55 @@
             $('#dashboard').addClass('active');
             $('#table').DataTable({
                 responsive: true,
-                order: [[6, "asc"]]
+                order: [[6, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                }
+            });
+            $('#table_cart').DataTable({
+                responsive: true,
+                order: [[3, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                }
             });
 
         });
