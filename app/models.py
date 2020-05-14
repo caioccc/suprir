@@ -222,7 +222,7 @@ class FormaPagamento(TimeStamped):
         return u'%s' % self.forma
 
 
-STATUS = (
+STATUS_CONTRATO = (
     ('EM ANDAMENTO', 'EM ANDAMENTO'),
     ('REJEITADO', 'REJEITADO'),
     ('REALIZADO', 'REALIZADO'),
@@ -239,6 +239,7 @@ class CarrinhoDeServicos(TimeStamped, BaseAddress):
     subtotal = models.CharField(max_length=10, blank=True, null=True)
     valor_total = models.TextField(blank=True, null=True)
     forma_pagamento = models.ForeignKey(FormaPagamento, blank=True, null=True, on_delete=models.CASCADE)
+    status = models.BooleanField(blank=True, default=True)
 
     def __unicode__(self):
         return u'%s - %s - %s - %s' % (self.id, self.cliente, self.profissional, self.valor_total)
@@ -304,7 +305,9 @@ class ContratoDeServico(TimeStamped):
         verbose_name_plural = u'Contratos de Servicos'
 
     carrinho = models.OneToOneField(CarrinhoDeServicos, on_delete=models.CASCADE, blank=True, null=True)
-    status = models.CharField(max_length=100, choices=STATUS, blank=True, null=True, default='EM ANDAMENTO')
+    status = models.CharField(max_length=100, choices=STATUS_CONTRATO, blank=True, null=True, default='EM ANDAMENTO')
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
+    profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return u'%s - %s' % (self.id, self.carrinho)
