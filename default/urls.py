@@ -18,10 +18,10 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional
+from app.views.PanelModule import DashboardView
 from app.views.StoreModule import IndexView, AreaProfissional
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     url(r'^admin/', admin.site.urls),
     url(r'^admin/login/$', auth_views.login),
     url(r'^$', IndexView.as_view(), name='index'),
@@ -30,5 +30,7 @@ urlpatterns = [
     url(r'^registro/$', RegistroCliente.as_view(), name='registro-cliente'),
     url(r'^area-profissional/$', AreaProfissional.as_view(), name='area-profissional'),
     url(r'^area-profissional/registro/$', RegistroProfissional.as_view(), name='registro-profissional'),
+
+    url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
 
 ]

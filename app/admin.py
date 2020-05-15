@@ -125,7 +125,7 @@ class FormaPagamentoAdmin(admin.ModelAdmin):
 
 
 class CarrinhoDeServicosAdmin(admin.ModelAdmin):
-    list_filter = ('estado', 'cidade', 'forma_pagamento')
+    list_filter = ('estado', 'cidade', 'forma_pagamento', 'status')
     inlines = [
         ItemServicoInline,
     ]
@@ -134,7 +134,7 @@ class CarrinhoDeServicosAdmin(admin.ModelAdmin):
         'profissional__cpf', 'profissional__cnpj',
     )
     list_display = ('cliente', 'id', 'profissional', 'subtotal', 'cep', 'cidade', 'estado',
-                    'valor_total', 'forma_pagamento', 'created_at')
+                    'valor_total', 'forma_pagamento', 'status', 'created_at')
 
 
 class ItemServicoAdmin(admin.ModelAdmin):

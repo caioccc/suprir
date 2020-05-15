@@ -11,58 +11,54 @@
     </style>
     {% include 'utils/loading.html' %}
     <div class="row">
-        <div class="col-lg-3 col-xs-6" id="corridas_mes">
+        <div class="col-lg-3 col-xs-6" id="servicos_realizado">
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h4>123</h4>
+                    <h4>{{ user|get_qtd_servicos_realizados_mes }}</h4>
 
-                    <p>Corridas do Mês</p>
+                    <p>Serviços Realizados no Mês</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-bank"></i>
                 </div>
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6" id="corridas_hoje">
+        <div class="col-lg-3 col-xs-6" id="servicos_andamento">
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h4>123</h4>
+                    <h4>{{ user|get_qtd_servicos_em_andamento }}</h4>
 
-                    <p>Corridas de Hoje</p>
+                    <p>Serviços em Andamento</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-file-text"></i>
                 </div>
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6" id="ganhos_mes">
+        <div class="col-lg-3 col-xs-6" id="carrinhos_abertos">
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h4>123</h4>
+                    <h4>{{ user|get_carrinhos_em_aberto|length }}</h4>
 
-                    <p>Ganhos do Mes</p>
+                    <p>Possiveis pedidos de Serviço</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-dollar"></i>
                 </div>
             </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6" id="ganhos_hoje">
+        <div class="col-lg-3 col-xs-6" id="servicos_cadastrados">
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h4>123</h4>
+                    <h4>{{ user|get_qtd_meus_servicos_cadastrados }}</h4>
 
-                    <p>Ganhos de Hoje</p>
+                    <p>Serviços Cadastrados</p>
                 </div>
                 <div class="icon">
-                    <i class="fa fa-money"></i>
                 </div>
             </div>
         </div>
@@ -70,10 +66,10 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" id="novos_pedidos_moto">
+            <div class="box box-primary" id="contratos_de_servico">
                 <div class="box-header">
                     <h3 class="box-title">
-                        Novos Pedidos
+                        Contratos de Serviço
                     </h3>
                 </div>
                 <div class="box-header">
@@ -85,8 +81,133 @@
                 <div class="box-body">
                     <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
                         <div class="row">
-                            <div id="list" class="col-sm-12">
+                            <div class="col-sm-12">
+                                <table id="table" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>CLIENTE</th>
+                                        <th>TELEFONE</th>
+                                        <th>VALOR TOTAL</th>
+                                        <th>FORMA PAGAMENTO</th>
+                                        <th>STATUS</th>
+                                        <th>DATA</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for contrato in contratos %}
+                                        <tr>
+                                            <td>
+                                                {{ contrato.id }}
+                                            </td>
+                                            <td>
+                                                {{ contrato.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
+                                            </td>
+                                            <td>{{ contrato.cliente.telefone_1 }}</td>
+                                            <td>{{ contrato.carrinho.valor_total|floatformat:2 }}</td>
+                                            <td> {{ contrato.carrinho.forma_pagamento }}</td>
+                                            <td>
+                                                {% if contrato.status == 'REALIZADO' %}
+                                                    <label class="label label-success ">
+                                                        {{ contrato.status }}
+                                                    </label>
+                                                {% elif contrato.status == 'EM ANDAMENTO' %}
+                                                    <label class="label label-warning ">
+                                                        {{ contrato.status }}
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger ">
+                                                        {{ contrato.status }}
+                                                    </label>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ contrato.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td>
+                                                <!-- <a href=""> <i
+                                                        class="fa fa-eye"></i></a> -->
+                                                <a href="#"> <i
+                                                        class="fa fa-eye"></i></a>
+                                            </td>
+                                            <td>
+                                                <!--<a href=""> <i
+                                                        class="fa fa-trash-o"></i></a> -->
+                                                <a href="#"> <i
+                                                        class="fa fa-sign-out"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary" id="carrinhos_em_aberto">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Carrinhos em Aberto (Possíveis pedidos de Serviço)
+                    </h3>
+                </div>
+                <div class="box-header">
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table_cart" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>CLIENTE</th>
+                                        <th>TELEFONE</th>
+                                        <th>DATA</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for carrinho in user|get_carrinhos_em_aberto %}
+                                        <tr>
+                                            <td>
+                                                {{ carrinho.id }}
+                                            </td>
+                                            <td>
+                                                {{ carrinho.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
+                                            </td>
+                                            <td>{{ carrinho.cliente.telefone_1 }}</td>
+                                            <td>
+                                                {{ carrinho.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td class="text-center">
+                                                <!-- <a href=""> <i
+                                                        class="fa fa-eye"></i></a> -->
+                                                <a href="#" class="btn btn-default"> <i
+                                                        class="fa fa-whatsapp"></i></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <!--<a href=""> <i
+                                                        class="fa fa-trash-o"></i></a> -->
+                                                <a href="#" class="btn btn-default"> <i
+                                                        class="fa fa-phone-square"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -98,152 +219,61 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            function getList(data) {
-                data = data || {};
-                $.ajax({
-                    url: "{% url 'index' %}",
-                    type: "GET", // http method
-                    data: data,
-                    beforeSend: function () {
-                        // $('#loading').show();
+            $('#dashboard').addClass('active');
+            $('#table').DataTable({
+                responsive: true,
+                order: [[6, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
                     },
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    complete: function () {
-                        $('#loading').hide();
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
                     }
-                });
-            }
+                }
+            });
+            $('#table_cart').DataTable({
+                responsive: true,
+                order: [[3, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                }
+            });
 
-            getList();
-
-            window.setInterval(function () {
-                getList();
-            }, 300000);
-
-            $('#inicio').addClass('active');
-
-            if (screen.width <= 768) {
-                tour = new Tour({
-                    name: 'list_pedidos_motorista',
-                    backdrop: true,
-                    template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
-                    steps: [
-                        {
-                            element: ".navbar",
-                            placement: "bottom",
-                            title: "Menu Superior",
-                            content: "Aqui ficam os botoes de ajuste de tela e de assinatura do sistema."
-                        },
-                        {
-                            element: ".sidebar-toggle",
-                            title: "Menu do sistema",
-                            content: "Ao clicar neste botão, temos como esconder o menu de ações do sistema.",
-                            onShow: function (tour) {
-                                var timeOut = setTimeout(function () {
-                                    $('.sidebar-toggle').click();
-                                    timeOut = setTimeout(function () {
-                                        $('.sidebar-toggle').click();
-                                    }, 1000);
-                                }, 500);
-
-                            }
-                        },
-                        {
-                            element: ".main-sidebar",
-                            title: "Menu",
-                            content: "Aqui ficam os links de navegação do sistema."
-                        },
-                        {
-                            element: ".checkbox.checbox-switch",
-                            title: "Status",
-                            placement: "bottom",
-                            content: "Neste slider você define seu status para Online ou Offline."
-                        },
-                        {
-                            element: "#ajuda",
-                            title: "Central de Ajuda",
-                            placement: "top",
-                            content: "Se precisar de ajuda, clique aqui e veja um tutorial de como usar as ferramentas da tela."
-                        },
-                        {
-                            element: "#logout",
-                            title: "Logout",
-                            placement: "top",
-                            content: "Clique neste botão para sair do sistema!",
-                            onNext: function () {
-                                var timeOut = setTimeout(function () {
-                                    $('.sidebar-toggle').click();
-                                    clearTimeout(timeOut);
-                                }, 500);
-                            }
-                        },
-                    ]
-                });
-            } else {
-                tour = new Tour({
-                    name: 'list_pedidos_motorista',
-                    backdrop: true,
-                    template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
-                    steps: [
-                        {
-                            element: "#cred_receber",
-                            placement: "bottom",
-                            title: "Boas vindas",
-                            content: "Seja bem vindo ao sistema da Focus Delivery",
-                            onShow: function (tour) {
-                                var timeo = setTimeout(function () {
-                                    if ($('#body').hasClass('sidebar-open')) {
-                                        $('.sidebar-toggle').click();
-                                    }
-                                    clearTimeout(timeo);
-                                })
-                            }
-                        },
-                        {
-                            element: ".navbar",
-                            placement: "bottom",
-                            title: "Menu Superior",
-                            content: "Aqui ficam os botoes de ajuste de tela e de assinatura do sistema."
-                        },
-                        {
-                            element: ".sidebar-toggle",
-                            title: "Menu do sistema",
-                            content: "Ao clicar neste botão, temos como esconder o menu de ações do sistema.",
-                            onShow: function (tour) {
-                                var timeOut = setTimeout(function () {
-                                    $('.sidebar-toggle').click();
-                                    timeOut = setTimeout(function () {
-                                        $('.sidebar-toggle').click();
-                                    }, 1000);
-                                }, 500);
-
-                            }
-                        },
-                        {
-                            element: "#ajuda",
-                            title: "Central de Ajuda",
-                            placement: "top",
-                            content: "Se precisar de ajuda, clique aqui e veja um tutorial de como usar as ferramentas da tela."
-                        },
-                        {
-                            element: "#logout",
-                            title: "Logout",
-                            placement: "top",
-                            content: "Clique neste botão para sair do sistema!",
-                            onNext: function () {
-                                var timeOut = setTimeout(function () {
-                                    $('.sidebar-toggle').click();
-                                    clearTimeout(timeOut);
-                                }, 500);
-                            }
-                        },
-                    ]
-                });
-            }
         });
-
     </script>
 
 {% endblock %}
