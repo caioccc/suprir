@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional
-from app.views.PanelModule import DashboardView
+from app.views.PanelModule import DashboardView, ContractUpdateView
 from app.views.StoreModule import IndexView, AreaProfissional
 
 urlpatterns = [
@@ -32,5 +32,6 @@ urlpatterns = [
     url(r'^area-profissional/registro/$', RegistroProfissional.as_view(), name='registro-profissional'),
 
     url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
+    url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),
 
 ]

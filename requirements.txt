@@ -7,3 +7,4 @@ pycpfcnpj
 pyimgur
 django-money
 django-suit
+pytz

@@ -17,7 +17,7 @@
                 <div class="inner">
                     <h4>{{ user|get_qtd_servicos_realizados_mes }}</h4>
 
-                    <p>Serviços Realizados no Mês</p>
+                    <p>Serviços Realizados</p>
                 </div>
                 <div class="icon">
                 </div>
@@ -43,7 +43,7 @@
                 <div class="inner">
                     <h4>{{ user|get_carrinhos_em_aberto|length }}</h4>
 
-                    <p>Possiveis pedidos de Serviço</p>
+                    <p>Pedidos de Serviço</p>
                 </div>
                 <div class="icon">
                 </div>
@@ -86,13 +86,14 @@
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>CLIENTE</th>
+                                        <th>ID</th>
                                         <th>TELEFONE</th>
                                         <th>VALOR TOTAL</th>
                                         <th>FORMA PAGAMENTO</th>
                                         <th>STATUS</th>
                                         <th>DATA</th>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -101,10 +102,10 @@
                                     {% for contrato in contratos %}
                                         <tr>
                                             <td>
-                                                {{ contrato.id }}
+                                                {{ contrato.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
                                             </td>
                                             <td>
-                                                {{ contrato.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
+                                                {{ contrato.id }}
                                             </td>
                                             <td>{{ contrato.cliente.telefone_1 }}</td>
                                             <td>{{ contrato.carrinho.valor_total|floatformat:2 }}</td>
@@ -130,14 +131,21 @@
                                             <td>
                                                 <!-- <a href=""> <i
                                                         class="fa fa-eye"></i></a> -->
-                                                <a href="#"> <i
+                                                <a href="{% url 'editar-contrato' contrato.id %}"
+                                                   class="btn btn-default"> <i
                                                         class="fa fa-eye"></i></a>
                                             </td>
                                             <td>
                                                 <!--<a href=""> <i
                                                         class="fa fa-trash-o"></i></a> -->
-                                                <a href="#"> <i
+                                                <a href="#" class="btn btn-default"> <i
                                                         class="fa fa-sign-out"></i></a>
+                                            </td>
+                                            <td>
+                                                <!--<a href=""> <i
+                                                        class="fa fa-trash-o"></i></a> -->
+                                                <a href="#" class="btn btn-default"> <i
+                                                        class="fa fa-close"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -171,8 +179,8 @@
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>CLIENTE</th>
+                                        <th>ID</th>
                                         <th>TELEFONE</th>
                                         <th>DATA</th>
                                         <th></th>
@@ -183,10 +191,10 @@
                                     {% for carrinho in user|get_carrinhos_em_aberto %}
                                         <tr>
                                             <td>
-                                                {{ carrinho.id }}
+                                                {{ carrinho.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
                                             </td>
                                             <td>
-                                                {{ carrinho.cliente.user.first_name }} {{ contrato.cliente.user.last_name }}
+                                                {{ carrinho.id }}
                                             </td>
                                             <td>{{ carrinho.cliente.telefone_1 }}</td>
                                             <td>

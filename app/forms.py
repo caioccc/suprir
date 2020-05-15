@@ -1,8 +1,8 @@
 # coding=utf-8
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, inlineformset_factory
 
-from app.models import Profissional
+from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico
 
 
 class BaseForm(forms.Form):
@@ -97,3 +97,33 @@ class FormRegisterProfissional(ModelForm, FormRegisterCliente):
         # self.fields['link_instagram'].widget.attrs['required'] = 'False'
         # self.fields['url_site'].required = False
         # self.fields['url_site'].widget.attrs['required'] = 'False'
+
+
+class FormCarrinho(ModelForm, BaseForm):
+    class Meta:
+        model = CarrinhoDeServicos
+        fields = ['cliente', 'valor_total', 'forma_pagamento', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormCarrinho, self).__init__(*args, **kwargs)
+
+
+class FormItemServico(ModelForm, BaseForm):
+    class Meta:
+        model = ItemServico
+        fields = ['servico', 'observacoes', 'valor_total', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormItemServico, self).__init__(*args, **kwargs)
+
+
+class FormContrato(ModelForm, BaseForm):
+    class Meta:
+        model = ContratoDeServico
+        fields = ['status', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormContrato, self).__init__(*args, **kwargs)
+
+
+ItemServicoFormSet = inlineformset_factory(CarrinhoDeServicos, ItemServico, form=FormItemServico, extra=1)

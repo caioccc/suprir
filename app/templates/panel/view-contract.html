@@ -1,0 +1,98 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <div class="box box-primary" style="margin-top: 30px;">
+        <div class="box-header">
+            <h3 class="box-title">
+                <center style="font-size: 20px;">Visualizar Contrato</center>
+            </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ carrinho_form.as_p }}
+                    </div>
+                </div>
+                <hr/>
+                <h3>Servicos</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ itemservicoset.management_form }}
+                        <table class="table">
+                            {% for form in itemservicoset.forms %}
+                                {% if forloop.first %}
+                                    <thead>
+                                    <tr>
+                                        {% for field in form.visible_fields %}
+                                            <th>{{ field.label|capfirst }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+                                {% endif %}
+                                <tr class="itemservicoset_row">
+                                    {% for field in form.visible_fields %}
+                                        <td>
+                                            {# Include the hidden fields in the form #}
+                                            {% if forloop.first %}
+                                                {% for hidden in form.hidden_fields %}
+                                                    {{ hidden }}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {{ field.errors.as_ul }}
+                                            {{ field }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        <script src="{% static 'js/jquery.formset.js' %}"></script>
+                        <script type="text/javascript">
+                            $('.itemservicoset').formset({
+                                addText: 'Adicionar',
+                                deleteText: 'Remover',
+                                prefix: 'itemservico_set'
+                            });
+                        </script>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <!-- /.box-body -->
+            <div class=" box-footer ">
+                <a href="{% url 'dashboard-profissional' %}" id="btn_cancelar" class="btn btn-default pull-left">Voltar</a>
+                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Salvar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type=checkbox]').removeClass('form-control');
+            $('.add-row').click(function (evt) {
+                $('input[type=checkbox]').removeClass('form-control');
+            });
+            $('#btn_salvar').click(function () {
+                $('input, select, textarea').attr('disabled', false);
+                $('form').submit();
+            });
+
+            $('#dashboard').addClass('active');
+            $('input, select, textarea').attr('disabled', true);
+            $('[name=status]').attr('disabled', false);
+        });
+    </script>
+    <script>
+        $('.add-row').addClass('btn btn-primary');
+    </script>
+
+{% endblock %}

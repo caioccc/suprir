@@ -17,10 +17,7 @@ def get_user_name(user):
 @register.filter
 def get_qtd_servicos_realizados_mes(user):
     now = datetime.now()
-    try:
-        return len(user.profissional.contratodeservico_set.filter(created_at__month=now.month, status='REALIZADO'))
-    except (Exception,):
-        return 0
+    return len(user.profissional.contratodeservico_set.filter(created_at__month=now.month, status='REALIZADO'))
 
 
 @register.filter

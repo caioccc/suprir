@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import AccessMixin
 
 
 class ProfessionalUserRequiredMixin(AccessMixin):
+    login_url = '/login/'
     """
     CBV mixin which verifies that the current user is authenticated.
     """
