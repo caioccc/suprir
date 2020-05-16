@@ -2,7 +2,7 @@
 from django import forms
 from django.forms import ModelForm, inlineformset_factory
 
-from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico
+from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico
 
 
 class BaseForm(forms.Form):
@@ -127,3 +127,29 @@ class FormContrato(ModelForm, BaseForm):
 
 
 ItemServicoFormSet = inlineformset_factory(CarrinhoDeServicos, ItemServico, form=FormItemServico, extra=1)
+
+
+class FormServico(ModelForm, BaseForm):
+    class Meta:
+        model = Servico
+        fields = ['titulo', 'descricao', 'valor_base', 'disponivel', 'profissional']
+
+    def __init__(self, *args, **kwargs):
+        super(FormServico, self).__init__(*args, **kwargs)
+        self.fields['profissional'].label = ''
+        self.fields['profissional'].widget.attrs['class'] = 'hidden'
+        for field_name, field in self.fields.items():
+            field.widget.attrs['required'] = True
+
+
+class FormFotoServico(ModelForm, BaseForm):
+    class Meta:
+        model = FotoServico
+        fields = ['file', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormFotoServico, self).__init__(*args, **kwargs)
+        self.fields['file'].label = 'Arquivo'
+
+
+FotoServicoFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico, extra=1)

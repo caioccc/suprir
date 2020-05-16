@@ -1,0 +1,140 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <style>
+        .small-box .icon {
+            font-size: 70px;
+        }
+    </style>
+    {% include 'utils/loading.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary" id="contratos_de_servico">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Serviços Cadastrados
+                    </h3>
+                </div>
+                <div class="box-header">
+                    <a href="{% url 'create-servico' %}" class="btn btn-default pull-left"><i
+                            class="fa fa-plus"></i> Adicionar Serviço
+                    </a>
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>TITULO</th>
+                                        <th>ID</th>
+                                        <th>VALOR BASE</th>
+                                        <th>DISPONIVEL</th>
+                                        <th>APROVADO</th>
+                                        <th>QTD FOTOS</th>
+                                        <th>DATA</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for servico in servicos %}
+                                        <tr>
+                                            <td>
+                                                {{ servico.titulo }}
+                                            </td>
+                                            <td>
+                                                {{ servico.id }}
+                                            </td>
+                                            <td>{{ servico.valor_base|floatformat:2 }}</td>
+                                            <td>
+                                                {% if servico.disponivel %}
+                                                    <label class="label label-success"><i class="fa fa-check"></i>
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger"><i class="fa fa-close"></i>
+                                                    </label>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if servico.is_approved %}
+                                                    <label class="label label-success"><i class="fa fa-check"></i>
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger"><i class="fa fa-close"></i>
+                                                    </label>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ servico.fotoservico_set.all|length }}</td>
+                                            <td>
+                                                {{ servico.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td>
+                                                <a href="#"
+                                                   class="btn btn-default"> <i
+                                                        class="fa fa-eye"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"
+                                                   class="btn btn-default"> <i
+                                                        class="fa fa-edit"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#"
+                                                   class="btn btn-default"> <i
+                                                        class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#servicos').addClass('active');
+            $('#table').DataTable({
+                responsive: true,
+                order: [[6, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+
+{% endblock %}

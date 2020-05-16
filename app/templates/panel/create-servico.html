@@ -7,7 +7,7 @@
     <div class="box box-primary" style="margin-top: 30px;">
         <div class="box-header">
             <h3 class="box-title">
-                <center style="font-size: 20px;">Visualizar Contrato</center>
+                <center style="font-size: 20px;">Adicionar Serviço</center>
             </h3>
         </div>
         <!-- /.box-header -->
@@ -18,17 +18,14 @@
                     <div class="col-md-12">
                         {{ form.as_p }}
                     </div>
-                    <div class="col-md-12">
-                        {{ carrinho_form.as_p }}
-                    </div>
                 </div>
                 <hr/>
-                <h3>Servicos</h3>
+                <h3>Fotos</h3>
                 <div class="row">
                     <div class="col-md-12">
-                        {{ itemservicoset.management_form }}
+                        {{ fotoservicoset.management_form }}
                         <table class="table">
-                            {% for form in itemservicoset.forms %}
+                            {% for form in fotoservicoset.forms %}
                                 {% if forloop.first %}
                                     <thead>
                                     <tr>
@@ -38,7 +35,7 @@
                                     </tr>
                                     </thead>
                                 {% endif %}
-                                <tr class="itemservicoset_row">
+                                <tr class="fotoservicoset_row">
                                     {% for field in form.visible_fields %}
                                         <td>
                                             {# Include the hidden fields in the form #}
@@ -56,10 +53,10 @@
                         </table>
                         <script src="{% static 'theme-store/js/jquery.formset.js' %}"></script>
                         <script type="text/javascript">
-                            $('.itemservicoset').formset({
-                                addText: 'Adicionar',
+                            $('.fotoservicoset_row').formset({
+                                addText: 'Inserir Fotos',
                                 deleteText: 'Remover',
-                                prefix: 'itemservico_set'
+                                prefix: 'fotoservico_set'
                             });
                         </script>
                     </div>
@@ -68,8 +65,9 @@
             </div>
             <!-- /.box-body -->
             <div class=" box-footer ">
-                <a href="{% url 'dashboard-profissional' %}" id="btn_cancelar" class="btn btn-default pull-left">Voltar</a>
-                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Salvar
+                <a href="{% url 'dashboard-profissional' %}" id="btn_cancelar"
+                   class="btn btn-default pull-left">Voltar</a>
+                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Adicionar
                 </button>
             </div>
         </form>
@@ -77,18 +75,18 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            $('[name=valor_base]').change(function () {
+                $(this).val($(this).val().replace(',', '.'))
+            });
+            $('[name=valor_base]').focusout(function () {
+                $(this).val($(this).val().replace(',', '.'))
+            });
             $('input[type=checkbox]').removeClass('form-control');
             $('.add-row').click(function (evt) {
                 $('input[type=checkbox]').removeClass('form-control');
             });
-            $('#btn_salvar').click(function () {
-                $('input, select, textarea').attr('disabled', false);
-                $('form').submit();
-            });
 
-            $('#dashboard').addClass('active');
-            $('input, select, textarea').attr('disabled', true);
-            $('[name=status]').attr('disabled', false);
+            $('#servicos').addClass('active');
         });
     </script>
     <script>

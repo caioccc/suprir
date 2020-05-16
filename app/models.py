@@ -187,7 +187,7 @@ class FotoServico(TimeStamped):
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
     url = models.URLField(blank=True, null=True)
     file = models.FileField(blank=True, null=True)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
 
     def __unicode__(self):
         return u'%s' % self.url
