@@ -43,3 +43,18 @@ def get_qtd_meus_servicos_cadastrados(user):
         return len(user.profissional.servico_set.all())
     except (Exception,):
         return 0
+
+
+@register.filter
+def get_numero_telefone_zap(telefone):
+    try:
+        telefone = str(telefone)
+        if telefone[0] == '0':
+            telefone = telefone[1:]
+        if len(telefone) < 10:
+            telefone = '5583' + telefone
+        else:
+            telefone = '55' + telefone
+        return telefone
+    except (Exception,):
+        return telefone

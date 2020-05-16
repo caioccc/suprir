@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views.generic import ListView, UpdateView
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet
@@ -24,7 +26,8 @@ class ContractUpdateView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upda
         data = super(ContractUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
             data['carrinho_form'] = FormCarrinho(self.request.POST, instance=self.object.carrinho)
-            data['itemservicoset'] = ItemServicoFormSet(self.request.POST, self.request.FILES, instance=self.object.carrinho)
+            data['itemservicoset'] = ItemServicoFormSet(self.request.POST, self.request.FILES,
+                                                        instance=self.object.carrinho)
         else:
             data['carrinho_form'] = FormCarrinho(instance=self.object.carrinho)
             data['itemservicoset'] = ItemServicoFormSet(instance=self.object.carrinho)
@@ -36,3 +39,23 @@ class ContractUpdateView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upda
 
     def form_invalid(self, form):
         return super(ContractUpdateView, self).form_invalid(form)
+
+
+def finalizar_contrato_servico(request, pk):
+    try:
+        contrato = ContratoDeServico.objects.get(id=pk)
+        contrato.status = 'REALIZADO'
+        contrato.save()
+    except (Exception,):
+        messages.error(request, 'Erro ao finalizar servico, tente novamente.')
+    return redirect('/painel')
+
+
+def rejeitar_contrato_servico(request, pk):
+    try:
+        contrato = ContratoDeServico.objects.get(id=pk)
+        contrato.status = 'REJEITADO'
+        contrato.save()
+    except (Exception,):
+        messages.error(request, 'Erro ao rejeitar servico, tente novamente.')
+    return redirect('/painel')
