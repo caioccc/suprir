@@ -19,7 +19,7 @@ from django.contrib.auth import views as auth_views
 
 from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional
 from app.views.PanelModule import DashboardView, ContractUpdateView, rejeitar_contrato_servico, \
-    finalizar_contrato_servico, ServicosList, CreateServico
+    finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico
 from app.views.StoreModule import IndexView, AreaProfissional
 
 urlpatterns = [
@@ -38,6 +38,6 @@ urlpatterns = [
     url(r'^painel/rejeitar/(?P<pk>[0-9]+)/$', rejeitar_contrato_servico, name='rejeitar-contrato'),
     url(r'^painel/servicos/$', ServicosList.as_view(), name='list-servicos'),
     url(r'^painel/servicos/create/$', CreateServico.as_view(), name='create-servico'),
-    url(r'^painel/servicos/(?P<pk>[0-9]+)/$', rejeitar_contrato_servico, name='edit-servico'),
-
+    url(r'^painel/servicos/(?P<pk>[0-9]+)/$', UpdateServico.as_view(), name='edit-servico'),
+    url(r'^painel/servicos/delete/(?P<pk>[0-9]+)/$', DeleteServico.as_view(), name='delete-servico'),
 ]

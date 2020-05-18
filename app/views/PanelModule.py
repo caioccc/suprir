@@ -1,8 +1,9 @@
+# coding=utf-8
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.shortcuts import redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.views.generic import ListView, UpdateView
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet
@@ -108,3 +109,46 @@ class CreateServico(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateVie
     def form_invalid(self, form):
         messages.error(self.request, 'Ocorreu algum erro, tente novamente')
         return super(CreateServico, self).form_invalid(form)
+
+
+class UpdateServico(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    template_name = 'panel/update-servico.html'
+    model = Servico
+    form_class = FormServico
+    context_object_name = 'servico'
+    success_url = '/painel/servicos/'
+
+    def get_initial(self):
+        # self.initial['profissional'] = self.request.user.profissional
+        return super(UpdateServico, self).get_initial()
+
+    def get_context_data(self, **kwargs):
+        data = super(UpdateServico, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['fotoservicoset'] = FotoServicoFormSet(self.request.POST, self.request.FILES,
+                                                        instance=self.object)
+        else:
+            data['fotoservicoset'] = FotoServicoFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        fotoservicoset = context['fotoservicoset']
+        with transaction.atomic():
+            self.object = form.save()
+            if fotoservicoset.is_valid():
+                fotoservicoset.instance = self.object
+                fotoservicoset.save()
+        messages.success(self.request, 'Serviço atualizado com sucesso.')
+        return super(UpdateServico, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ocorreu algum erro, tente novamente')
+        return super(UpdateServico, self).form_invalid(form)
+
+
+class DeleteServico(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Servico
+    template_name = 'panel/delete-servico.html'
+    context_object_name = 'servico'
+    success_url = '/painel/servicos'

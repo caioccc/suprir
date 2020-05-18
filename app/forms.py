@@ -145,11 +145,13 @@ class FormServico(ModelForm, BaseForm):
 class FormFotoServico(ModelForm, BaseForm):
     class Meta:
         model = FotoServico
-        fields = ['file', ]
+        fields = ['file', 'url']
 
     def __init__(self, *args, **kwargs):
         super(FormFotoServico, self).__init__(*args, **kwargs)
         self.fields['file'].label = 'Arquivo'
+        self.fields['url'].label = ''
+        self.fields['url'].widget.attrs['class'] = 'hidden'
 
 
 FotoServicoFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico, extra=1)

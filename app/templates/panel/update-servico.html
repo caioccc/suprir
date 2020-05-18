@@ -7,7 +7,7 @@
     <div class="box box-primary" style="margin-top: 30px;">
         <div class="box-header">
             <h3 class="box-title">
-                <center style="font-size: 20px;">Adicionar Serviço</center>
+                <center style="font-size: 20px;">Atualizar Serviço</center>
             </h3>
         </div>
         <!-- /.box-header -->
@@ -45,7 +45,14 @@
                                                 {% endfor %}
                                             {% endif %}
                                             {{ field.errors.as_ul }}
-                                            {{ field }}
+                                            {% if field.field.widget.attrs.class == 'hidden' %}
+                                                {% if field.value %}
+                                                    <img src="{{ field.value }}" class="img-responsive"
+                                                         style="width: 60px;"/>
+                                                {% endif %}
+                                            {% else %}
+                                                {{ field }}
+                                            {% endif %}
                                         </td>
                                     {% endfor %}
                                 </tr>
@@ -67,7 +74,7 @@
             <div class=" box-footer ">
                 <a href="{% url 'list-servicos' %}" id="btn_cancelar"
                    class="btn btn-default pull-left">Voltar</a>
-                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Adicionar
+                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Editar
                 </button>
             </div>
         </form>
