@@ -242,10 +242,10 @@ class CarrinhoDeServicos(TimeStamped, BaseAddress):
     status = models.BooleanField(blank=True, default=True)
 
     def __unicode__(self):
-        return u'%s - %s - %s - %s' % (self.id, self.cliente, self.profissional, self.valor_total)
+        return u'%s' % self.id
 
     def __str__(self):
-        return u'%s - %s - %s - %s' % (self.id, self.cliente, self.profissional, self.valor_total)
+        return u'%s' % self.id
 
     def save(self, *args, **kwargs):
         subtotal = 0.0
@@ -278,10 +278,10 @@ class ItemServico(TimeStamped):
         super(ItemServico, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return u'%s - %s' % (self.carrinho.id, self.servico)
+        return u'%s' % self.id
 
     def __str__(self):
-        return u'%s - %s' % (self.carrinho.id, self.servico)
+        return u'%s' % self.id
 
 
 class AdicionalEscolhido(TimeStamped):
@@ -293,10 +293,10 @@ class AdicionalEscolhido(TimeStamped):
     item_servico = models.ForeignKey(ItemServico, blank=True, null=True, on_delete=models.CASCADE)
 
     def __unicode__(self):
-        return u'%s' % self.adicional
+        return u'%s' % self.id
 
     def __str__(self):
-        return u'%s' % self.adicional
+        return u'%s' % self.id
 
 
 class ContratoDeServico(TimeStamped):
@@ -310,10 +310,10 @@ class ContratoDeServico(TimeStamped):
     profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
 
     def __unicode__(self):
-        return u'%s - %s' % (self.id, self.carrinho)
+        return u'%s' % self.id
 
     def __str__(self):
-        return u'%s - %s' % (self.id, self.carrinho)
+        return u'%s' % self.id
 
 
 class ComentarioServico(TimeStamped):
@@ -324,9 +324,11 @@ class ComentarioServico(TimeStamped):
     servico = models.ForeignKey(Servico, on_delete=models.CASCADE, blank=True, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     comentario = models.TextField(blank=True, null=True)
+    avaliacao = models.CharField(max_length=2, blank=True, null=True)
+    status = models.BooleanField(default=True, )
 
     def __unicode__(self):
-        return u'Servico:%s Cliente:%s' % (self.servico, self.cliente)
+        return u'%s' % self.id
 
     def __str__(self):
-        return u'Servico:%s Cliente:%s' % (self.servico, self.cliente)
+        return u'%s' % self.id

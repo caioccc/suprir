@@ -1,0 +1,122 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <style>
+        .small-box .icon {
+            font-size: 70px;
+        }
+    </style>
+    {% include 'utils/loading.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary" id="contratos_de_servico">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Comentários
+                    </h3>
+                </div>
+                <div class="box-header">
+                    <button class="btn btn-default pull-left" onClick="document.location.reload(true)"><i
+                            class="fa fa-refresh"></i> Atualizar
+                    </button>
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>CLIENTE</th>
+                                        <th>ID</th>
+                                        <th>SERVICO</th>
+                                        <th>STATUS</th>
+                                        <th>COMENTARIO</th>
+                                        <th>NOTA</th>
+                                        <th>DATA</th>
+                                        <th>PEDIR REVISAO?</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for comentario in comentarios %}
+                                        <tr>
+                                            <td>
+                                                {{ comentario.cliente }}
+                                            </td>
+                                            <td>
+                                                {{ comentario.id }}
+                                            </td>
+                                            <td>{{ comentario.servico }}</td>
+                                            <td>
+                                                {% if comentario.status %}
+                                                    <label class="label label-success"><i class="fa fa-check"></i>
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger"><i class="fa fa-close"></i>
+                                                    </label>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ comentario.comentario }}
+                                            </td>
+                                            <td>{{ comentario.avaliacao }}</td>
+                                            <td>
+                                                {{ comentario.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{% url 'revisao-servico' comentario.pk %}"
+                                                   class="btn btn-default"> <i
+                                                        class="fa fa-sign-out"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#comentarios').addClass('active');
+            $('#table').DataTable({
+                responsive: true,
+                order: [[6, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+
+{% endblock %}

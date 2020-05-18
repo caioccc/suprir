@@ -2,13 +2,15 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import CreateView, DeleteView
 from django.views.generic import ListView, UpdateView
+from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
-from app.models import ContratoDeServico, Servico
+from app.models import ContratoDeServico, Servico, ComentarioServico
 
 
 class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -16,6 +18,10 @@ class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView)
     model = ContratoDeServico
     context_object_name = 'contratos'
     ordering = '-created_at'
+
+    def get_queryset(self):
+        self.queryset = self.model.objects.filter(profissional=self.request.user.profissional)
+        return super(DashboardView, self).get_queryset()
 
 
 class ContractUpdateView(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
@@ -151,4 +157,37 @@ class DeleteServico(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteVie
     model = Servico
     template_name = 'panel/delete-servico.html'
     context_object_name = 'servico'
-    success_url = '/painel/servicos'
+    success_url = '/painel/servicos/'
+
+
+class ListComentarios(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    model = ComentarioServico
+    template_name = 'panel/list-comentarios.html'
+    context_object_name = 'comentarios'
+    ordering = '-created_at'
+
+    def get_queryset(self):
+        self.queryset = self.model.objects.filter(servico__profissional=self.request.user.profissional)
+        return super(ListComentarios, self).get_queryset()
+
+
+class RevisaoView(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = ComentarioServico
+    template_name = 'panel/revisao-comentario.html'
+    context_object_name = 'comentario'
+    success_url = '/painel/comentarios/'
+
+    def revisao(self, request, *args, **kwargs):
+        """
+        Calls the delete() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.status = False
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+    # Add support for browsers which only accept GET and POST for now.
+    def post(self, request, *args, **kwargs):
+        return self.revisao(request, *args, **kwargs)

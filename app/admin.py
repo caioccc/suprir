@@ -178,7 +178,7 @@ class ComentarioServicoAdmin(admin.ModelAdmin):
         'cliente__user__first_name', 'cliente__cpf',
         'cliente__cnpj',
     )
-    list_display = ('servico', 'id', 'cliente', 'created_at')
+    list_display = ('servico', 'id', 'cliente', 'avaliacao', 'created_at')
 
 
 admin.site.register(Cliente, ClienteAdmin)
