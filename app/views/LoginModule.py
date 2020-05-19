@@ -10,9 +10,10 @@ from django.views.generic import FormView, RedirectView
 from app.forms import FormLogin, FormRegisterCliente, FormRegisterProfissional
 from app.models import Cliente, Profissional, CategoriaDeProfissional, FormaPagamento, ComentarioServico, Servico, \
     FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico
+from app.views.StoreModule import CustomContextMixin
 
 
-class LoginView(FormView):
+class LoginView(CustomContextMixin, FormView):
     """
     Displays the login form.
     """
@@ -92,7 +93,7 @@ class LogoutView(RedirectView):
         return super(LogoutView, self).get(request, *args, **kwargs)
 
 
-class RegistroCliente(FormView):
+class RegistroCliente(CustomContextMixin, FormView):
     template_name = 'register-client.html'
     form_class = FormRegisterCliente
     success_url = '/login/'
@@ -153,7 +154,7 @@ class RegistroCliente(FormView):
         return data_pro
 
 
-class RegistroProfissional(FormView):
+class RegistroProfissional(CustomContextMixin, FormView):
     template_name = 'register-profissional.html'
     form_class = FormRegisterProfissional
     success_url = '/login/'
@@ -226,6 +227,15 @@ class RegistroProfissional(FormView):
         if 'url_site' in data:
             data_pro['url_site'] = data['url_site']
         return data_pro
+
+
+cidades = [
+    {'cidade': 'Campina Grande', 'estado': 'PB'},
+    {'cidade': 'Guarabira', 'estado': 'PB'},
+    {'cidade': 'Recife', 'estado': 'PE'},
+    {'cidade': 'Caruaru', 'estado': 'PE'},
+    {'cidade': 'Natal', 'estado': 'RN'},
+]
 
 
 class StartSystem(RedirectView):
@@ -306,9 +316,12 @@ class StartTestSystem(RedirectView):
         for i in range(10):
             number = '8399177303' + str(i)
             user = self.create_user_default(number=number, name='Cliente ', id_custom=i)
+            sel_cidade = cidades[random.randrange(len(cidades))]
             client = Cliente(
                 user=user,
-                telefone_1=user.username
+                telefone_1=user.username,
+                estado=sel_cidade['estado'],
+                cidade=sel_cidade['cidade']
             )
             client.save()
         return Cliente.objects.all()
@@ -319,11 +332,14 @@ class StartTestSystem(RedirectView):
         for i in range(10):
             number = '8398669766' + str(i)
             user = self.create_user_default(number=number, name='Profissional ', id_custom=i)
+            sel_cidade = cidades[random.randrange(len(cidades))]
             prof = Profissional(
                 categoria=CategoriaDeProfissional.objects.all().order_by('?').first(),
                 is_approved=True,
                 user=user,
-                telefone_1=user.username
+                telefone_1=user.username,
+                estado=sel_cidade['estado'],
+                cidade=sel_cidade['cidade']
             )
             prof.save()
         return Profissional.objects.all()
@@ -335,8 +351,8 @@ class StartTestSystem(RedirectView):
         for prof in Profissional.objects.all():
             for i in range(3):
                 servico = Servico(
-                    titulo=str('Titulo ' + str(i)),
-                    descricao='shdaj sijdI JISAJ idjaIJ ISAJID sijADI jIASJdasid jIJA sidjaIJD iJASIDJ IAasda.',
+                    titulo=str('Serviço a prestar ' + str(i)),
+                    descricao='Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim sint occaecat cupidatat non proident, sunt in culpa qui laborum....',
                     valor_base=valores[random.randrange(len(valores))],
                     profissional=prof,
                     is_approved=True
@@ -428,28 +444,81 @@ class StartTestSystem(RedirectView):
         for catego in CategoriaDeProfissional.objects.all():
             catego.delete()
         categories = [
-            'Serviços de informática',
-            'Serviços prestados mediante locação',
-            'Serviços de saúde, assistência médica e congêneres',
-            'Serviços de medicina e assistência veterinária',
-            'Serviços de cuidados pessoais, estética e atividades físicas',
-            'Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil',
-            'Serviços relativos a manutenção, limpeza, meio ambiente, saneamento e congêneres',
-            'Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento',
-            'Serviços relativos a hospedagem, turismo, viagens e congêneres',
-            'Serviços de intermediação e congêneres',
-            'Serviços de guarda, estacionamento, armazenamento, vigilância e congêneres',
-            'Serviços de diversões, lazer, entretenimento e congêneres',
-            'Serviços relativos a fonografia, fotografia, cinematografia e reprografia',
-            'Serviços relacionados ao setor bancário ou financeiro',
-            'Serviços de transporte',
-            'Serviços de apoio técnico, administrativo, jurídico, contábil, comercial',
-            'Serviços de comunicação visual, desenho industrial',
-            'Serviços funerários',
-            'Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações',
+            {
+                'categoria': 'Informática',
+                'desc': 'Serviços de informática'
+            },
+            {
+                'categoria': 'Locação',
+                'desc': 'Serviços prestados mediante locação'
+            },
+            {
+                'categoria': 'Saúde',
+                'desc': 'Serviços de saúde, medicina, assistência médica, medicina veterinária e congêneres'
+            },
+            {
+                'categoria': 'Cuidados Pessoais',
+                'desc': 'Serviços de cuidados pessoais, estética, atividades físicas e congêneres'
+            },
+            {
+                'categoria': 'Construção Civil',
+                'desc': 'Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil'
+            },
+            {
+                'categoria': 'Manutenção e Limpeza',
+                'desc': 'Serviços relativos a manutenção, limpeza, meio ambiente, saneamento e congêneres'
+            },
+            {
+                'categoria': 'Turismo',
+                'desc': 'Serviços relativos a hospedagem, turismo, viagens e congêneres'
+            },
+            {
+                'categoria': 'Educação',
+                'desc': 'Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento'
+            },
+            {
+                'categoria': 'Intermediação',
+                'desc': 'Serviços de intermediação e congêneres'
+            },
+            {
+                'categoria': 'Vigilância',
+                'desc': 'Serviços de guarda, estacionamento, armazenamento, vigilância e congêneres'
+            },
+            {
+                'categoria': 'Entretenimento',
+                'desc': 'Serviços de diversões, lazer, entretenimento e congêneres'
+            },
+            {
+                'categoria': 'Fotografia e Cinema',
+                'desc': 'Serviços relativos a fonografia, fotografia, cinematografia e reprografia'
+            },
+            {
+                'categoria': 'Financeiro',
+                'desc': 'Serviços relacionados ao setor bancário ou financeiro'
+            },
+            {
+                'categoria': 'Transporte',
+                'desc': 'Serviços de transporte'
+            },
+            {
+                'categoria': 'Jurídico',
+                'desc': 'Serviços de apoio técnico, administrativo, jurídico, contábil, comercial'
+            },
+            {
+                'categoria': 'Comunicação Visual',
+                'desc': 'Serviços de comunicação visual, desenho industrial'
+            },
+            {
+                'categoria': 'Funerário',
+                'desc': 'Serviços funerários'
+            },
+            {
+                'categoria': 'Técnico',
+                'desc': 'Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações'
+            },
         ]
-        for categorie in categories:
-            cat = CategoriaDeProfissional(categoria=categorie)
+        for obj in categories:
+            cat = CategoriaDeProfissional(categoria=obj['categoria'], descricao=obj['desc'])
             cat.save()
         return CategoriaDeProfissional.objects.all()
 

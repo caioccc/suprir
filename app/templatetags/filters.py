@@ -1,7 +1,7 @@
 from django import template
 from datetime import datetime, timedelta, time
 
-from app.models import CarrinhoDeServicos
+from app.models import CarrinhoDeServicos, ContratoDeServico
 
 register = template.Library()
 
@@ -58,3 +58,31 @@ def get_numero_telefone_zap(telefone):
         return telefone
     except (Exception,):
         return telefone
+
+
+@register.filter
+def get_avaliacao_media(servico):
+    try:
+        sum = 0
+        qtd = 0
+        comms = servico.comentarioservico_set.all()
+        for com in comms:
+            if com.avaliacao:
+                qtd += 1
+                sum += int(com.avaliacao)
+        return int(sum / qtd)
+    except (Exception,):
+        return 0
+
+
+@register.filter
+def get_qtd_realizados(servico):
+    try:
+        sum = 0
+        for cont in ContratoDeServico.objects.filter(profissional=servico.profissional, status='REALIZADO'):
+            for item_servico in cont.carrinho.itemservico_set.all():
+                if item_servico.servico.id == servico.id:
+                    sum += 1
+        return int(sum)
+    except (Exception,):
+        return 0

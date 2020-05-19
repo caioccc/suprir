@@ -87,6 +87,7 @@ class CategoriaDeProfissional(TimeStamped):
         verbose_name_plural = u'Categorias de Profissional'
 
     categoria = models.CharField(max_length=300, blank=True, null=True)
+    descricao = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return "%s" % self.categoria

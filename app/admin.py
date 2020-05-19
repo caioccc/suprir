@@ -58,7 +58,7 @@ class ClienteAdmin(admin.ModelAdmin):
 
 class CategoriaDeProfissionalAdmin(admin.ModelAdmin):
     list_display = (
-        'categoria', 'id', 'created_at',)
+        'categoria', 'descricao', 'id', 'created_at',)
 
 
 class ProfissionalAdmin(admin.ModelAdmin):
