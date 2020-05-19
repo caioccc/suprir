@@ -8,7 +8,8 @@ from django.utils.translation import ugettext as _
 from django.views.generic import CreateView, DeleteView
 from django.views.generic import ListView, UpdateView
 
-from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional
+from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
+    FormUser
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
 from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional
 
@@ -232,7 +233,6 @@ class EditarPerfilView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Update
             raise AttributeError("Generic detail view %s must be called with "
                                  "either an object pk or a slug."
                                  % self.__class__.__name__)
-
         try:
             obj = queryset.get()
         except queryset.model.DoesNotExist:
@@ -240,14 +240,26 @@ class EditarPerfilView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Update
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
 
-    def get_context_data(self, **kwargs):
-        data = super(EditarPerfilView, self).get_context_data(**kwargs)
-        return data
-
     def form_valid(self, form):
+        context = self.get_context_data()
+        form_user = context['form_user']
+        with transaction.atomic():
+            self.object = form.save()
+            if form_user.is_valid():
+                form_user.instance = self.object.user
+                form_user.save()
         messages.success(self.request, 'Perfil atualizado com sucesso.')
         return super(EditarPerfilView, self).form_valid(form)
 
     def form_invalid(self, form):
         messages.error(self.request, 'Ocorreu algum erro, tente novamente')
         return super(EditarPerfilView, self).form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        data = super(EditarPerfilView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['form_user'] = FormUser(self.request.POST, self.request.FILES,
+                                         instance=self.object.user)
+        else:
+            data['form_user'] = FormUser(instance=self.object.user)
+        return data

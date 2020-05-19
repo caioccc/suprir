@@ -1,5 +1,6 @@
 # coding=utf-8
 from django import forms
+from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
 from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico
@@ -87,16 +88,6 @@ class FormRegisterProfissional(ModelForm, FormRegisterCliente):
 
     def __init__(self, *args, **kwargs):
         super(FormRegisterProfissional, self).__init__(*args, **kwargs)
-        # self.fields['categoria'].required = False
-        # self.fields['categoria'].widget.attrs['required'] = 'False'
-        # self.fields['telefone_2'].required = False
-        # self.fields['telefone_2'].widget.attrs['required'] = 'False'
-        # self.fields['link_facebook'].required = False
-        # self.fields['link_facebook'].widget.attrs['required'] = 'False'
-        # self.fields['link_instagram'].required = False
-        # self.fields['link_instagram'].widget.attrs['required'] = 'False'
-        # self.fields['url_site'].required = False
-        # self.fields['url_site'].widget.attrs['required'] = 'False'
 
 
 class FormCarrinho(ModelForm, BaseForm):
@@ -165,3 +156,25 @@ class FormProfissional(ModelForm, BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(FormProfissional, self).__init__(*args, **kwargs)
+        self.fields['user'].label = ''
+        self.fields['user'].widget.attrs['class'] = 'hidden'
+        self.fields['file'].label = 'Foto'
+        self.fields['photo'].label = ''
+        self.fields['photo'].widget.attrs['class'] = 'hidden'
+
+
+class FormUser(ModelForm, BaseForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormUser, self).__init__(*args, **kwargs)
+        self.fields['username'].label = 'Login'
+        self.fields['username'].widget = forms.NumberInput()
+        self.fields['username'].help_text = ''
+        self.fields['username'].widget.attrs['readonly'] = 'true'
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['first_name'].label = 'Nome'
+        self.fields['last_name'].label = 'Sobrenome'
+

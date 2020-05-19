@@ -45,7 +45,7 @@ class CommonUserData(TimeStamped, BaseAddress):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     telefone_1 = models.CharField(max_length=30, blank=True, null=True)
     whatsapp = models.CharField(max_length=30, blank=True, null=True)
-    photo = models.URLField(blank=True, null=True)
+    photo = models.URLField(blank=True, null=True, default='https://placehold.it/300x300')
     cpf = models.CharField(max_length=100, blank=True, null=True, default="")
     cnpj = models.CharField(max_length=100, blank=True, null=True, default="")
     is_online = models.BooleanField(default=False)
@@ -185,7 +185,7 @@ class FotoServico(TimeStamped):
         verbose_name_plural = u'Fotos de Servicos'
 
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
-    url = models.URLField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True, default='https://placehold.it/300x300')
     file = models.FileField(blank=True, null=True)
     is_approved = models.BooleanField(default=True)
 

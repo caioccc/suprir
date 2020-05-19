@@ -17,7 +17,8 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional
+from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional, StartSystem, \
+    StartTestSystem
 from app.views.PanelModule import DashboardView, ContractUpdateView, rejeitar_contrato_servico, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView
@@ -32,6 +33,10 @@ urlpatterns = [
     url(r'^registro/$', RegistroCliente.as_view(), name='registro-cliente'),
     url(r'^area-profissional/$', AreaProfissional.as_view(), name='area-profissional'),
     url(r'^area-profissional/registro/$', RegistroProfissional.as_view(), name='registro-profissional'),
+
+    url(r'^startsystemdefault/$', StartSystem.as_view(), name='startsystem'),
+
+    url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),
 
     url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
     url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),

@@ -1,4 +1,6 @@
 # coding=utf-8
+import random
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -6,7 +8,8 @@ from django.http import HttpResponseRedirect
 from django.views.generic import FormView, RedirectView
 
 from app.forms import FormLogin, FormRegisterCliente, FormRegisterProfissional
-from app.models import Cliente, Profissional
+from app.models import Cliente, Profissional, CategoriaDeProfissional, FormaPagamento, ComentarioServico, Servico, \
+    FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico
 
 
 class LoginView(FormView):
@@ -223,3 +226,238 @@ class RegistroProfissional(FormView):
         if 'url_site' in data:
             data_pro['url_site'] = data['url_site']
         return data_pro
+
+
+class StartSystem(RedirectView):
+    url = '/'
+    permanent = False
+
+    def get(self, request, *args, **kwargs):
+        self.create_categories()
+        self.create_payments_form()
+        logout(self.request)
+        return super(StartSystem, self).get(request, *args, **kwargs)
+
+    def create_categories(self):
+        for catego in CategoriaDeProfissional.objects.all():
+            catego.delete()
+        categories = [
+            'Serviços de informática',
+            'Serviços prestados mediante locação',
+            'Serviços de saúde, assistência médica e congêneres',
+            'Serviços de medicina e assistência veterinária',
+            'Serviços de cuidados pessoais, estética e atividades físicas',
+            'Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil',
+            'Serviços relativos a manutenção, limpeza, meio ambiente, saneamento e congêneres',
+            'Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento',
+            'Serviços relativos a hospedagem, turismo, viagens e congêneres',
+            'Serviços de intermediação e congêneres',
+            'Serviços de guarda, estacionamento, armazenamento, vigilância e congêneres',
+            'Serviços de diversões, lazer, entretenimento e congêneres',
+            'Serviços relativos a fonografia, fotografia, cinematografia e reprografia',
+            'Serviços relacionados ao setor bancário ou financeiro',
+            'Serviços de transporte',
+            'Serviços de apoio técnico, administrativo, jurídico, contábil, comercial',
+            'Serviços de comunicação visual, desenho industrial',
+            'Serviços funerários',
+            'Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações',
+        ]
+        for categorie in categories:
+            cat = CategoriaDeProfissional(categoria=categorie)
+            cat.save()
+        return CategoriaDeProfissional.objects.all()
+
+    def create_payments_form(self):
+        for paym in FormaPagamento.objects.all():
+            paym.delete()
+        payments = ['BOLETO', 'CRÉDITO', 'DÉBITO', 'DINHEIRO', ]
+        for pay in payments:
+            pay = FormaPagamento(forma=pay)
+            pay.save()
+
+
+class StartTestSystem(RedirectView):
+    url = '/'
+    permanent = False
+
+    def get(self, request, *args, **kwargs):
+        self.create_categories()
+        self.create_clients()
+        self.create_profissionals()
+        self.create_services()
+        self.create_payments_form()
+        self.create_carts()
+        self.create_contracts()
+        self.create_comments()
+        logout(self.request)
+        return super(StartTestSystem, self).get(request, *args, **kwargs)
+
+    def create_user_default(self, number, name, id_custom="custom"):
+        user = User.objects.create_user(number, '', '12345')
+        user.first_name = str(name + str(id_custom))
+        user.last_name = 'Test'
+        user.save()
+        return user
+
+    def create_clients(self):
+        for use in User.objects.all():
+            if not use.is_superuser:
+                use.delete()
+        for i in range(10):
+            number = '8399177303' + str(i)
+            user = self.create_user_default(number=number, name='Cliente ', id_custom=i)
+            client = Cliente(
+                user=user,
+                telefone_1=user.username
+            )
+            client.save()
+        return Cliente.objects.all()
+
+    def create_profissionals(self):
+        for pro in Profissional.objects.all():
+            pro.delete()
+        for i in range(10):
+            number = '8398669766' + str(i)
+            user = self.create_user_default(number=number, name='Profissional ', id_custom=i)
+            prof = Profissional(
+                categoria=CategoriaDeProfissional.objects.all().order_by('?').first(),
+                is_approved=True,
+                user=user,
+                telefone_1=user.username
+            )
+            prof.save()
+        return Profissional.objects.all()
+
+    def create_services(self):
+        for serv in Servico.objects.all():
+            serv.delete()
+        valores = ['10.00', '50.00', '100.00', '30.00', '130.00', '150.00']
+        for prof in Profissional.objects.all():
+            for i in range(3):
+                servico = Servico(
+                    titulo=str('Titulo ' + str(i)),
+                    descricao='shdaj sijdI JISAJ idjaIJ ISAJID sijADI jIASJdasid jIJA sidjaIJD iJASIDJ IAasda.',
+                    valor_base=valores[random.randrange(len(valores))],
+                    profissional=prof,
+                    is_approved=True
+                )
+                servico.save()
+                foto = FotoServico(servico=servico)
+                foto.save()
+        return Servico.objects.all()
+
+    def create_carts(self):
+        for car in CarrinhoDeServicos.objects.all():
+            car.delete()
+        valores = ['10.00', '50.00', '100.00', '30.00', '130.00', '150.00']
+        for client in Cliente.objects.all():
+            for i in range(2):
+                pro = Profissional.objects.all().order_by('?').first()
+                cart = CarrinhoDeServicos(
+                    cliente=client,
+                    profissional=pro,
+                    forma_pagamento=FormaPagamento.objects.all().order_by('?').first()
+                )
+                cart.save()
+                itemservico = ItemServico(
+                    carrinho=cart,
+                    servico=Servico.objects.filter(profissional=pro).order_by('?').first(),
+                    valor_total=valores[random.randrange(len(valores))]
+                )
+                itemservico.save()
+                cart.save()
+        return CarrinhoDeServicos.objects.all()
+
+    def create_contracts(self):
+        for contract in ContratoDeServico.objects.all():
+            contract.delete()
+        valores = ['10.00', '50.00', '100.00', '30.00', '130.00', '150.00']
+        status = ['EM ANDAMENTO', 'REALIZADO', 'REJEITADO', ]
+        for profi in Profissional.objects.all():
+            for i in range(15):
+                client = Cliente.objects.all().order_by('?').first()
+                cart = CarrinhoDeServicos(
+                    cliente=client,
+                    profissional=profi,
+                    forma_pagamento=FormaPagamento.objects.all().order_by('?').first(),
+                    status=False
+                )
+                cart.save()
+                itemservico = ItemServico(
+                    carrinho=cart,
+                    servico=Servico.objects.filter(profissional=profi).order_by('?').first(),
+                    valor_total=valores[random.randrange(len(valores))]
+                )
+                itemservico.save()
+                cart.save()
+                contract = ContratoDeServico(
+                    carrinho=cart,
+                    status=status[random.randrange(len(status))],
+                    cliente=client,
+                    profissional=profi
+                )
+                contract.save()
+        return ContratoDeServico.objects.all()
+
+    def get_random_client(self):
+        return Cliente.objects.all().order_by('?').first()
+
+    def create_comments(self):
+        for comment in ComentarioServico.objects.all():
+            comment.delete()
+        avaliacoes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        comentarios = [
+            "Compensa pagar um pouco mais para ter mais conforto",
+            "Excelente",
+            "Bom Custo Benefício",
+            "Soberbo",
+            "Ótimo e barato",
+            "Tudo perfeito",
+            "Tem minha preferência",
+        ]
+        for servico in Servico.objects.all():
+            for i in range(5):
+                cliente = self.get_random_client()
+                comm = ComentarioServico(servico=servico, cliente=cliente,
+                                         comentario=comentarios[random.randrange(len(comentarios))],
+                                         avaliacao=avaliacoes[random.randrange(len(avaliacoes))])
+                comm.save()
+        return ComentarioServico.objects.all()
+
+    def create_categories(self):
+        for catego in CategoriaDeProfissional.objects.all():
+            catego.delete()
+        categories = [
+            'Serviços de informática',
+            'Serviços prestados mediante locação',
+            'Serviços de saúde, assistência médica e congêneres',
+            'Serviços de medicina e assistência veterinária',
+            'Serviços de cuidados pessoais, estética e atividades físicas',
+            'Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil',
+            'Serviços relativos a manutenção, limpeza, meio ambiente, saneamento e congêneres',
+            'Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento',
+            'Serviços relativos a hospedagem, turismo, viagens e congêneres',
+            'Serviços de intermediação e congêneres',
+            'Serviços de guarda, estacionamento, armazenamento, vigilância e congêneres',
+            'Serviços de diversões, lazer, entretenimento e congêneres',
+            'Serviços relativos a fonografia, fotografia, cinematografia e reprografia',
+            'Serviços relacionados ao setor bancário ou financeiro',
+            'Serviços de transporte',
+            'Serviços de apoio técnico, administrativo, jurídico, contábil, comercial',
+            'Serviços de comunicação visual, desenho industrial',
+            'Serviços funerários',
+            'Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações',
+        ]
+        for categorie in categories:
+            cat = CategoriaDeProfissional(categoria=categorie)
+            cat.save()
+        return CategoriaDeProfissional.objects.all()
+
+    def create_payments_form(self):
+        for paym in FormaPagamento.objects.all():
+            paym.delete()
+        payments = ['BOLETO', 'CRÉDITO', 'DÉBITO', 'DINHEIRO', ]
+        for pay in payments:
+            pay = FormaPagamento(forma=pay)
+            pay.save()
+        return FormaPagamento.objects.all()
