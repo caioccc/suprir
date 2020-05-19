@@ -132,6 +132,11 @@
                         <i class="fa fa-dashboard"></i> <span>Início</span>
                     </a>
                 </li>
+                <li id="clientes">
+                    <a href="{% url 'list-clientes' %}">
+                        <i class="fa fa-users"></i> <span>Meus Clientes</span>
+                    </a>
+                </li>
                 <li id="servicos">
                     <a href="{% url 'list-servicos' %}">
                         <i class="fa fa-list-alt"></i> <span>Serviços</span>
@@ -140,6 +145,11 @@
                 <li id="comentarios">
                     <a href="{% url 'list-comentarios' %}">
                         <i class="fa fa-comments"></i> <span>Comentários</span>
+                    </a>
+                </li>
+                <li id="profile">
+                    <a href="{% url 'editar-perfil' user.profissional.id %}">
+                        <i class="fa fa-users"></i> <span>Editar Perfil</span>
                     </a>
                 </li>
                 <li id="logout">

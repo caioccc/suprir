@@ -155,3 +155,13 @@ class FormFotoServico(ModelForm, BaseForm):
 
 
 FotoServicoFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico, extra=1)
+
+
+class FormProfissional(ModelForm, BaseForm):
+    class Meta:
+        model = Profissional
+        fields = ['categoria', 'user', 'telefone_1', 'telefone_2', 'link_facebook',
+                  'link_instagram', 'url_site', 'whatsapp', 'photo', 'file', 'cpf', 'cnpj', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormProfissional, self).__init__(*args, **kwargs)

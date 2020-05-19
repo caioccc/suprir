@@ -24,7 +24,7 @@ class LoginView(FormView):
         try:
             profissional = user.profissional
             if not profissional.is_approved:
-                messages.error(self.request, 'Usuário ainda não foi aprovado')
+                messages.error(self.request, 'Usuário ainda não foi aprovado. Aguarde 24 horas!')
                 return self.form_invalid(form)
         except (Exception,):
             pass
@@ -187,7 +187,7 @@ class RegistroProfissional(FormView):
         except (Exception,):
             messages.error(self.request, 'Ja existe uma conta com este numero')
             return self.form_invalid(form)
-        messages.success(self.request, 'Registrado com Sucesso')
+        messages.success(self.request, 'Registrado com Sucesso. Aguarde 24 horas para ser aprovado!')
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):

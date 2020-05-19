@@ -12,16 +12,13 @@
     {% include 'utils/loading.html' %}
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" id="contratos_de_servico">
+            <div class="box box-primary" id="clientes">
                 <div class="box-header">
                     <h3 class="box-title">
-                        Serviços Cadastrados
+                        Meus Clientes
                     </h3>
                 </div>
                 <div class="box-header">
-                    <a href="{% url 'create-servico' %}" class="btn btn-primary pull-left"><i
-                            class="fa fa-plus"></i> Adicionar Serviço
-                    </a>
                 </div>
                 <!-- form start -->
                 <div class="box-body">
@@ -32,58 +29,44 @@
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>TITULO</th>
+                                        <th>CLIENTE</th>
                                         <th>ID</th>
-                                        <th>VALOR BASE</th>
-                                        <th>DISPONIVEL</th>
-                                        <th>APROVADO</th>
-                                        <th>QTD FOTOS</th>
+                                        <th>BAIRRO</th>
+                                        <th>CIDADE</th>
+                                        <th>TELEFONE</th>
                                         <th>DATA</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for servico in servicos %}
+                                    {% for cliente in clientes %}
                                         <tr>
                                             <td>
-                                                {{ servico.titulo }}
+                                                {{ cliente.user.first_name }} {{ cliente.user.last_name }}
                                             </td>
                                             <td>
-                                                {{ servico.id }}
+                                                {{ cliente.id }}
                                             </td>
-                                            <td>{{ servico.valor_base|floatformat:2 }}</td>
+                                             <td>{{ cliente.bairro }}</td>
+                                             <td>{{ cliente.cidade }}</td>
+                                            <td>{{ cliente.cliente.telefone_1 }}</td>
                                             <td>
-                                                {% if servico.disponivel %}
-                                                    <label class="label label-success"><i class="fa fa-check"></i>
-                                                    </label>
-                                                {% else %}
-                                                    <label class="label label-danger"><i class="fa fa-close"></i>
-                                                    </label>
-                                                {% endif %}
+                                                {{ cliente.created_at|date:"d/m/Y G:i" }}
                                             </td>
-                                            <td>
-                                                {% if servico.is_approved %}
-                                                    <label class="label label-success"><i class="fa fa-check"></i>
-                                                    </label>
-                                                {% else %}
-                                                    <label class="label label-danger"><i class="fa fa-close"></i>
-                                                    </label>
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ servico.fotoservico_set.all|length }}</td>
-                                            <td>
-                                                {{ servico.created_at|date:"d/m/Y G:i" }}
-                                            </td>
-                                            <td>
-                                                <a href="{% url 'edit-servico' servico.pk %}"
+                                            <td class="text-center">
+                                                <!-- <a href=""> <i
+                                                        class="fa fa-eye"></i></a> -->
+                                                <a target="_blank" href="https://api.whatsapp.com/send?phone={{ cliente.telefone_1|get_numero_telefone_zap }}"
                                                    class="btn btn-default"> <i
-                                                        class="fa fa-edit"></i></a>
+                                                        class="fa fa-whatsapp"></i></a>
                                             </td>
-                                            <td>
-                                                <a href="{% url 'delete-servico' servico.pk %}"
+                                            <td class="text-center">
+                                                <!--<a href=""> <i
+                                                        class="fa fa-trash-o"></i></a> -->
+                                                <a href="tel:{{ cliente.telefone_1|get_numero_telefone_zap }}"
                                                    class="btn btn-default"> <i
-                                                        class="fa fa-trash-o"></i></a>
+                                                        class="fa fa-phone-square"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -100,7 +83,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#servicos').addClass('active');
+            $('#clientes').addClass('active');
             $('#table').DataTable({
                 responsive: true,
                 order: [[6, "desc"]],

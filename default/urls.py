@@ -19,7 +19,8 @@ from django.contrib.auth import views as auth_views
 
 from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional
 from app.views.PanelModule import DashboardView, ContractUpdateView, rejeitar_contrato_servico, \
-    finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView
+    finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
+    ClienteList, EditarPerfilView
 from app.views.StoreModule import IndexView, AreaProfissional
 
 urlpatterns = [
@@ -36,6 +37,9 @@ urlpatterns = [
     url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),
     url(r'^painel/finalizar/(?P<pk>[0-9]+)/$', finalizar_contrato_servico, name='finalizar-contrato'),
     url(r'^painel/rejeitar/(?P<pk>[0-9]+)/$', rejeitar_contrato_servico, name='rejeitar-contrato'),
+
+    url(r'^painel/clientes/$', ClienteList.as_view(), name='list-clientes'),
+
     url(r'^painel/servicos/$', ServicosList.as_view(), name='list-servicos'),
     url(r'^painel/servicos/create/$', CreateServico.as_view(), name='create-servico'),
     url(r'^painel/servicos/(?P<pk>[0-9]+)/$', UpdateServico.as_view(), name='edit-servico'),
@@ -43,4 +47,6 @@ urlpatterns = [
 
     url(r'^painel/comentarios/$', ListComentarios.as_view(), name='list-comentarios'),
     url(r'^painel/comentarios/revisao/(?P<pk>[0-9]+)/$', RevisaoView.as_view(), name='revisao-servico'),
+
+    url(r'^painel/perfil/(?P<pk>[0-9]+)/$', EditarPerfilView.as_view(), name='editar-perfil'),
 ]

@@ -1,0 +1,41 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <div class="box box-primary" style="margin-top: 30px;">
+        <div class="box-header">
+            <h3 class="box-title">
+                <center style="font-size: 20px;">Editar Perfil</center>
+            </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form.as_p }}
+                    </div>
+                </div>
+                <hr/>
+                <h3>Fotos</h3>
+            </div>
+            <!-- /.box-body -->
+            <div class=" box-footer ">
+                <a href="{% url 'dashboard-profissional' %}" id="btn_cancelar"
+                   class="btn btn-default pull-left">Voltar</a>
+                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Atualizar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#profile').addClass('active');
+        });
+    </script>
+
+{% endblock %}
