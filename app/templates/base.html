@@ -98,13 +98,7 @@
                     <form action="{% url 'index' %}" method="get"
                           class="search-header">{% csrf_token %}
                         <div class="input-group w-100">
-                            <select class="custom-select border-right" name="order">
-                                <option value="titulo">Todos</option>
-                                <option value="created_at">Especiais</option>
-                                <option value="-created_at">Últimos</option>
-                            </select>
-                            <input type="text" name="query" class="form-control" placeholder="Digite algum termo ...">
-
+                            {{ form.query }}
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-search"></i> Buscar

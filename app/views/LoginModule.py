@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView, RedirectView
+from djmoney.money import Money
 
 from app.forms import FormLogin, FormRegisterCliente, FormRegisterProfissional
 from app.models import Cliente, Profissional, CategoriaDeProfissional, FormaPagamento, ComentarioServico, Servico, \
@@ -252,28 +253,81 @@ class StartSystem(RedirectView):
         for catego in CategoriaDeProfissional.objects.all():
             catego.delete()
         categories = [
-            'Serviços de informática',
-            'Serviços prestados mediante locação',
-            'Serviços de saúde, assistência médica e congêneres',
-            'Serviços de medicina e assistência veterinária',
-            'Serviços de cuidados pessoais, estética e atividades físicas',
-            'Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil',
-            'Serviços relativos a manutenção, limpeza, meio ambiente, saneamento e congêneres',
-            'Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento',
-            'Serviços relativos a hospedagem, turismo, viagens e congêneres',
-            'Serviços de intermediação e congêneres',
-            'Serviços de guarda, estacionamento, armazenamento, vigilância e congêneres',
-            'Serviços de diversões, lazer, entretenimento e congêneres',
-            'Serviços relativos a fonografia, fotografia, cinematografia e reprografia',
-            'Serviços relacionados ao setor bancário ou financeiro',
-            'Serviços de transporte',
-            'Serviços de apoio técnico, administrativo, jurídico, contábil, comercial',
-            'Serviços de comunicação visual, desenho industrial',
-            'Serviços funerários',
-            'Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações',
+            {
+                'categoria': 'Informática',
+                'desc': 'Serviços de informática'
+            },
+            {
+                'categoria': 'Locação',
+                'desc': 'Serviços prestados mediante locação'
+            },
+            {
+                'categoria': 'Saúde',
+                'desc': 'Serviços de saúde, medicina, assistência médica, medicina veterinária e congêneres'
+            },
+            {
+                'categoria': 'Cuidados Pessoais',
+                'desc': 'Serviços de cuidados pessoais, estética, atividades físicas e congêneres'
+            },
+            {
+                'categoria': 'Construção Civil',
+                'desc': 'Serviços relativos a engenharia, arquitetura, geologia, urbanismo, construção civil'
+            },
+            {
+                'categoria': 'Manutenção e Limpeza',
+                'desc': 'Serviços relativos a manutenção, limpeza, meio ambiente, saneamento e congêneres'
+            },
+            {
+                'categoria': 'Turismo',
+                'desc': 'Serviços relativos a hospedagem, turismo, viagens e congêneres'
+            },
+            {
+                'categoria': 'Educação',
+                'desc': 'Serviços de educação, ensino, orientação pedagógica e educacional, instrução, treinamento'
+            },
+            {
+                'categoria': 'Intermediação',
+                'desc': 'Serviços de intermediação e congêneres'
+            },
+            {
+                'categoria': 'Vigilância',
+                'desc': 'Serviços de guarda, estacionamento, armazenamento, vigilância e congêneres'
+            },
+            {
+                'categoria': 'Entretenimento',
+                'desc': 'Serviços de diversões, lazer, entretenimento e congêneres'
+            },
+            {
+                'categoria': 'Fotografia e Cinema',
+                'desc': 'Serviços relativos a fonografia, fotografia, cinematografia e reprografia'
+            },
+            {
+                'categoria': 'Financeiro',
+                'desc': 'Serviços relacionados ao setor bancário ou financeiro'
+            },
+            {
+                'categoria': 'Transporte',
+                'desc': 'Serviços de transporte'
+            },
+            {
+                'categoria': 'Jurídico',
+                'desc': 'Serviços de apoio técnico, administrativo, jurídico, contábil, comercial'
+            },
+            {
+                'categoria': 'Comunicação Visual',
+                'desc': 'Serviços de comunicação visual, desenho industrial'
+            },
+            {
+                'categoria': 'Funerário',
+                'desc': 'Serviços funerários'
+            },
+            {
+                'categoria': 'Técnico',
+                'desc': 'Serviços técnicos em edificações, eletrônica, eletrotécnica, mecânica, telecomunicações'
+            },
         ]
-        for categorie in categories:
-            cat = CategoriaDeProfissional(categoria=categorie)
+        for obj in categories:
+            cat = CategoriaDeProfissional(categoria=obj['categoria'], descricao=obj['desc'])
             cat.save()
         return CategoriaDeProfissional.objects.all()
 
@@ -347,7 +401,8 @@ class StartTestSystem(RedirectView):
     def create_services(self):
         for serv in Servico.objects.all():
             serv.delete()
-        valores = ['10.00', '50.00', '100.00', '30.00', '130.00', '150.00']
+        valores = [Money(10.00, 'BRL'), Money(20.00, 'BRL'), Money(50.00, 'BRL'), Money(100.00, 'BRL'),
+                   Money(130.00, 'BRL'), Money(150.00, 'BRL')]
         for prof in Profissional.objects.all():
             for i in range(3):
                 servico = Servico(
@@ -365,7 +420,7 @@ class StartTestSystem(RedirectView):
     def create_carts(self):
         for car in CarrinhoDeServicos.objects.all():
             car.delete()
-        valores = ['10.00', '50.00', '100.00', '30.00', '130.00', '150.00']
+        valores = [10.00, 50.00, 100.00, 30.00, 130.00, 150.00]
         for client in Cliente.objects.all():
             for i in range(2):
                 pro = Profissional.objects.all().order_by('?').first()
@@ -387,7 +442,7 @@ class StartTestSystem(RedirectView):
     def create_contracts(self):
         for contract in ContratoDeServico.objects.all():
             contract.delete()
-        valores = ['10.00', '50.00', '100.00', '30.00', '130.00', '150.00']
+        valores = [10.00, 50.00, 100.00, 30.00, 130.00, 150.00]
         status = ['EM ANDAMENTO', 'REALIZADO', 'REJEITADO', ]
         for profi in Profissional.objects.all():
             for i in range(15):

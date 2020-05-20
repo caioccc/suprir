@@ -2,7 +2,10 @@
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic.base import ContextMixin
+from search_views.filters import BaseFilter
+from search_views.views import SearchListView
 
+from app.forms import ServicoSearchForm
 from app.mixins.CustomMixins import UserLoggedMixin
 from app.models import Servico, CategoriaDeProfissional, Profissional
 
@@ -39,11 +42,24 @@ class CustomContextMixin(ContextMixin):
         return filter_categorias
 
 
-class IndexView(UserLoggedMixin, CustomContextMixin, ListView):
+class ServicoFilter(BaseFilter):
+    search_fields = {
+        'query': ['titulo', 'descricao'],
+        'estado': {'operator': '__icontains', 'fields': ['profissional__estado']},
+        'cidade': {'operator': '__icontains', 'fields': ['profissional__cidade']},
+        'preco_min': {'operator': '__gte', 'fields': ['valor_base']},
+        'preco_max': {'operator': '__lte', 'fields': ['valor_base']},
+    }
+
+
+class IndexView(UserLoggedMixin, CustomContextMixin, SearchListView):
     model = Servico
     template_name = 'index.html'
     paginate_by = 5
     context_object_name = 'servicos'
+
+    form_class = ServicoSearchForm
+    filter_class = ServicoFilter
 
     def get_params_search(self):
         return self.request.GET
@@ -55,12 +71,8 @@ class IndexView(UserLoggedMixin, CustomContextMixin, ListView):
     def get_queryset(self):
         params = self.get_params_search()
         servicos = self.model.objects.all()
-        if 'estado' in params:
-            servicos = self.model.objects.filter(profissional__estado__icontains=params['estado'])
-        if 'cidade' in params:
-            servicos = servicos.filter(profissional__cidade__icontains=params['cidade'])
-        if 'query' in params:
-            servicos = servicos.filter(titulo__icontains=params['query'])
+        a =  Profissional.objects.order_by('-created_at').values_list('cidade', flat=True).exclude(
+        cidade=None).distinct()
         if 'categoria' in params:
             servicos = servicos.filter(profissional__categoria__id=params['categoria'])
         categories = [str(key).replace('_filter', '') for key in params if '_filter' in key]

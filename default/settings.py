@@ -56,6 +56,8 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'default.urls'
 
+CURRENCIES = ('BRL',)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

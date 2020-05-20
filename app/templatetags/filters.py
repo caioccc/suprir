@@ -98,3 +98,15 @@ def get_url_search(params):
         return strin
     except (Exception,):
         return ''
+
+
+@register.filter
+def get_array_categories_on_select(params):
+    try:
+        arr = []
+        for key in params:
+            if '_filter' in key:
+                arr.append(str(key))
+        return arr
+    except (Exception,):
+        return []

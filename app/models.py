@@ -5,7 +5,10 @@ from base64 import b64encode
 
 import pyimgur
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 from django.db import models
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 
 
 class TimeStamped(models.Model):
@@ -141,10 +144,10 @@ class Servico(TimeStamped):
     categoria = models.ForeignKey(CategoriaDeServico, blank=True, null=True)
     titulo = models.CharField(max_length=300, blank=True, null=True)
     descricao = models.TextField(blank=True, null=True)
-    valor_base = models.CharField(max_length=300, blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True)
     disponivel = models.BooleanField(default=True)
     is_approved = models.BooleanField(default=False)
+    valor_base = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
 
     def __str__(self):
         return "%s" % self.titulo
@@ -153,7 +156,6 @@ class Servico(TimeStamped):
         return "%s" % self.titulo
 
     def save(self, *args, **kwargs):
-        self.valor_base = float(str(self.valor_base).replace(',', '.'))
         super(Servico, self).save(*args, **kwargs)
 
 
@@ -268,7 +270,7 @@ class ItemServico(TimeStamped):
     valor_total = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        valor_base = float(str(self.servico.valor_base).replace(',', '.').replace(" ", ""))
+        valor_base = self.servico.valor_base
         valor_opcionais = 0.0
         if self.adicionalescolhido_set.first():
             for opc in self.adicionalescolhido_set.all():

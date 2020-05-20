@@ -35,16 +35,7 @@
                             <div class="filter-content collapse show" id="collapse_1" style="">
                                 <div class="inner">
                                     <div class="form-row">
-                                        <select class="form-control" name="estado" id="estado">
-                                            <option value="" selected>Todos</option>
-                                            {% for estado in estados %}
-                                                {% if params.estado == estado %}
-                                                    <option value="{{ estado }}" selected>{{ estado }}</option>
-                                                {% else %}
-                                                    <option value="{{ estado }}">{{ estado }}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
+                                        {{ form.estado }}
                                     </div>
                                 </div> <!-- inner.// -->
                             </div>
@@ -57,16 +48,7 @@
                             <div class="filter-content collapse show" id="collapse_2" style="">
                                 <div class="inner">
                                     <div class="form-row">
-                                        <select class="form-control" name="cidade" id="cidade">
-                                            <option value="" selected>Todos</option>
-                                            {% for cidade in cidades %}
-                                                {% if params.cidade == cidade %}
-                                                    <option value="{{ cidade }}" selected>{{ cidade }}</option>
-                                                {% else %}
-                                                    <option value="{{ cidade }}">{{ cidade }}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
+                                        {{ form.cidade }}
                                     </div>
                                 </div> <!-- inner.// -->
                             </div>
@@ -100,15 +82,15 @@
                             </h6>
                             <div class="filter-content collapse show" id="collapse_4">
                                 <div class="inner">
-                                    <input type="range" class="custom-range" min="0" max="100" name="">
+                                    <input type="range" class="custom-range" min="0" max="1000" name="range-money">
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>Min</label>
-                                            <input class="form-control" placeholder="R$ 0" type="number">
+                                            {{ form.preco_min }}
                                         </div>
                                         <div class="form-group text-right col-md-6">
                                             <label>Max</label>
-                                            <input class="form-control" placeholder="R$ 1000.0" type="number">
+                                            {{ form.preco_max }}
                                         </div>
                                     </div> <!-- form-row.// -->
                                     <hr/>
@@ -124,12 +106,14 @@
                     <header class="mb-3">
                         <div class="form-inline">
                             <strong class="mr-md-auto">{{ page_obj.paginator.count }} Itens encontrados </strong>
-                            <select class="mr-2 form-control">
-                                <option>Ultimos itens</option>
-                                <option>Trending</option>
-                                <option>Maior valor</option>
-                                <option>Menor valor</option>
-                            </select>
+                            <form name="form_order" action="?{{ params|get_url_search }}" method="get">{% csrf_token %}
+                                <select class="mr-2 form-control" name="ordering">
+                                    <option value="?">Aleatorio</option>
+                                    <option value="-created_at">Ultimos itens</option>
+                                    <option value="-valor_base">Maior valor</option>
+                                    <option value="valor_base">Menor valor</option>
+                                </select>
+                            </form>
                             <div class="btn-group">
                                 <a href="#"
                                    class="btn btn-light active" data-toggle="tooltip" title=""
@@ -232,7 +216,7 @@
                         <nav class="mb-4" aria-label="Page navigation sample">
                             <ul class="pagination">
                                 {% if page_obj.has_previous %}
-                                    <li class="page-item disabled">
+                                    <li class="page-item">
                                         <a class="page-link"
                                            href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">Anterior</a>
                                     </li>
@@ -241,33 +225,69 @@
                                 {% if page_obj.number != 1 and page_obj.has_previous %}
                                     <li class="page-item">
                                         <a class="page-link"
-                                           href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">{{ page_obj.previous_page_number }}</a>
+                                           href="?page=
+
+
+
+
+
+                                                   {{ page_obj.previous_page_number }}{{ params|get_url_search }}">{{ page_obj.previous_page_number }}</a>
                                     </li>
                                     <li class="page-item active"><a class="page-link"
-                                                                    href="?page={{ page_obj.number }}{{ params|get_url_search }}">{{ page_obj.number }}</a>
+                                                                    href="?page=
+
+
+
+
+                                                                            {{ page_obj.number }}{{ params|get_url_search }}">{{ page_obj.number }}</a>
                                     </li>
                                     {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
                                         <li class="page-item">
                                             <a class="page-link"
-                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
+                                               href="?page=
+
+
+
+
+                                                       {{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
                                         </li>
                                         {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
                                             <li class="page-item"><a class="page-link" href="#">...</a></li>
                                             <li class="page-item">
                                                 <a class="page-link"
-                                                   href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                                   href="?page=
+
+
+
+
+                                                           {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
                                             </li>
                                         {% endif %}
                                         <li class="page-item"><a class="page-link"
-                                                                 href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                                                 href="?page=
+
+
+
+
+                                                                         {{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
                                         </li>
                                     {% elif page_obj.has_next %}
                                         <li class="page-item">
                                             <a class="page-link"
-                                               href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                               href="?page=
+
+
+
+
+                                                       {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
                                         </li>
                                         <li class="page-item"><a class="page-link"
-                                                                 href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                                                 href="?page=
+
+
+
+
+                                                                         {{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
                                         </li>
                                     {% endif %}
 
@@ -278,17 +298,32 @@
                                     {% if page_obj.has_next %}
                                         <li class="page-item">
                                             <a class="page-link"
-                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
+                                               href="?page=
+
+
+
+
+                                                       {{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
                                         </li>
                                         {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
                                             <li class="page-item"><a class="page-link" href="#">...</a></li>
                                             <li class="page-item">
                                                 <a class="page-link"
-                                                   href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                                   href="?page=
+
+
+
+
+                                                           {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
                                             </li>
                                         {% endif %}
                                         <li class="page-item"><a class="page-link"
-                                                                 href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                                                 href="?page=
+
+
+
+
+                                                                         {{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
                                         </li>
                                     {% endif %}
                                 {% endif %}
@@ -302,5 +337,24 @@
         </div> <!-- container .//  -->
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->
+    <script>
+        $(document).ready(function () {
+            var inputs = $("[name*='_filter']");
+            var list_arr = {{ params|get_array_categories_on_select|safe }};
+            inputs.each(function (obj) {
+                if (list_arr.includes($(this)[0].name)) {
+                    console.log($(this)[0].name);
+                    $(this)[0].checked = true;
+                }
+                //($(this)[0].name)
+            });
 
+            $('[name=range-money]').change(function () {
+                $('[name=preco_max]').val($(this).val());
+            });
+            $('[name=ordering]').change(function () {
+                $('[name=form_order]').submit();
+            });
+        });
+    </script>
 {% endblock %}
