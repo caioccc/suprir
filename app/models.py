@@ -167,7 +167,7 @@ class AdicionalDeServico(TimeStamped):
     titulo = models.CharField(max_length=100, blank=True, null=True)
     descricao = models.CharField(max_length=300, blank=True, null=True)
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
-    valor = models.CharField(max_length=10)
+    valor = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
     disponivel = models.BooleanField(default=True)
     is_approved = models.BooleanField(default=False)
 
@@ -239,8 +239,8 @@ class CarrinhoDeServicos(TimeStamped, BaseAddress):
 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
-    subtotal = models.CharField(max_length=10, blank=True, null=True)
-    valor_total = models.TextField(blank=True, null=True)
+    subtotal = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
+    valor_total = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
     forma_pagamento = models.ForeignKey(FormaPagamento, blank=True, null=True, on_delete=models.CASCADE)
     status = models.BooleanField(blank=True, default=True)
 
@@ -253,9 +253,9 @@ class CarrinhoDeServicos(TimeStamped, BaseAddress):
     def save(self, *args, **kwargs):
         subtotal = 0.0
         for item in self.itemservico_set.all():
-            subtotal = float(subtotal) + float(str(item.valor_total).replace(',', '.'))
-        self.subtotal = float(format(subtotal, '.2f'))
-        self.valor_total = format(subtotal, '.2f')
+            subtotal = subtotal + item.valor_total
+        self.subtotal = subtotal
+        self.valor_total = subtotal
         super(CarrinhoDeServicos, self).save(*args, **kwargs)
 
 
@@ -267,17 +267,16 @@ class ItemServico(TimeStamped):
     carrinho = models.ForeignKey(CarrinhoDeServicos, blank=True, null=True, on_delete=models.CASCADE)
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
     observacoes = models.TextField(blank=True, null=True)
-    valor_total = models.TextField(blank=True, null=True)
+    valor_total = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
 
     def save(self, *args, **kwargs):
         valor_base = self.servico.valor_base
         valor_opcionais = 0.0
         if self.adicionalescolhido_set.first():
             for opc in self.adicionalescolhido_set.all():
-                valor_opcionais = float(valor_opcionais) + float(
-                    str(opc.adicional.valor).replace(',', '.').replace(" ", ""))
-        valor_unitario = float(valor_base) + float(valor_opcionais)
-        self.valor_total = format(float(valor_unitario), '.2f')
+                valor_opcionais = valor_opcionais + opc.adicional.valor
+        valor_unitario = valor_base + valor_opcionais
+        self.valor_total = valor_unitario
         super(ItemServico, self).save(*args, **kwargs)
 
     def __unicode__(self):

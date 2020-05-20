@@ -185,35 +185,33 @@ class ServicoSearchForm(BaseForm):
         label='Busque por titulo ou categoria!',
         widget=forms.TextInput(attrs={'placeholder': 'Digite algum termo ...'})
     )
-
     CHOICES_ESTADO = [(state, state) for state in
                       Profissional.objects.order_by('estado').values_list('estado', flat=True).exclude(
                           estado=None).distinct()]
     CHOICES_ESTADO.append(('', 'Todos'))
-
     CHOICES_CIDADE = [(city, city) for city in
                       Profissional.objects.order_by('cidade').values_list('cidade', flat=True).exclude(
                           cidade=None).distinct()]
     CHOICES_CIDADE.append(('', 'Todos'))
-
     estado = forms.CharField(
         required=False,
         widget=forms.Select(choices=CHOICES_ESTADO)
     )
-
     cidade = forms.CharField(
         required=False,
         widget=forms.Select(choices=CHOICES_CIDADE)
     )
-
     preco_min = forms.IntegerField(
         required=False,
         label='Min',
         widget=forms.NumberInput(attrs={'placeholder': 'R$ 0'})
     )
-
     preco_max = forms.IntegerField(
         required=False,
         label='Max',
         widget=forms.NumberInput(attrs={'placeholder': 'R$ 1000'})
+    )
+    ordering = forms.CharField(
+        required=False, label='',
+        widget=forms.TextInput(attrs={'class': 'hidden'})
     )
