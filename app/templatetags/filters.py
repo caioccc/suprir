@@ -86,3 +86,15 @@ def get_qtd_realizados(servico):
         return int(sum)
     except (Exception,):
         return 0
+
+
+@register.filter
+def get_url_search(params):
+    try:
+        strin = ''
+        for key in params:
+            if key != 'page':
+                strin += ('&' + str(key) + '=' + str(params[key]))
+        return strin
+    except (Exception,):
+        return ''

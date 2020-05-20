@@ -14,6 +14,9 @@
                         <li class="breadcrumb-item"><a
                                 href="{% url 'index' %}">Início</a>
                         </li>
+                        <li>
+                            {{ params }}
+                        </li>
                     </ol>
                 </div> <!-- card-body .// -->
             </div> <!-- card.// -->
@@ -22,94 +25,105 @@
 
             <div class="row">
                 <aside class="col-md-2">
-
-                    <article class="filter-group">
-                        <h6 class="title">
-                            <a href="#"
-                               class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1"> Estado: </a>
-                        </h6>
-                        <div class="filter-content collapse show" id="collapse_1" style="">
-                            <div class="inner">
-                                <div class="form-row">
-                                    <select class="form-control" name="estado" id="estado">
-                                        <option value="" selected>Todos</option>
-                                        {% for estado in estados %}
-                                            <option value="{{ estado }}" selected>{{ estado }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div> <!-- inner.// -->
-                        </div>
-                    </article> <!-- filter-group  .// -->
-                    <article class="filter-group">
-                        <h6 class="title">
-                            <a href="#"
-                               class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2">Cidade: </a>
-                        </h6>
-                        <div class="filter-content collapse show" id="collapse_2" style="">
-                            <div class="inner">
-                                <div class="form-row">
-                                    <select class="form-control" name="cidade" id="cidade">
-                                        <option value="" selected>Todos</option>
-                                        {% for cidade in cidades %}
-                                            <option value="{{ cidade }}" selected>{{ cidade }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div> <!-- inner.// -->
-                        </div>
-                    </article> <!-- filter-group  .// -->
-                    <article class="filter-group">
-                        <h6 class="title">
-                            <a href="#"
-                               class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3"> Categorias </a>
-                        </h6>
-                        <div class="filter-content collapse show" id="collapse_3">
-                            <div class="inner">
-                                {% for item_categoria in filter_categorias %}
-                                    <label class="custom-control custom-checkbox"
-                                           data-toggle="tooltip" title=""
-                                           data-original-title="{{ item_categoria.categoria.descricao }}">
-                                        <input name="filter_{{ item_categoria.categoria.categoria }}" type="checkbox"
-                                               class="custom-control-input">
-                                        <div class="custom-control-label">{{ item_categoria.categoria }}
-                                            <!--<b class="badge badge-pill badge-light float-right">{{ item_categoria.quantidade }}</b> -->
+                    <form method="get" action="">{% csrf_token %}
+                        <article class="filter-group">
+                            <h6 class="title">
+                                <a href="#"
+                                   class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_1">
+                                    Estado: </a>
+                            </h6>
+                            <div class="filter-content collapse show" id="collapse_1" style="">
+                                <div class="inner">
+                                    <div class="form-row">
+                                        <select class="form-control" name="estado" id="estado">
+                                            <option value="" selected>Todos</option>
+                                            {% for estado in estados %}
+                                                {% if params.estado == estado %}
+                                                    <option value="{{ estado }}" selected>{{ estado }}</option>
+                                                {% else %}
+                                                    <option value="{{ estado }}">{{ estado }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> <!-- inner.// -->
+                            </div>
+                        </article> <!-- filter-group  .// -->
+                        <article class="filter-group">
+                            <h6 class="title">
+                                <a href="#"
+                                   class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2">Cidade: </a>
+                            </h6>
+                            <div class="filter-content collapse show" id="collapse_2" style="">
+                                <div class="inner">
+                                    <div class="form-row">
+                                        <select class="form-control" name="cidade" id="cidade">
+                                            <option value="" selected>Todos</option>
+                                            {% for cidade in cidades %}
+                                                {% if params.cidade == cidade %}
+                                                    <option value="{{ cidade }}" selected>{{ cidade }}</option>
+                                                {% else %}
+                                                    <option value="{{ cidade }}">{{ cidade }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> <!-- inner.// -->
+                            </div>
+                        </article> <!-- filter-group  .// -->
+                        <article class="filter-group">
+                            <h6 class="title">
+                                <a href="#"
+                                   class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_3">
+                                    Categorias </a>
+                            </h6>
+                            <div class="filter-content collapse show" id="collapse_3">
+                                <div class="inner">
+                                    {% for item_categoria in filter_categorias %}
+                                        <label class="custom-control custom-checkbox"
+                                               data-toggle="tooltip" title=""
+                                               data-original-title="{{ item_categoria.categoria.descricao }}">
+                                            <input name="{{ item_categoria.categoria.id }}_filter" type="checkbox"
+                                                   class="custom-control-input">
+                                            <div class="custom-control-label">{{ item_categoria.categoria }}
+                                                <!--<b class="badge badge-pill badge-light float-right">{{ item_categoria.quantidade }}</b> -->
+                                            </div>
+                                        </label>
+                                    {% endfor %}
+                                </div> <!-- inner.// -->
+                            </div>
+                        </article> <!-- filter-group .// -->
+                        <article class="filter-group">
+                            <h6 class="title">
+                                <a href="#"
+                                   class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_4"> Preço </a>
+                            </h6>
+                            <div class="filter-content collapse show" id="collapse_4">
+                                <div class="inner">
+                                    <input type="range" class="custom-range" min="0" max="100" name="">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Min</label>
+                                            <input class="form-control" placeholder="R$ 0" type="number">
                                         </div>
-                                    </label>
-                                {% endfor %}
-                            </div> <!-- inner.// -->
-                        </div>
-                    </article> <!-- filter-group .// -->
-                    <article class="filter-group">
-                        <h6 class="title">
-                            <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
-                               class="dropdown-toggle" data-toggle="collapse" data-target="#collapse_4"> Preço </a>
-                        </h6>
-                        <div class="filter-content collapse show" id="collapse_4">
-                            <div class="inner">
-                                <input type="range" class="custom-range" min="0" max="100" name="">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label>Min</label>
-                                        <input class="form-control" placeholder="R$ 0" type="number">
-                                    </div>
-                                    <div class="form-group text-right col-md-6">
-                                        <label>Max</label>
-                                        <input class="form-control" placeholder="R$ 1000.0" type="number">
-                                    </div>
-                                </div> <!-- form-row.// -->
-                                <hr/>
-                                <button class="btn btn-block btn-primary">Filtrar</button>
-                            </div> <!-- inner.// -->
-                        </div>
-                    </article> <!-- filter-group .// -->
+                                        <div class="form-group text-right col-md-6">
+                                            <label>Max</label>
+                                            <input class="form-control" placeholder="R$ 1000.0" type="number">
+                                        </div>
+                                    </div> <!-- form-row.// -->
+                                    <hr/>
+                                    <button class="btn btn-block btn-primary">Filtrar</button>
+                                </div> <!-- inner.// -->
+                            </div>
+                        </article> <!-- filter-group .// -->
+                    </form>
                 </aside> <!-- col.// -->
                 <main class="col-md-10">
 
 
                     <header class="mb-3">
                         <div class="form-inline">
-                            <strong class="mr-md-auto">32 Itens encontrados </strong>
+                            <strong class="mr-md-auto">{{ page_obj.paginator.count }} Itens encontrados </strong>
                             <select class="mr-2 form-control">
                                 <option>Ultimos itens</option>
                                 <option>Trending</option>
@@ -142,7 +156,7 @@
                                 </aside> <!-- col.// -->
                                 <div class="col-md-6">
                                     <div class="info-main">
-                                        <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
+                                        <a href="#"
                                            class="h5 title"> {{ servico.titulo }}</a>
                                         <div class="rating-wrap mb-2">
                                             <ul class="rating-stars">
@@ -162,6 +176,8 @@
                                                     class="fa fa-camera"></i> {{ servico.fotoservico_set.all|length }}</span>
                                             <span class="tag"> <i
                                                     class="fa fa-check"></i> {{ servico|get_qtd_realizados }} Realizados</span>
+                                            <span class="tag"> <i
+                                                    class="fa fa-tags"></i> {{ servico.profissional.categoria.categoria }} </span>
                                             <span class="tag"> {{ servico.profissional.estado }} </span>
                                         </p>
 
@@ -193,23 +209,17 @@
                         <article class="card card-product-list">
                             <div class="row no-gutters">
                                 <aside class="col-md-3">
-                                    <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
+                                    <a href="#"
                                        class="img-wrap">
-                                        <img src="https://placehold.it/800x800/969696/000000?text=Sem Imagem">
                                     </a>
                                 </aside> <!-- col.// -->
                                 <div class="col-md-9">
                                     <div class="info-main">
-                                        <a href="http://bootstrap-ecommerce.com/templates/alistyle-html/page-listing-large.html#"
-                                           class="h5 title"> Nenhum serviço cadastrado no momento.</a>
+                                        <a href="#"
+                                           class="h5 title"> Nenhum serviço encontrado.</a>
 
 
-                                        <p> Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing elit,
-                                            Lorem
-                                            ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim
-                                            sint
-                                            occaecat cupidatat non
-                                            proident, sunt in culpa qui laborum.... </p>
+                                        <p></p>
 
                                     </div> <!-- info-main.// -->
                                 </div> <!-- col.// -->
@@ -218,33 +228,73 @@
 
                     {% endfor %}
 
+                    {% if servicos %}
+                        <nav class="mb-4" aria-label="Page navigation sample">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link"
+                                           href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">Anterior</a>
+                                    </li>
+                                {% endif %}
 
-                    <nav class="mb-4" aria-label="Page navigation sample">
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a class="page-link"
-                                                              href="#">Anterior</a>
-                            </li>
-                            <li class="page-item active"><a class="page-link"
-                                                            href="#">1</a>
-                            </li>
-                            <li class="page-item"><a class="page-link"
-                                                     href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link"
-                                                     href="#">3</a>
-                            </li>
-                            <li class="page-item"><a class="page-link"
-                                                     href="#">4</a>
-                            </li>
-                            <li class="page-item"><a class="page-link"
-                                                     href="#">5</a>
-                            </li>
-                            <li class="page-item"><a class="page-link"
-                                                     href="#">Próximo</a>
-                            </li>
-                        </ul>
-                    </nav>
+                                {% if page_obj.number != 1 and page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">{{ page_obj.previous_page_number }}</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link"
+                                                                    href="?page={{ page_obj.number }}{{ params|get_url_search }}">{{ page_obj.number }}</a>
+                                    </li>
+                                    {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
+                                        </li>
+                                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                            <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                   href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                        </li>
+                                    {% elif page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                        </li>
+                                    {% endif %}
 
+                                {% else %}
+                                    <li class="page-item active"><a class="page-link"
+                                                                    href="?page=1{{ params|get_url_search }}">1</a>
+                                    </li>
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
+                                        </li>
+                                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                            <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                   href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
                 </main> <!-- col.// -->
 
             </div>

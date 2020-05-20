@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-# Create your views here.
+# coding=utf-8
 from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic.base import ContextMixin
@@ -38,15 +36,37 @@ class CustomContextMixin(ContextMixin):
             dic['categoria'] = categoria
             dic['quantidade'] = Profissional.objects.filter(categoria=categoria).count()
             filter_categorias.append(dic)
-        print(filter_categorias)
         return filter_categorias
 
 
 class IndexView(UserLoggedMixin, CustomContextMixin, ListView):
     model = Servico
     template_name = 'index.html'
-    ordering = '?'
+    paginate_by = 5
     context_object_name = 'servicos'
+
+    def get_params_search(self):
+        return self.request.GET
+
+    def get_context_data(self, **kwargs):
+        kwargs['params'] = self.get_params_search()
+        return super(IndexView, self).get_context_data(**kwargs)
+
+    def get_queryset(self):
+        params = self.get_params_search()
+        servicos = self.model.objects.all()
+        if 'estado' in params:
+            servicos = self.model.objects.filter(profissional__estado__icontains=params['estado'])
+        if 'cidade' in params:
+            servicos = servicos.filter(profissional__cidade__icontains=params['cidade'])
+        if 'query' in params:
+            servicos = servicos.filter(titulo__icontains=params['query'])
+        if 'categoria' in params:
+            servicos = servicos.filter(profissional__categoria__id=params['categoria'])
+        categories = [str(key).replace('_filter', '') for key in params if '_filter' in key]
+        if len(categories) > 0:
+            servicos = servicos.filter(profissional__categoria_id__in=categories)
+        return servicos.order_by('?')
 
 
 class AreaProfissional(CustomContextMixin, TemplateView):

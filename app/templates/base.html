@@ -95,15 +95,15 @@
                     </a> <!-- brand-wrap.// -->
                 </div>
                 <div class="col-xl-6 col-lg-5 col-md-6">
-                    <form action="#"
-                          class="search-header">
+                    <form action="{% url 'index' %}" method="get"
+                          class="search-header">{% csrf_token %}
                         <div class="input-group w-100">
-                            <select class="custom-select border-right" name="category_name">
-                                <option value="">Todos</option>
-                                <option value="codex">Especiais</option>
-                                <option value="content">Últimos</option>
+                            <select class="custom-select border-right" name="order">
+                                <option value="titulo">Todos</option>
+                                <option value="created_at">Especiais</option>
+                                <option value="-created_at">Últimos</option>
                             </select>
-                            <input type="text" class="form-control" placeholder="Digite algum termo ...">
+                            <input type="text" name="query" class="form-control" placeholder="Digite algum termo ...">
 
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
@@ -203,7 +203,7 @@
                         <div class="dropdown-menu">
                             {% for categoria in categorias %}
                                 <a class="dropdown-item"
-                                   href="#">{{ categoria.categoria }}</a>
+                                   href="?categoria={{ categoria.id }}">{{ categoria.categoria }}</a>
                             {% endfor %}
                         </div>
                     </li>
