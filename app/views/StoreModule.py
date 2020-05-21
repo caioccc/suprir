@@ -95,3 +95,7 @@ class ProfissionalView(UserLoggedMixin, CustomContextMixin, SearchListView):
         if 'ordering' in params:
             profissionais = profissionais.order_by(params['ordering'])
         return profissionais
+
+
+class SobreView(UserLoggedMixin, CustomContextMixin, TemplateView):
+    template_name = 'about.html'

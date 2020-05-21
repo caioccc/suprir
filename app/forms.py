@@ -127,6 +127,7 @@ class FormServico(ModelForm, BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(FormServico, self).__init__(*args, **kwargs)
+        self.fields['valor_base'].label = 'Preço'
         self.fields['profissional'].label = ''
         self.fields['profissional'].widget.attrs['class'] = 'hidden'
         for field_name, field in self.fields.items():

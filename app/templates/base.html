@@ -32,7 +32,7 @@
     <meta http-equiv="cache-control" content="max-age=604800">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="http://bootstrap-ecommerce.com/templates/alistyle-html/images/favicon.ico" rel="shortcut icon"
+    <link href="{% static 'theme-store/img/favicon.ico' %}" rel="shortcut icon"
           type="image/x-icon">
 
     <!-- jQuery -->
@@ -97,7 +97,7 @@
             <div class="row align-items-center">
                 <div class="col-xl-2 col-lg-3 col-md-12">
                     <a href="{% url 'index' %}" class="brand-wrap">
-                        <img class="logo" src="{% static 'theme-store/img/logo.png' %}">
+                        <img class="logo" src="{% static 'theme-store/img/logo_5.png' %}">
                     </a> <!-- brand-wrap.// -->
                 </div>
                 <div class="col-xl-6 col-lg-5 col-md-6">
@@ -217,7 +217,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link sobre-menu"
-                           href="#">Sobre o Projeto</a>
+                           href="{% url 'sobre' %}">Sobre o Projeto</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link faq-menu"
