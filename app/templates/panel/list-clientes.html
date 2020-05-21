@@ -48,16 +48,21 @@
                                             <td>
                                                 {{ cliente.id }}
                                             </td>
-                                             <td>{{ cliente.bairro }}</td>
-                                             <td>{{ cliente.cidade }}</td>
-                                            <td>{{ cliente.cliente.telefone_1 }}</td>
+                                            <td>
+                                                {% if cliente.bairro %}
+                                                    {{ cliente.bairro }}
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ cliente.cidade }}</td>
+                                            <td>{{ cliente.user.username }}</td>
                                             <td>
                                                 {{ cliente.created_at|date:"d/m/Y G:i" }}
                                             </td>
                                             <td class="text-center">
                                                 <!-- <a href=""> <i
                                                         class="fa fa-eye"></i></a> -->
-                                                <a target="_blank" href="https://api.whatsapp.com/send?phone={{ cliente.telefone_1|get_numero_telefone_zap }}"
+                                                <a target="_blank"
+                                                   href="https://api.whatsapp.com/send?phone={{ cliente.telefone_1|get_numero_telefone_zap }}"
                                                    class="btn btn-default"> <i
                                                         class="fa fa-whatsapp"></i></a>
                                             </td>

@@ -22,12 +22,13 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
 from app.views.PanelModule import DashboardView, ContractUpdateView, rejeitar_contrato_servico, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView
-from app.views.StoreModule import IndexView, AreaProfissional
+from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^admin/login/$', auth_views.login),
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^/(?P<pk>[0-9]+)/$$', ViewServicoDetail.as_view(), name='view-servico'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^account/logout/$', LogoutView.as_view(), name='logout'),
     url(r'^registro/$', RegistroCliente.as_view(), name='registro-cliente'),

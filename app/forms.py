@@ -213,5 +213,5 @@ class ServicoSearchForm(BaseForm):
     )
     ordering = forms.CharField(
         required=False, label='',
-        widget=forms.TextInput(attrs={'class': 'hidden'})
+        widget=forms.TextInput(attrs={'class': 'hidden', })
     )

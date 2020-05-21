@@ -9,9 +9,9 @@ from django.views.generic import FormView, RedirectView
 from djmoney.money import Money
 
 from app.forms import FormLogin, FormRegisterCliente, FormRegisterProfissional
+from app.mixins.CustomMixins import CustomContextMixin
 from app.models import Cliente, Profissional, CategoriaDeProfissional, FormaPagamento, ComentarioServico, Servico, \
     FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico
-from app.views.StoreModule import CustomContextMixin
 
 
 class LoginView(CustomContextMixin, FormView):
@@ -420,7 +420,8 @@ class StartTestSystem(RedirectView):
     def create_carts(self):
         for car in CarrinhoDeServicos.objects.all():
             car.delete()
-        valores = [10.00, 50.00, 100.00, 30.00, 130.00, 150.00]
+        valores = [Money(10.00, 'BRL'), Money(20.00, 'BRL'), Money(50.00, 'BRL'), Money(100.00, 'BRL'),
+                   Money(130.00, 'BRL'), Money(150.00, 'BRL')]
         for client in Cliente.objects.all():
             for i in range(2):
                 pro = Profissional.objects.all().order_by('?').first()
@@ -442,7 +443,8 @@ class StartTestSystem(RedirectView):
     def create_contracts(self):
         for contract in ContratoDeServico.objects.all():
             contract.delete()
-        valores = [10.00, 50.00, 100.00, 30.00, 130.00, 150.00]
+        valores = [Money(10.00, 'BRL'), Money(20.00, 'BRL'), Money(50.00, 'BRL'), Money(100.00, 'BRL'),
+                   Money(130.00, 'BRL'), Money(150.00, 'BRL')]
         status = ['EM ANDAMENTO', 'REALIZADO', 'REJEITADO', ]
         for profi in Profissional.objects.all():
             for i in range(15):
