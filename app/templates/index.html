@@ -115,8 +115,8 @@
                             <div class="btn-group">
                                 <a href="#"
                                    class="btn btn-light active" data-toggle="tooltip" title=""
-                                   data-original-title="Grade de Serviços">
-                                    <i class="fa fa-th"></i></a>
+                                   data-original-title="Lista de Serviços">
+                                    <i class="fa fa-bars"></i></a>
                             </div>
                         </div>
                     </header><!-- sect-heading -->
@@ -194,8 +194,6 @@
                                     <div class="info-main">
                                         <a href="#"
                                            class="h5 title"> Nenhum serviço encontrado.</a>
-
-
                                         <p></p>
 
                                     </div> <!-- info-main.// -->
@@ -211,81 +209,79 @@
                                 {% if page_obj.has_previous %}
                                     <li class="page-item">
                                         <a class="page-link"
-                                           href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">Anterior</a>
+                                           href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">
+                                            Anterior</a>
                                     </li>
                                 {% endif %}
 
                                 {% if page_obj.number != 1 and page_obj.has_previous %}
                                     <li class="page-item">
                                         <a class="page-link"
-                                           href="?page=
-
-                                                   {{ page_obj.previous_page_number }}{{ params|get_url_search }}">{{ page_obj.previous_page_number }}</a>
+                                           href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">
+                                            {{ page_obj.previous_page_number }}</a>
                                     </li>
-                                    <li class="page-item active"><a class="page-link"
-                                                                    href="?page=
-
-                                                                            {{ page_obj.number }}{{ params|get_url_search }}">{{ page_obj.number }}</a>
+                                    <li class="page-item active">
+                                        <a class="page-link"
+                                           href="?page={{ page_obj.number }}{{ params|get_url_search }}">
+                                            {{ page_obj.number }}</a>
                                     </li>
                                     {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
                                         <li class="page-item">
                                             <a class="page-link"
-                                               href="?page=
-
-                                                       {{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                {{ page_obj.next_page_number }}
+                                            </a>
                                         </li>
                                         {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
                                             <li class="page-item"><a class="page-link" href="#">...</a></li>
                                             <li class="page-item">
-                                                <a class="page-link"
-                                                   href="?page=
-
-                                                           {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                                <a class="page-link" href="?page=
+                                                        {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                    {{ page_obj.paginator.num_pages }}</a>
                                             </li>
                                         {% endif %}
-                                        <li class="page-item"><a class="page-link"
-                                                                 href="?page=
-
-                                                                         {{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                Próximo</a>
                                         </li>
                                     {% elif page_obj.has_next %}
                                         <li class="page-item">
                                             <a class="page-link"
                                                href="?page=
-
-                                                       {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                                       {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                {{ page_obj.paginator.num_pages }}</a>
                                         </li>
-                                        <li class="page-item"><a class="page-link"
-                                                                 href="?page=
-
-                                                                         {{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                Próximo</a>
                                         </li>
                                     {% endif %}
 
                                 {% else %}
-                                    <li class="page-item active"><a class="page-link"
-                                                                    href="?page=1{{ params|get_url_search }}">1</a>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page=1{{ params|get_url_search }}">1</a>
                                     </li>
                                     {% if page_obj.has_next %}
                                         <li class="page-item">
                                             <a class="page-link"
-                                               href="?page=
-
-                                                       {{ page_obj.next_page_number }}{{ params|get_url_search }}">{{ page_obj.next_page_number }}</a>
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                {{ page_obj.next_page_number }}</a>
                                         </li>
                                         {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
                                             <li class="page-item"><a class="page-link" href="#">...</a></li>
                                             <li class="page-item">
                                                 <a class="page-link"
                                                    href="?page=
-
-                                                           {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">{{ page_obj.paginator.num_pages }}</a>
+                                                    {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                    {{ page_obj.paginator.num_pages }}</a>
                                             </li>
                                         {% endif %}
-                                        <li class="page-item"><a class="page-link"
-                                                                 href="?page=
-
-                                                                         {{ page_obj.next_page_number }}{{ params|get_url_search }}">Próximo</a>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=
+                                                {{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                Próximo</a>
                                         </li>
                                     {% endif %}
                                 {% endif %}
@@ -301,6 +297,7 @@
     <!-- ========================= SECTION CONTENT END// ========================= -->
     <script>
         $(document).ready(function () {
+            $('.servicos-menu').addClass('checked');
             var inputs = $("[name*='_filter']");
             var list_arr = {{ params|get_array_categories_on_select|safe }};
             inputs.each(function (obj) {

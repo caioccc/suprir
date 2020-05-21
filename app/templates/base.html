@@ -76,13 +76,13 @@
 
     <style>
         .hidden {
-            display: none;
+            display: none !important;
         }
     </style>
 
     <style>
         .checked {
-            color: orange;
+            color: orange !important;
         }
     </style>
 
@@ -208,19 +208,23 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="#">Profissionais</a>
+                        <a class="nav-link servicos-menu"
+                           href="{% url 'index' %}">Serviços</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a class="nav-link profissionais-menu"
+                           href="{% url 'list-profissionais' %}">Profissionais</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link sobre-menu"
                            href="#">Sobre o Projeto</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a class="nav-link faq-menu"
                            href="#">F.A.Q</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a class="nav-link contato-menu"
                            href="#">Fale Conosco</a>
                     </li>
                 </ul>
