@@ -22,7 +22,8 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
 from app.views.PanelModule import DashboardView, ContractUpdateView, rejeitar_contrato_servico, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView
-from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView
+from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
+    ContatoView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -37,6 +38,7 @@ urlpatterns = [
     url(r'^registro/$', RegistroCliente.as_view(), name='registro-cliente'),
     url(r'^area-profissional/$', AreaProfissional.as_view(), name='area-profissional'),
     url(r'^area-profissional/registro/$', RegistroProfissional.as_view(), name='registro-profissional'),
+    url(r'^contato/$', ContatoView.as_view(), name='fale-conosco'),
 
     url(r'^startsystemdefault/$', StartSystem.as_view(), name='startsystem'),
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),

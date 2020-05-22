@@ -97,7 +97,7 @@
             <div class="row align-items-center">
                 <div class="col-xl-2 col-lg-3 col-md-12">
                     <a href="{% url 'index' %}" class="brand-wrap">
-                        <img class="logo" src="{% static 'theme-store/img/logo_5.png' %}">
+                        <img class="logo" src="{% static 'theme-store/img/logo_atual.png' %}">
                     </a> <!-- brand-wrap.// -->
                 </div>
                 <div class="col-xl-6 col-lg-5 col-md-6">
@@ -225,7 +225,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link contato-menu"
-                           href="#">Fale Conosco</a>
+                           href="{% url 'fale-conosco' %}">Fale Conosco</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
@@ -314,6 +314,13 @@
 {% include 'utils/loading.html' %}
 <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 <script type="text/javascript" src="{% static 'theme-store/js/sweetalert.min.js' %}"></script>
+
+
+<!-- Start of  Zendesk Widget script -->
+<script id="ze-snippet"
+        src="https://static.zdassets.com/ekr/snippet.js?key=0438573b-182c-4158-b1db-20cbd12c45b7"></script>
+<!-- End of  Zendesk Widget script -->
+
 
 {% if messages %}
     {% for message in messages %}

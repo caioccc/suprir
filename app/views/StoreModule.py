@@ -1,12 +1,13 @@
 # coding=utf-8
-from django.views.generic import DetailView
+from django.contrib import messages
+from django.views.generic import DetailView, CreateView
 from django.views.generic import TemplateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 
-from app.forms import ServicoSearchForm, ProfissionalSearchForm
+from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional
+from app.models import Servico, Profissional, Mensagem
 
 
 class ServicoFilter(BaseFilter):
@@ -99,3 +100,18 @@ class ProfissionalView(UserLoggedMixin, CustomContextMixin, SearchListView):
 
 class SobreView(UserLoggedMixin, CustomContextMixin, TemplateView):
     template_name = 'about.html'
+
+
+class ContatoView(UserLoggedMixin, CustomContextMixin, CreateView):
+    template_name = 'contato.html'
+    form_class = FormMensagem
+    model = Mensagem
+    success_url = '/contato/'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Mensagem enviada com sucesso.')
+        return super(ContatoView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ocorreu algum erro, tente novamente')
+        return super(ContatoView, self).form_invalid(form)

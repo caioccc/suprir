@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
-from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico
+from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem
 
 
 class BaseForm(forms.Form):
@@ -244,3 +244,15 @@ class ProfissionalSearchForm(BaseForm):
         required=False, label='',
         widget=forms.TextInput(attrs={'class': 'hidden', })
     )
+
+
+class FormMensagem(ModelForm, BaseForm):
+    class Meta:
+        model = Mensagem
+        fields = ['categoria', 'titulo', 'mensagem', 'nome', 'email',
+                  'telefone', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormMensagem, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['required'] = 'True'

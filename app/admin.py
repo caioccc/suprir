@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
-    ContratoDeServico, ComentarioServico
+    ContratoDeServico, ComentarioServico, Mensagem
 
 
 def approve_selected(modeladmin, request, queryset):
@@ -181,6 +181,14 @@ class ComentarioServicoAdmin(admin.ModelAdmin):
     list_display = ('servico', 'id', 'cliente', 'avaliacao', 'created_at')
 
 
+class MensagemAdmin(admin.ModelAdmin):
+    list_filter = ('categoria', 'resolvido',)
+    search_fields = (
+        'telefone', 'mensagem', 'nome',
+    )
+    list_display = ('categoria', 'titulo', 'mensagem', 'id', 'nome', 'email', 'telefone', 'resolvido', 'created_at')
+
+
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Profissional, ProfissionalAdmin)
 admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
@@ -194,3 +202,4 @@ admin.site.register(ItemServico, ItemServicoAdmin)
 admin.site.register(AdicionalEscolhido, AdicionalEscolhidoAdmin)
 admin.site.register(ContratoDeServico, ContratoDeServicoAdmin)
 admin.site.register(ComentarioServico, ComentarioServicoAdmin)
+admin.site.register(Mensagem, MensagemAdmin)

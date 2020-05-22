@@ -334,3 +334,30 @@ class ComentarioServico(TimeStamped):
 
     def __str__(self):
         return u'%s' % self.id
+
+
+CHOICES_CATEGORIA_MENSAGEM = [
+    ('Ajuda ao Profissional', 'Ajuda ao Profissional'),
+    ('Ajuda ao Cliente', 'Ajuda ao Cliente'),
+    ('Problemas na compra', 'Problemas na compra'),
+]
+
+
+class Mensagem(TimeStamped):
+    class Meta:
+        verbose_name = u'Mensagem'
+        verbose_name_plural = u'Mensagens'
+
+    titulo = models.CharField(max_length=300, blank=True, null=True)
+    categoria = models.CharField(choices=CHOICES_CATEGORIA_MENSAGEM, max_length=300, blank=True, null=True)
+    mensagem = models.TextField(blank=True, null=True)
+    nome = models.CharField(max_length=300, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    telefone = models.IntegerField(max_length=20, blank=True, null=True)
+    resolvido = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id

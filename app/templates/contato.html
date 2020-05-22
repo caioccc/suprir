@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <section class="section-pagetop bg-light">
+        <div class="container">
+            <h2 class="title-page">Fale Conosco</h2>
+        </div> <!-- container .// -->
+    </section>
+
+
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content bg-white padding-y">
+        <div class="container">
+            <p>Preparamos este espaço para você poder enviar sua mensagem. É importante para nós receber um feedback da
+                sua parte. Caso tenha qualquer problema nos comunique!</p>
+            <div class="row ">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form method="post" action="">{% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <a href="javascript: history.back()" class="btn btn-light"> « Voltar</a>
+        </div> <!-- container .//  -->
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            $('.contato-menu').addClass('checked');
+        });
+    </script>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}
