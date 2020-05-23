@@ -10,8 +10,8 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-2"> Você está aqui:</div> <!-- col.// -->
-                            <nav class="col-md-8">
+                            <div class="col-md-2" id="voceaqui"> Você está aqui:</div> <!-- col.// -->
+                            <nav class="col-md-8 breadcrumbb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a
                                             href="{% url 'index' %}">Início</a>
@@ -21,7 +21,7 @@
                             </nav> <!-- col.// -->
                         </div> <!-- row.// -->
                         <hr>
-                        <div class="row">
+                        <div class="row" id="form-filter">
                             {{ form.ordering }}
                             <div class="col-md-2">Filtrar por</div> <!-- col.// -->
                             <div class="col-md-10">
@@ -235,6 +235,15 @@
             $('[name=ordering_visible]').change(function () {
                 $('[name=ordering]').val($(this).val());
             });
+
+            if (mobileCheck()) {
+                console.log('mobile connected phone');
+                $('.breadcrumbb').hide();
+                $('#form-filter').toggle();
+                $('#voceaqui').text('Filtros: ').append('<i class="fa fa-arrow-down"></i>').click(function () {
+                    $('#form-filter').toggle();
+                });
+            }
         });
     </script>
     <!-- ========================= SECTION CONTENT END// ========================= -->

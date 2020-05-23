@@ -22,7 +22,7 @@
 
             <div class="row">
                 <aside class="col-md-2">
-                    <form method="get" action="">{% csrf_token %}
+                    <form name="form-filter" method="get" action="">{% csrf_token %}
                         <article class="filter-group">
                             <h6 class="title">
                                 <a href="#"
@@ -316,6 +316,13 @@
             $('[name=ordering_visible]').change(function () {
                 $('[name=ordering]').val($(this).val());
             });
+            if (mobileCheck()) {
+                console.log('mobile connected phone');
+                $('[name=form-filter]').toggle();
+                $('.breadcrumb-item a').text('Filtros: ').attr('href', '#').append('<i class="fa fa-arrow-down"></i>').click(function () {
+                    $('[name=form-filter]').toggle();
+                });
+            }
         });
     </script>
 {% endblock %}
