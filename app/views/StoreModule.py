@@ -1,5 +1,7 @@
 # coding=utf-8
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views.generic import DetailView, CreateView
 from django.views.generic import TemplateView
 from search_views.filters import BaseFilter
@@ -7,7 +9,7 @@ from search_views.views import SearchListView
 
 from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional, Mensagem
+from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico
 
 
 class ServicoFilter(BaseFilter):
@@ -28,7 +30,7 @@ class ProfissionalFilter(BaseFilter):
     }
 
 
-class IndexView(UserLoggedMixin, CustomContextMixin, SearchListView):
+class IndexView(CustomContextMixin, SearchListView):
     model = Servico
     template_name = 'index.html'
     paginate_by = 5
@@ -55,6 +57,8 @@ class IndexView(UserLoggedMixin, CustomContextMixin, SearchListView):
             servicos = servicos.filter(profissional__categoria_id__in=categories)
         if 'ordering' in params:
             servicos = servicos.order_by(params['ordering'])
+        else:
+            servicos = servicos.order_by('?')
         return servicos
 
 
@@ -68,7 +72,7 @@ class ViewServicoDetail(CustomContextMixin, DetailView):
     context_object_name = 'servico'
 
 
-class ProfissionalView(UserLoggedMixin, CustomContextMixin, SearchListView):
+class ProfissionalView(CustomContextMixin, SearchListView):
     model = Profissional
     template_name = 'profissionals.html'
     paginate_by = 12
@@ -98,11 +102,11 @@ class ProfissionalView(UserLoggedMixin, CustomContextMixin, SearchListView):
         return profissionais
 
 
-class SobreView(UserLoggedMixin, CustomContextMixin, TemplateView):
+class SobreView(CustomContextMixin, TemplateView):
     template_name = 'about.html'
 
 
-class ContatoView(UserLoggedMixin, CustomContextMixin, CreateView):
+class ContatoView(CustomContextMixin, CreateView):
     template_name = 'contato.html'
     form_class = FormMensagem
     model = Mensagem
@@ -115,3 +119,92 @@ class ContatoView(UserLoggedMixin, CustomContextMixin, CreateView):
     def form_invalid(self, form):
         messages.error(self.request, 'Ocorreu algum erro, tente novamente')
         return super(ContatoView, self).form_invalid(form)
+
+
+def check_cart(cart, servico):
+    if len(cart.itemservico_set.all()) == 0:
+        cart.profissional = None
+        cart.save()
+    if cart.profissional is not None:
+        if servico.profissional.id == cart.profissional.id:
+            return True
+        else:
+            return False
+    else:
+        cart.profissional = servico.profissional
+        cart.save()
+        return True
+
+
+def add_item_servico(request, cart):
+    observacoes = ''
+    servico = None
+    if 'observacoes' in request.POST:
+        observacoes = request.POST['observacoes']
+    if 'idservico' in request.POST:
+        servico = Servico.objects.get(id=request.POST['idservico'])
+    if check_cart(cart, servico):
+        valor_total = servico.valor_base
+        item = ItemServico(
+            carrinho=cart,
+            servico=servico,
+            observacoes=observacoes,
+            valor_total=valor_total
+        )
+        item.save()
+        cart.save()
+    else:
+        messages.error(request, 'Você não pode adicionar no carrinho serviços de diferentes profissionais')
+
+
+def remove_item_servico(request, cart):
+    if 'iditemservico' in request.POST:
+        item = ItemServico.objects.get(id=request.POST['iditemservico'])
+        item.delete()
+        cart.save()
+
+
+def get_cart(request):
+    carrinhos = request.user.cliente.carrinhodeservicos_set.filter(status=True)
+    if len(carrinhos) > 0:
+        carrinho = carrinhos[0]
+        carrinho.save()
+        return carrinho
+    else:
+        new_cart = CarrinhoDeServicos(
+            cliente=request.user.cliente
+        )
+        new_cart.save()
+        return new_cart
+
+
+def add_cart(request):
+    try:
+        if not request.user.is_authenticated:
+            return redirect('/login/')
+        cart = get_cart(request)
+        add_item_servico(request, cart)
+        return redirect('/carrinho/' + str(cart.id))
+    except (Exception,):
+        cart = get_cart(request)
+        messages.error(request, 'Ocorreu algum erro, tente novamente.')
+        return redirect('/carrinho/' + str(cart.id))
+
+
+def remove_item_cart(request):
+    try:
+        if not request.user.is_authenticated:
+            return redirect('/login/')
+        cart = get_cart(request)
+        remove_item_servico(request, cart)
+        return redirect('/carrinho/' + str(cart.id))
+    except (Exception,):
+        cart = get_cart(request)
+        messages.error(request, 'Ocorreu algum erro, tente novamente.')
+        return redirect('/carrinho/' + str(cart.id))
+
+
+class CarrinhoView(LoginRequiredMixin, CustomContextMixin, DetailView):
+    template_name = 'cart.html'
+    model = CarrinhoDeServicos
+    context_object_name = 'carrinho'

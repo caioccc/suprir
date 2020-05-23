@@ -11,7 +11,7 @@
                 </li>
                 <li class="breadcrumb-item"><a
                         href="{% url 'index' %}">{{ servico.profissional.categoria.categoria }}
-                    </a></li>
+                </a></li>
                 <li class="breadcrumb-item active"><a
                         href="#">{{ servico }}</a></li>
             </ol>
@@ -55,7 +55,8 @@
                                 </li>
                             </ul>
                             <small class="label-rating text-muted">{{ servico|get_avaliacao_media }}/10</small>
-                            <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> {{ servico|get_qtd_realizados }} realizados
+                            <small class="label-rating text-success"> <i
+                                    class="fa fa-clipboard-check"></i> {{ servico|get_qtd_realizados }} realizados
                             </small>
                         </div> <!-- rating-wrap.// -->
 
@@ -94,10 +95,16 @@
 
                         <div class="form-row  mt-4">
                             <div class="form-group col-md">
-                                <a href="#"
-                                   class="btn  btn-primary">
-                                    <i class="fas fa-shopping-cart"></i> <span class="text">Adicionar ao Carrinho</span>
-                                </a>
+                                {% if not user.profissional %}
+                                    <form action="{% url 'add-carrinho' %}" method="post">{% csrf_token %}
+                                        <input class="hidden" type="text" name="idservico" value="{{ servico.id }}"/>
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fas fa-shopping-cart"></i> <span
+                                                class="text">Adicionar ao Carrinho</span>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                <br/>
                                 <a href="tel:{{ servico.profissional.user.username }}"
                                    class="btn btn-light">
                                     <i class="fas fa-envelope"></i> <span class="text">Contatar</span>

@@ -248,8 +248,7 @@
                                     {% elif page_obj.has_next %}
                                         <li class="page-item">
                                             <a class="page-link"
-                                               href="?page=
-                                                       {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                               href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
                                                 {{ page_obj.paginator.num_pages }}</a>
                                         </li>
                                         <li class="page-item">
@@ -273,14 +272,13 @@
                                             <li class="page-item"><a class="page-link" href="#">...</a></li>
                                             <li class="page-item">
                                                 <a class="page-link"
-                                                   href="?page=
-                                                    {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                   href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
                                                     {{ page_obj.paginator.num_pages }}</a>
                                             </li>
                                         {% endif %}
                                         <li class="page-item">
-                                            <a class="page-link" href="?page=
-                                                {{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                            <a class="page-link"
+                                               href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
                                                 Próximo</a>
                                         </li>
                                     {% endif %}

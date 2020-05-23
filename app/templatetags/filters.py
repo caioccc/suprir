@@ -110,3 +110,25 @@ def get_array_categories_on_select(params):
         return arr
     except (Exception,):
         return []
+
+
+@register.filter
+def get_id_carrinho(user):
+    try:
+        carrinho = user.cliente.carrinhodeservicos_set.filter(status=True).first()
+        return carrinho.id
+    except (Exception,):
+        new_cart = CarrinhoDeServicos(
+            cliente=user.cliente
+        )
+        new_cart.save()
+        return new_cart.id
+
+
+@register.filter
+def get_number_items_cart(user):
+    try:
+        carrinho = user.cliente.carrinhodeservicos_set.filter(status=True).first()
+        return len(carrinho.itemservico_set.all())
+    except (Exception,):
+        return 0
