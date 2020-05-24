@@ -47,6 +47,7 @@
 
     <script>
         $(document).ready(function () {
+            $('[name=cidade],[name=estado]').attr('readonly', true);
             $('[name=cep]').focusout(function () {
                 $('#loading').show();
                 var cep = $('[name=cep]');
