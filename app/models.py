@@ -310,6 +310,7 @@ class ContratoDeServico(TimeStamped):
     status = models.CharField(max_length=100, choices=STATUS_CONTRATO, blank=True, null=True, default='EM ANDAMENTO')
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
+    motivo = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return u'%s' % self.id

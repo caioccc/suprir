@@ -140,6 +140,8 @@ class RegistroCliente(CustomContextMixin, FormView):
 
     def get_address_client(self, data):
         data_pro = {}
+        if 'cpf' in data:
+            data_pro['cpf'] = data['cpf']
         if 'cep' in data:
             data_pro['cep'] = data['cep']
         if 'bairro' in data:

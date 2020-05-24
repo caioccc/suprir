@@ -19,9 +19,9 @@ from django.contrib.auth import views as auth_views
 
 from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, RegistroProfissional, StartSystem, \
     StartTestSystem
-from app.views.PanelModule import DashboardView, ContractUpdateView, rejeitar_contrato_servico, \
+from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
-    ClienteList, EditarPerfilView
+    ClienteList, EditarPerfilView, RejeiteContratoForm
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart
 
@@ -50,7 +50,8 @@ urlpatterns = [
     url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
     url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),
     url(r'^painel/finalizar/(?P<pk>[0-9]+)/$', finalizar_contrato_servico, name='finalizar-contrato'),
-    url(r'^painel/rejeitar/(?P<pk>[0-9]+)/$', rejeitar_contrato_servico, name='rejeitar-contrato'),
+    url(r'^painel/rejeite/(?P<pk>[0-9]+)/$', RejeiteContratoForm.as_view(), name='rejeite-contrato-form'),
+
     url(r'^painel/clientes/$', ClienteList.as_view(), name='list-clientes'),
     url(r'^painel/servicos/$', ServicosList.as_view(), name='list-servicos'),
     url(r'^painel/servicos/create/$', CreateServico.as_view(), name='create-servico'),

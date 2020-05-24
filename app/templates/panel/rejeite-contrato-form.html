@@ -1,0 +1,46 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <div class="box box-primary" style="margin-top: 30px;">
+        <div class="box-header">
+            <h3 class="box-title">
+                <center style="font-size: 20px;">Rejeite de Contrato</center>
+            </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>Explique o motivo pelo qual deseja rejeitar este pedido:</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        {{ form.as_p }}
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <!-- /.box-body -->
+            <div class=" box-footer ">
+                <a href="{% url 'dashboard-profissional' %}" id="btn_cancelar"
+                   class="btn btn-default pull-left">Voltar</a>
+                <button type="submit" id="btn_salvar" class="btn btn-danger pull-right">Sim, Rejeitar!
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dashboard').addClass('active');
+        });
+    </script>
+
+{% endblock %}

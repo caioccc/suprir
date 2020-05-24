@@ -62,7 +62,7 @@ class CategoriaDeProfissionalAdmin(admin.ModelAdmin):
 
 
 class ProfissionalAdmin(admin.ModelAdmin):
-    list_filter = ('estado', 'cidade', 'categoria__categoria',)
+    list_filter = ('estado', 'cidade', 'categoria__categoria', 'is_approved')
     inlines = [
         ServicoInline,
     ]
@@ -168,7 +168,7 @@ class ContratoDeServicoAdmin(admin.ModelAdmin):
         'carrinho__profissional__cpf',
         'carrinho__profissional__cnpj', 'carrinho__cliente__cpf', 'carrinho__cliente__cnpj',
     )
-    list_display = ('carrinho', 'id', 'status', 'created_at')
+    list_display = ('carrinho', 'id', 'status', 'motivo', 'created_at')
 
 
 class ComentarioServicoAdmin(admin.ModelAdmin):

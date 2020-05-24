@@ -33,8 +33,14 @@
                                             src="{{ servico.fotoservico_set.first.url }}"></a></div>
                             </div> <!-- slider-product.// -->
                             <div class="thumbs-wrap">
-                                <a href="#" target="_blank"
-                                   class="item-thumb"> <img src="{{ servico.fotoservico_set.first.url }}"></a>
+                                {% for foto in servico.fotoservico_set.all %}
+                                    {% if foto.is_approved %}
+                                        <a href="{{ foto.url }}" target="_blank"
+                                           class="item-thumb"> <img src="{{ foto.url }}"></a>
+                                    {% endif %}
+
+                                {% empty %}
+                                {% endfor %}
                             </div> <!-- slider-nav.// -->
                         </article> <!-- gallery-wrap .end// -->
                     </div> <!-- card.// -->

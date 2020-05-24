@@ -148,8 +148,8 @@
                                                 <!--<a href=""> <i
                                                         class="fa fa-trash-o"></i></a> -->
                                                 {% if contrato.status == 'EM ANDAMENTO' %}
-                                                    <a href="{% url 'rejeitar-contrato' contrato.pk %}"
-                                                       class="btn btn-default"> <i
+                                                    <a href="{% url 'rejeite-contrato-form' contrato.pk %}"
+                                                       class="btn btn-default"><i
                                                             class="fa fa-close"></i></a>
                                                 {% endif %}
                                             </td>
@@ -209,7 +209,8 @@
                                             <td class="text-center">
                                                 <!-- <a href=""> <i
                                                         class="fa fa-eye"></i></a> -->
-                                                <a target="_blank" href="https://api.whatsapp.com/send?phone={{ carrinho.cliente.telefone_1|get_numero_telefone_zap }}"
+                                                <a target="_blank"
+                                                   href="https://api.whatsapp.com/send?phone={{ carrinho.cliente.telefone_1|get_numero_telefone_zap }}"
                                                    class="btn btn-default"> <i
                                                         class="fa fa-whatsapp"></i></a>
                                             </td>

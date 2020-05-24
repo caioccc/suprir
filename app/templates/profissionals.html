@@ -55,7 +55,7 @@
                                     </li>
                                     <li class="list-inline-item mr-3">
                                         <div class="form-inline">
-                                            <button type="submit" class="btn btn-sm btn-light ml-2">Ok</button>
+                                            <button type="submit" class="btn btn-light ml-2">Ok</button>
                                         </div>
                                     </li>
                                 </ul>
@@ -105,15 +105,23 @@
 
                                 <hr>
 
-                                <p class="mb-3">
+                                <p class="text-center">
                                     <span class="tag"> <i
                                             class="fa fa-check"></i> {{ profissional.servico_set.all|length }} serviços cadastrados</span>
                                 </p>
+                                <br/>
 
+                                <div class="text-center">
+                                    <a href="tel:{{ profissional.user.username }}"
+                                       class="btn btn-outline-primary text-center"> <i class="fa fa-phone-alt"></i>
+                                        Entrar em Contato
+                                    </a>
+                                    <hr/>
+                                    <a href="#"
+                                       class="btn btn-app text-center"> <i class="fa fa-list-alt"></i> Ver Serviços
+                                    </a>
+                                </div>
 
-                                <a href="tel:{{ profissional.user.username }}"
-                                   class="btn btn-outline-primary"> <i class="fa fa-phone-alt"></i> Entrar em Contato
-                                </a>
 
                             </figcaption>
                         </figure>

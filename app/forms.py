@@ -79,6 +79,13 @@ class FormRegisterCliente(FormBaseAddressNotRequired):
                                                               'maxlength': 100}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'required': True}))
     telefone = forms.CharField(widget=forms.NumberInput(attrs={'required': True}))
+    cpf = forms.CharField(widget=forms.TextInput(attrs={'required': True,
+                                                        'maxlength': 100}))
+
+    def __init__(self, *args, **kwargs):
+        super(FormRegisterCliente, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['required'] = 'True'
 
 
 class FormRegisterProfissional(ModelForm, FormRegisterCliente):
@@ -256,3 +263,14 @@ class FormMensagem(ModelForm, BaseForm):
         super(FormMensagem, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['required'] = 'True'
+
+
+class FormRejeiteContrato(ModelForm, BaseForm):
+    class Meta:
+        model = ContratoDeServico
+        fields = ['motivo', 'status', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormRejeiteContrato, self).__init__(*args, **kwargs)
+        self.fields['status'].label = ''
+        self.fields['status'].widget.attrs['class'] = 'hidden'

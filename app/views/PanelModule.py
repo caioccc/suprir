@@ -5,11 +5,11 @@ from django.db import transaction
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, FormView
 from django.views.generic import ListView, UpdateView
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
-    FormUser
+    FormUser, FormRejeiteContrato
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
 from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional
 
@@ -61,14 +61,25 @@ def finalizar_contrato_servico(request, pk):
     return redirect('/painel')
 
 
-def rejeitar_contrato_servico(request, pk):
-    try:
-        contrato = ContratoDeServico.objects.get(id=pk)
-        contrato.status = 'REJEITADO'
-        contrato.save()
-    except (Exception,):
-        messages.error(request, 'Erro ao rejeitar servico, tente novamente.')
-    return redirect('/painel')
+class RejeiteContratoForm(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    model = ContratoDeServico
+    form_class = FormRejeiteContrato
+    context_object_name = 'contrato'
+    template_name = 'panel/rejeite-contrato-form.html'
+    success_url = '/painel/'
+
+    def get_initial(self):
+        data = super(RejeiteContratoForm, self).get_initial()
+        data['status'] = 'REJEITADO'
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'A Administracao ira avaliar o processo.')
+        return super(RejeiteContratoForm, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ocorreu algum erro, tente novamente')
+        return super(RejeiteContratoForm, self).form_invalid(form)
 
 
 class ServicosList(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
