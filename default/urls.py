@@ -23,7 +23,8 @@ from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView, RejeiteContratoForm
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
-    ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil
+    ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
+    DocumentoContrato
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^(?P<pk>[0-9]+)/$', ViewServicoDetail.as_view(), name='view-servico'),
     url(r'^profissionais/$', ProfissionalView.as_view(), name='list-profissionais'),
+    url(r'^profissionais/(?P<pk>[0-9]+)/$', ListServicesProfissionalView.as_view(), name='list-services-profissional'),
     url(r'^sobre/$', SobreView.as_view(), name='sobre'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^account/logout/$', LogoutView.as_view(), name='logout'),
@@ -43,6 +45,9 @@ urlpatterns = [
     url(r'^remove-item-cart/$', remove_item_cart, name='remove-item-carrinho'),
     url(r'^carrinho/(?P<pk>[0-9]+)/$', CarrinhoView.as_view(), name='carrinho'),
     url(r'^meuperfil/(?P<pk>[0-9]+)/$', MeuPerfil.as_view(), name='meu-perfil'),
+    url(r'^meuscontratos/$', MeusContratosView.as_view(), name='meus-contratos'),
+    url(r'^meuscontratos/documento/(?P<pk>[0-9]+)$', DocumentoContrato.as_view(), name='documento-contrato'),
+
 
     url(r'^startsystemdefault/$', StartSystem.as_view(), name='startsystem'),
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),

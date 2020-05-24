@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
-    ContratoDeServico, ComentarioServico, Mensagem
+    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom
 
 
 def approve_selected(modeladmin, request, queryset):
@@ -134,7 +134,7 @@ class CarrinhoDeServicosAdmin(admin.ModelAdmin):
         'profissional__cpf', 'profissional__cnpj',
     )
     list_display = ('cliente', 'id', 'profissional', 'subtotal', 'cep', 'cidade', 'estado',
-                    'valor_total', 'forma_pagamento', 'status', 'created_at')
+                    'valor_total', 'forma_pagamento', 'status', 'cupom', 'created_at')
 
 
 class ItemServicoAdmin(admin.ModelAdmin):
@@ -189,6 +189,18 @@ class MensagemAdmin(admin.ModelAdmin):
     list_display = ('categoria', 'titulo', 'mensagem', 'id', 'nome', 'email', 'telefone', 'resolvido', 'created_at')
 
 
+class CupomAdmin(admin.ModelAdmin):
+    list_filter = ('is_approved',)
+    search_fields = (
+        'codigo', 'valor_de_desconto',
+    )
+    list_display = ('codigo', 'profissional', 'valor_de_desconto', 'id', 'created_at')
+
+
+class ItemCupomAdmin(admin.ModelAdmin):
+    list_display = ('cupom', 'created_at')
+
+
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Profissional, ProfissionalAdmin)
 admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
@@ -203,3 +215,5 @@ admin.site.register(AdicionalEscolhido, AdicionalEscolhidoAdmin)
 admin.site.register(ContratoDeServico, ContratoDeServicoAdmin)
 admin.site.register(ComentarioServico, ComentarioServicoAdmin)
 admin.site.register(Mensagem, MensagemAdmin)
+admin.site.register(Cupom, CupomAdmin)
+admin.site.register(ItemCupom, ItemCupomAdmin)

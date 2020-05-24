@@ -287,17 +287,6 @@
             $('#loading').show();
         });
 
-        $('.telefone').inputmask('(99) 9999[9]-9999');
-        $('[name=cep]').inputmask('99.999-999');
-
-        $('[name=date_of_birth]').change(function () {
-            var idade = 0;
-            var now = moment();
-            var dtNascimento = moment($(this).val(), "DD/MM/YYYY");
-            idade = now.diff(dtNascimento, 'years');
-            $('[name=age]').val(idade);
-        });
-
     });
 
 

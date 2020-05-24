@@ -146,7 +146,7 @@
                         {% if  user.is_authenticated %}
                             {% if not user.profissional %}
                                 <div class="widget-header mr-3">
-                                    <a href="#" class="widget-view">
+                                    <a href="{% url 'meus-contratos' %}" class="widget-view">
                                         <div class="icon-area">
                                             <i class="fa fa-store"></i>
                                         </div>

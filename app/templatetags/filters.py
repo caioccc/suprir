@@ -132,3 +132,11 @@ def get_number_items_cart(user):
         return len(carrinho.itemservico_set.all())
     except (Exception,):
         return 0
+
+
+@register.filter
+def filter_true(collection):
+    try:
+        return collection.filter(is_approved=True)
+    except (Exception,):
+        return None

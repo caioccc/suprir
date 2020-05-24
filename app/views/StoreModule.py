@@ -2,14 +2,14 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, ListView
 from django.views.generic import TemplateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 
 from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente
+from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico
 
 
 class ServicoFilter(BaseFilter):
@@ -100,6 +100,12 @@ class ProfissionalView(CustomContextMixin, SearchListView):
         if 'ordering' in params:
             profissionais = profissionais.order_by(params['ordering'])
         return profissionais
+
+
+class ListServicesProfissionalView(CustomContextMixin, DetailView):
+    model = Profissional
+    template_name = 'list-services-profissional.html'
+    context_object_name = 'profissional'
 
 
 class SobreView(CustomContextMixin, TemplateView):
@@ -205,12 +211,14 @@ def remove_item_cart(request):
 
 
 class CarrinhoView(LoginRequiredMixin, CustomContextMixin, DetailView):
+    login_url = '/login/'
     template_name = 'cart.html'
     model = CarrinhoDeServicos
     context_object_name = 'carrinho'
 
 
 class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
+    login_url = '/login/'
     template_name = 'meu-perfil.html'
     model = Cliente
     context_object_name = 'cliente'
@@ -221,3 +229,30 @@ class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
 
     def form_valid(self, form):
         return super(MeuPerfil, self).form_valid(form)
+
+
+def gerar_contrato(request):
+    pass
+
+
+class MeusContratosView(LoginRequiredMixin, CustomContextMixin, ListView):
+    login_url = '/login/'
+    model = ContratoDeServico
+    paginate_by = 5
+    template_name = 'meus_contratos.html'
+    context_object_name = 'contratos'
+
+    def get_queryset(self):
+        return self.model.objects.filter(cliente=self.request.user.cliente).order_by('-published_at')
+
+
+class DocumentoContrato(LoginRequiredMixin, CustomContextMixin, DetailView):
+    login_url = '/login/'
+    model = ContratoDeServico
+    template_name = 'documento-contrato.html'
+    context_object_name = 'contrato'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.cliente.contratodeservico_set.filter(id=self.kwargs['pk']).exists():
+            return self.handle_no_permission()
+        return super(DocumentoContrato, self).dispatch(request, *args, **kwargs)

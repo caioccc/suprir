@@ -35,6 +35,43 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#profile').addClass('active');
+            $('[name=cidade],[name=estado]').attr('readonly', true);
+            $('[name=cep]').focusout(function () {
+                $('#loading').show();
+                var cep = $('[name=cep]');
+                var cepCode = cep.val().replace('.', '').replace('-', '');
+                console.log('cep pesquisado:', cepCode);
+                if (cepCode.length <= 0) {
+                    $('#loading').hide();
+                    return;
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://ws.apicep.com/busca-cep/api/cep.json',
+                    data: {code: cepCode},
+                    success: function (result) {
+                        $('#loading').hide();
+                        if (result.status == 0) {
+                            alert(result.message || "Houve um erro desconhecido");
+                            return;
+                        } else {
+                            //$('[name=cidade],[name=estado],[name=endereco], [name=numero], [name=bairro]').attr('readonly', false);
+                            $('[name=cep]').val(result.code);
+                            $('[name=cidade]').val(result.city);
+                            var index = result.address.search('-');
+                            if (index != -1) {
+                                address = result.address.substring(0, index);
+                            } else {
+                                address = result.address;
+                            }
+                            $('[name=endereco]').val(address);
+                            $('[name=bairro]').val(result.district);
+                            $('[name=estado]').val(result.state);
+                        }
+                    }
+                });
+            });
         });
     </script>
 

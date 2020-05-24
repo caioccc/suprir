@@ -161,7 +161,8 @@ class FormProfissional(ModelForm, BaseForm):
     class Meta:
         model = Profissional
         fields = ['categoria', 'user', 'telefone_1', 'telefone_2', 'link_facebook',
-                  'link_instagram', 'url_site', 'whatsapp', 'photo', 'file', 'cpf', 'cnpj', ]
+                  'link_instagram', 'url_site', 'whatsapp', 'photo', 'file', 'cpf', 'cnpj',
+                  'cep', 'endereco', 'numero', 'cidade', 'estado']
 
     def __init__(self, *args, **kwargs):
         super(FormProfissional, self).__init__(*args, **kwargs)

@@ -110,6 +110,7 @@ class Profissional(CommonUserData):
     link_instagram = models.URLField(blank=True, null=True)
     url_site = models.URLField(blank=True, null=True)
     is_approved = models.BooleanField(default=False)
+    receber_pelo_sistema = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         try:
@@ -232,6 +233,37 @@ STATUS_CONTRATO = (
 )
 
 
+class Cupom(TimeStamped):
+    class Meta:
+        verbose_name = u'Cupom'
+        verbose_name_plural = u'Cupons'
+
+    profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
+    codigo = models.CharField(max_length=300)
+    valor_de_desconto = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
+    is_approved = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
+class ItemCupom(TimeStamped):
+    class Meta:
+        verbose_name = u'Item de Cupom'
+        verbose_name_plural = u'Itens de Cupom'
+
+    cupom = models.ForeignKey(Cupom, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
 class CarrinhoDeServicos(TimeStamped, BaseAddress):
     class Meta:
         verbose_name = u'Carrinho de Servico'
@@ -243,6 +275,7 @@ class CarrinhoDeServicos(TimeStamped, BaseAddress):
     valor_total = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
     forma_pagamento = models.ForeignKey(FormaPagamento, blank=True, null=True, on_delete=models.CASCADE)
     status = models.BooleanField(blank=True, default=True)
+    cupom = models.ForeignKey(ItemCupom, blank=True, null=True, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return u'%s' % self.id

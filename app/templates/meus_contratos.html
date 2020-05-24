@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load filters %}
+{% block content %}
+
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content padding-y">
+        <div class="container">
+
+            <!-- ============================  FILTER TOP  ================================= -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <ol class="breadcrumb float-left">
+                        <li class="breadcrumb-item active"><a
+                                href="{% url 'index' %}">Início</a>
+                        </li>
+                        <li class="breadcrumb-item active"><a
+                                href="#">Meus Contratos</a></li>
+                    </ol>
+                </div> <!-- card-body .// -->
+            </div> <!-- card.// -->
+            <!-- ============================ FILTER TOP END.// ================================= -->
+
+
+            <div class="row">
+                <main class="col-md-12">
+                    <header class="mb-3">
+                        <div class="form-inline">
+                            <strong class="mr-md-auto">{{ page_obj.paginator.count }} Itens
+                                encontrados </strong>
+                            <div class="btn-group">
+                                <a href="#"
+                                   class="btn btn-light active" data-toggle="tooltip" title=""
+                                   data-original-title="Lista de Serviços">
+                                    <i class="fa fa-bars"></i></a>
+                            </div>
+                        </div>
+                    </header><!-- sect-heading -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Profissional</th>
+                                        <th scope="col">Telefone</th>
+                                        <th scope="col">Valor Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Data</th>
+                                        <th scope="col">Contrato</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for contrato in contratos %}
+                                        <tr>
+                                            <th scope="row">{{ contrato.id }}</th>
+                                            <td>{{ contrato.profissional }}</td>
+                                            <td>
+                                                <a href="tel:{{ contrato.profissional.user.username }}">
+                                                    {{ contrato.profissional.user.username }}
+                                                </a>
+                                            </td>
+                                            <td>{{ contrato.carrinho.valor_total }}</td>
+                                            <td>
+                                                {% if contrato.status == 'REALIZADO' %}
+                                                    <label class="label label-success">
+                                                        <i class="fa fa-check"></i> Realizado
+                                                    </label>
+                                                {% elif contrato.status == 'EM ANDAMENTO' %}
+                                                    <label class="label label-warning">
+                                                        <i class="fa fa-exclamation"></i> Em Andamento
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger">
+                                                        <i class="fa fa-times"></i> Rejeitado
+                                                    </label>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ contrato.published_at|date:"d/m/Y G:i" }}</td>
+                                            <td>
+                                                {% if contrato.status != 'REJEITADO' %}
+                                                    <a href="{% url 'documento-contrato' contrato.pk %}" target="_blank">
+                                                        <i class="fa fa-file-alt"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <th scope="row" colspan="100%">Nenhum contrato encontrado.</th>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                {% if contratos %}
+                                    <nav class="mb-4" aria-label="Page navigation sample">
+                                        <ul class="pagination">
+                                            {% if page_obj.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link"
+                                                       href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">
+                                                        Anterior</a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% if page_obj.number != 1 and page_obj.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link"
+                                                       href="?page={{ page_obj.previous_page_number }}{{ params|get_url_search }}">
+                                                        {{ page_obj.previous_page_number }}</a>
+                                                </li>
+                                                <li class="page-item active">
+                                                    <a class="page-link"
+                                                       href="?page={{ page_obj.number }}{{ params|get_url_search }}">
+                                                        {{ page_obj.number }}</a>
+                                                </li>
+                                                {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                            {{ page_obj.next_page_number }}
+                                                        </a>
+                                                    </li>
+                                                    {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?page=
+                                                        {{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                                {{ page_obj.paginator.num_pages }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                            Próximo</a>
+                                                    </li>
+                                                {% elif page_obj.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                            {{ page_obj.paginator.num_pages }}</a>
+                                                    </li>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                            Próximo</a>
+                                                    </li>
+                                                {% endif %}
+
+                                            {% else %}
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="?page=1{{ params|get_url_search }}">1</a>
+                                                </li>
+                                                {% if page_obj.has_next %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                            {{ page_obj.next_page_number }}</a>
+                                                    </li>
+                                                    {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                                        <li class="page-item">
+                                                            <a class="page-link"
+                                                               href="?page={{ page_obj.paginator.num_pages }}{{ params|get_url_search }}">
+                                                                {{ page_obj.paginator.num_pages }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                           href="?page={{ page_obj.next_page_number }}{{ params|get_url_search }}">
+                                                            Próximo</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </main> <!-- col.// -->
+
+            </div>
+
+        </div> <!-- container .//  -->
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+{% endblock %}
