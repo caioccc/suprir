@@ -123,7 +123,7 @@
                                         <small class="text"> Meu Painel</small>
                                     </a>
                                 {% else %}
-                                    <a href="#"
+                                    <a href="{% url 'meu-perfil' user.cliente.pk %}"
                                        class="widget-view">
                                         <div class="icon-area">
                                             <i class="fa fa-user"></i>

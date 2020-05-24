@@ -2,14 +2,14 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView
 from django.views.generic import TemplateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 
-from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem
+from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico
+from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente
 
 
 class ServicoFilter(BaseFilter):
@@ -208,3 +208,16 @@ class CarrinhoView(LoginRequiredMixin, CustomContextMixin, DetailView):
     template_name = 'cart.html'
     model = CarrinhoDeServicos
     context_object_name = 'carrinho'
+
+
+class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
+    template_name = 'meu-perfil.html'
+    model = Cliente
+    context_object_name = 'cliente'
+    form_class = FormEditCliente
+
+    def get_success_url(self):
+        return '/meuperfil/' + str(self.request.user.cliente.pk)
+
+    def form_valid(self, form):
+        return super(MeuPerfil, self).form_valid(form)

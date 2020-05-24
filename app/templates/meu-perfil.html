@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+    <section class="py-3 bg-light">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a
+                        href="{% url 'index' %}">Inicio</a>
+                </li>
+                <li class="breadcrumb-item active"><a
+                        href="#">Meu Perfil
+                </a></li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content bg-white padding-y">
+        <div class="container">
+
+            <!-- ============================ ITEM DETAIL ======================== -->
+            <div class="row">
+                <div class="col-md-2"></div>
+                <main class="col-md-8">
+                    <form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+                        {% if cliente.photo %}
+                            Foto Atual:<a href="{{ cliente.photo }}" target="_blank">
+                            <img class="img-responsive img-thumbnail"
+                                 style="width: 100px;"
+                                 src="{{ cliente.photo }}"/>
+                        </a>
+                        {% endif %}
+                        <hr/>
+                        {{ form.as_p }}
+                        <p>
+                            <button class="btn btn-primary">Atualizar</button>
+                        </p>
+                    </form>
+                </main> <!-- col.// -->
+            </div> <!-- row.// -->
+            <!-- ================ ITEM DETAIL END .// ================= -->
+        </div> <!-- container .//  -->
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+    <script>
+        $(document).ready(function () {
+            $('[name=cep]').focusout(function () {
+                $('#loading').show();
+                var cep = $('[name=cep]');
+                var cepCode = cep.val().replace('.', '').replace('-', '');
+                console.log('cep pesquisado:', cepCode);
+                if (cepCode.length <= 0) {
+                    $('#loading').hide();
+                    return;
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://ws.apicep.com/busca-cep/api/cep.json',
+                    data: {code: cepCode},
+                    success: function (result) {
+                        $('#loading').hide();
+                        if (result.status == 0) {
+                            alert(result.message || "Houve um erro desconhecido");
+                            return;
+                        } else {
+                            //$('[name=cidade],[name=estado],[name=endereco], [name=numero], [name=bairro]').attr('readonly', false);
+                            $('[name=cep]').val(result.code);
+                            $('[name=cidade]').val(result.city);
+                            var index = result.address.search('-');
+                            if (index != -1) {
+                                address = result.address.substring(0, index);
+                            } else {
+                                address = result.address;
+                            }
+                            $('[name=endereco]').val(address);
+                            $('[name=bairro]').val(result.district);
+                            $('[name=estado]').val(result.state);
+                        }
+                    }
+                });
+            });
+
+        });
+
+
+    </script>
+{% endblock %}

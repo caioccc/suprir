@@ -3,7 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
-from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem
+from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem, \
+    Cliente
 
 
 class BaseForm(forms.Form):
@@ -274,3 +275,17 @@ class FormRejeiteContrato(ModelForm, BaseForm):
         super(FormRejeiteContrato, self).__init__(*args, **kwargs)
         self.fields['status'].label = ''
         self.fields['status'].widget.attrs['class'] = 'hidden'
+
+
+class FormEditCliente(ModelForm, BaseForm):
+    class Meta:
+        model = Cliente
+        fields = ['telefone_1', 'whatsapp', 'photo', 'file', 'cpf', 'cep', 'endereco', 'numero', 'bairro', 'cidade',
+                  'estado', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormEditCliente, self).__init__(*args, **kwargs)
+        self.fields['file'].label = 'Arquivo de Foto'
+        self.fields['photo'].label = ''
+        self.fields['telefone_1'].label = 'Telefone Celular'
+        self.fields['photo'].widget.attrs['class'] = 'hidden'

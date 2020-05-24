@@ -23,7 +23,7 @@ from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView, RejeiteContratoForm
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
-    ContatoView, add_cart, CarrinhoView, remove_item_cart
+    ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -39,10 +39,10 @@ urlpatterns = [
     url(r'^area-profissional/$', AreaProfissional.as_view(), name='area-profissional'),
     url(r'^area-profissional/registro/$', RegistroProfissional.as_view(), name='registro-profissional'),
     url(r'^contato/$', ContatoView.as_view(), name='fale-conosco'),
-
     url(r'^add-cart/$', add_cart, name='add-carrinho'),
     url(r'^remove-item-cart/$', remove_item_cart, name='remove-item-carrinho'),
     url(r'^carrinho/(?P<pk>[0-9]+)/$', CarrinhoView.as_view(), name='carrinho'),
+    url(r'^meuperfil/(?P<pk>[0-9]+)/$', MeuPerfil.as_view(), name='meu-perfil'),
 
     url(r'^startsystemdefault/$', StartSystem.as_view(), name='startsystem'),
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),
