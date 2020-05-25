@@ -164,8 +164,8 @@ def add_item_servico(request, cart):
 
 
 def remove_item_servico(request, cart):
-    if 'iditemservico' in request.POST:
-        item = ItemServico.objects.get(id=request.POST['iditemservico'])
+    if 'iditemservico' in request.GET:
+        item = ItemServico.objects.get(id=request.GET['iditemservico'])
         item.delete()
         cart.save()
 

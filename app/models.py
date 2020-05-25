@@ -72,10 +72,10 @@ class CommonUserData(TimeStamped, BaseAddress):
         super(CommonUserData, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.user.first_name
+        return u'%s %s' % (self.user.first_name, self.user.last_name)
 
     def __unicode__(self):
-        return u'%s' % self.user.first_name
+        return u'%s %s' % (self.user.first_name, self.user.last_name)
 
 
 class Cliente(CommonUserData):

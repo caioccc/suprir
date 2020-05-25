@@ -240,6 +240,30 @@ cidades = [
     {'cidade': 'Natal', 'estado': 'RN'},
 ]
 
+names = [
+    'Joao',
+    'Caio',
+    'Paulo',
+    'Luiz',
+    'Fernando',
+    'Pedro',
+    'Jose',
+    'Francisco',
+    'Marcos'
+]
+
+surnames = [
+    'Sousa',
+    'Silva',
+    'Barbosa',
+    'Oliveira',
+    'Santos',
+    'Rodrigues',
+    'Ferreira',
+    'Alves',
+    'Pereira'
+]
+
 
 class StartSystem(RedirectView):
     url = '/'
@@ -358,10 +382,10 @@ class StartTestSystem(RedirectView):
         logout(self.request)
         return super(StartTestSystem, self).get(request, *args, **kwargs)
 
-    def create_user_default(self, number, name, id_custom="custom"):
+    def create_user_default(self, number, id_custom="custom"):
         user = User.objects.create_user(number, '', '12345')
-        user.first_name = str(name + str(id_custom))
-        user.last_name = 'Test'
+        user.first_name = str(names[random.randrange(len(names))])
+        user.last_name = str(surnames[random.randrange(len(surnames))])
         user.save()
         return user
 
@@ -371,13 +395,18 @@ class StartTestSystem(RedirectView):
                 use.delete()
         for i in range(10):
             number = '8399177303' + str(i)
-            user = self.create_user_default(number=number, name='Cliente ', id_custom=i)
+            user = self.create_user_default(number=number, id_custom=i)
             sel_cidade = cidades[random.randrange(len(cidades))]
             client = Cliente(
                 user=user,
                 telefone_1=user.username,
                 estado=sel_cidade['estado'],
-                cidade=sel_cidade['cidade']
+                cidade=sel_cidade['cidade'],
+                endereco='Rua Claudio Bezerra de Lima',
+                numero='694',
+                bairro='Tres Irmas',
+                cep='58423530',
+                cpf='10698646410'
             )
             client.save()
         return Cliente.objects.all()
@@ -387,7 +416,7 @@ class StartTestSystem(RedirectView):
             pro.delete()
         for i in range(10):
             number = '8398669766' + str(i)
-            user = self.create_user_default(number=number, name='Profissional ', id_custom=i)
+            user = self.create_user_default(number=number, id_custom=i)
             sel_cidade = cidades[random.randrange(len(cidades))]
             prof = Profissional(
                 categoria=CategoriaDeProfissional.objects.all().order_by('?').first(),
@@ -395,7 +424,13 @@ class StartTestSystem(RedirectView):
                 user=user,
                 telefone_1=user.username,
                 estado=sel_cidade['estado'],
-                cidade=sel_cidade['cidade']
+                cidade=sel_cidade['cidade'],
+                endereco='Rua Claudio Bezerra de Lima',
+                numero='694',
+                bairro='Tres Irmas',
+                cep='58423530',
+                cpf='10698646410',
+                cnpj='61.152.872/0001-60'
             )
             prof.save()
         return Profissional.objects.all()
@@ -406,7 +441,7 @@ class StartTestSystem(RedirectView):
         valores = [Money(10.00, 'BRL'), Money(20.00, 'BRL'), Money(50.00, 'BRL'), Money(100.00, 'BRL'),
                    Money(130.00, 'BRL'), Money(150.00, 'BRL')]
         for prof in Profissional.objects.all():
-            for i in range(3):
+            for i in range(2):
                 servico = Servico(
                     titulo=str('Serviço a prestar ' + str(i)),
                     descricao='Take it as demo specs, ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim sint occaecat cupidatat non proident, sunt in culpa qui laborum....',
