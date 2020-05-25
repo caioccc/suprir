@@ -9,7 +9,7 @@ from search_views.views import SearchListView
 
 from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom
+from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom, FormaPagamento
 
 
 class ServicoFilter(BaseFilter):
@@ -234,6 +234,18 @@ class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
 def gerar_contrato(request):
     carrinho = get_cart(request)
     try:
+        if len(carrinho.itemservico_set.all()) < 1:
+            messages.error(request, 'Nenhum item no carrinho. Favor selecione algum servico.')
+            return redirect('/carrinho/' + str(carrinho.id))
+        if 'forma' in request.GET:
+            forma = request.GET['forma']
+            forma_pgto = FormaPagamento.objects.filter(forma__iexact=forma)
+            forma_pgto = forma_pgto.first()
+            carrinho.forma_pagamento = forma_pgto
+            carrinho.save()
+        else:
+            messages.error(request, 'Nenhuma forma de pagamento informado.')
+            return redirect('/carrinho/' + str(carrinho.id))
         contract = ContratoDeServico(
             carrinho=carrinho,
             cliente=request.user.cliente,

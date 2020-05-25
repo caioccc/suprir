@@ -109,7 +109,7 @@
                                             </td>
                                             <td>{{ contrato.cliente.telefone_1 }}</td>
                                             <td>{{ contrato.carrinho.valor_total|floatformat:2 }}</td>
-                                            <td> {{ contrato.carrinho.forma_pagamento }}</td>
+                                            <td> {{ contrato.carrinho.forma_pagamento.forma }}</td>
                                             <td>
                                                 {% if contrato.status == 'REALIZADO' %}
                                                     <label class="label label-success ">
@@ -146,12 +146,16 @@
                                                     <a href="{% url 'finalizar-contrato' contrato.pk %}"
                                                        class="btn btn-default"> <i
                                                             class="fa fa-sign-out"></i></a>
+                                                {% elif contrato.status == 'ABERTO' %}
+                                                    <a href="{% url 'andamento-contrato' contrato.pk %}"
+                                                       class="btn btn-default"> <i
+                                                            class="fa fa-play-circle"></i></a>
                                                 {% endif %}
                                             </td>
                                             <td>
                                                 <!--<a href=""> <i
                                                         class="fa fa-trash-o"></i></a> -->
-                                                {% if contrato.status == 'EM ANDAMENTO' %}
+                                                {% if contrato.status == 'EM ANDAMENTO' or contrato.status == 'ABERTO' %}
                                                     <a href="{% url 'rejeite-contrato-form' contrato.pk %}"
                                                        class="btn btn-default"><i
                                                             class="fa fa-close"></i></a>

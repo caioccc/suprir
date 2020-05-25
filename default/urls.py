@@ -21,7 +21,7 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
     StartTestSystem
 from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
-    ClienteList, EditarPerfilView, RejeiteContratoForm
+    ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
     DocumentoContrato, gerar_contrato, aplicar_cupom
@@ -56,6 +56,7 @@ urlpatterns = [
     url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
     url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),
     url(r'^painel/finalizar/(?P<pk>[0-9]+)/$', finalizar_contrato_servico, name='finalizar-contrato'),
+    url(r'^painel/andamento/(?P<pk>[0-9]+)/$', andamento_contrato_servico, name='andamento-contrato'),
     url(r'^painel/rejeite/(?P<pk>[0-9]+)/$', RejeiteContratoForm.as_view(), name='rejeite-contrato-form'),
 
     url(r'^painel/clientes/$', ClienteList.as_view(), name='list-clientes'),

@@ -5,121 +5,138 @@
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">
+            <form method="get" action="{% url 'gerar-contrato' %}">{% csrf_token %}
+                <div class="row">
 
-            <div class="row">
-                <main class="col-md-9">
-                    <div class="card">
+                    <main class="col-md-9">
+                        <div class="card">
 
-                        <table class="table table-borderless table-shopping-cart">
-                            <thead class="text-muted">
-                            <tr class="small text-uppercase">
-                                <th scope="col">Serviços</th>
-                                <th scope="col" width="120">Valor</th>
-                                <th scope="col" class="text-right" width="200"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for item in carrinho.itemservico_set.all %}
-                                <tr>
-                                    <td>
-                                        <figure class="itemside">
-                                            <div class="aside"><img src="{{ item.servico.fotoservico_set.first.url }}"
-                                                                    class="img-sm"></div>
-                                            <figcaption class="info">
-                                                <a href="#"
-                                                   class="title text-dark">{{ item.servico.titulo }}</a>
-                                                <p class="text-muted small">
-                                                    Profissional: {{ item.servico.profissional }}<br></p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap">
-                                            <var class="price">{{ item.valor_total }}</var>
-                                        </div> <!-- price-wrap .// -->
-                                    </td>
-                                    <td class="text-right">
-                                        <form method="post" action="{% url 'remove-item-carrinho' %}">
-                                            {% csrf_token %}
-                                            <input name="iditemservico" value="{{ item.id }}" class="hidden"/>
-                                            <button type="submit" class="btn btn-light"> Remover</button>
-                                        </form>
-
-                                    </td>
+                            <table class="table table-borderless table-shopping-cart">
+                                <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Serviços</th>
+                                    <th scope="col" width="120">Valor</th>
+                                    <th scope="col" class="text-right" width="200"></th>
                                 </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="100%">
-                                        Nenhum item adicionado ao carrinho.
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {% for item in carrinho.itemservico_set.all %}
+                                    <tr>
+                                        <td>
+                                            <figure class="itemside">
+                                                <div class="aside"><img src="{{ item.servico.fotoservico_set.first.url }}"
+                                                                        class="img-sm"></div>
+                                                <figcaption class="info">
+                                                    <a href="#"
+                                                       class="title text-dark">{{ item.servico.titulo }}</a>
+                                                    <p class="text-muted small">
+                                                        Profissional: {{ item.servico.profissional }}<br></p>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">{{ item.valor_total }}</var>
+                                            </div> <!-- price-wrap .// -->
+                                        </td>
+                                        <td class="text-right">
+                                            <form method="post" action="{% url 'remove-item-carrinho' %}">
+                                                {% csrf_token %}
+                                                <input name="iditemservico" value="{{ item.id }}" class="hidden"/>
+                                                <button type="submit" class="btn btn-light"> Remover</button>
+                                            </form>
 
-                        <div class="card-body border-top">
-                            {% if carrinho.profissional.receber_pelo_sistema %}
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="100%">
+                                            Nenhum item adicionado ao carrinho.
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
 
-                            {% else %}
-                                <a href="{% url 'gerar-contrato' %}"
-                                   class="btn btn-primary float-md-right"> Gerar Contrato <i
-                                        class="fa fa-chevron-right"></i>
-                                </a>
-                            {% endif %}
-                            <a href="{% url 'index' %}"
-                               class="btn btn-light"> <i class="fa fa-chevron-left"></i> Escolher outros Serviços </a>
+                            <div class="card-body border-top">
+                                {% if carrinho.profissional.receber_pelo_sistema %}
+
+                                {% else %}
+                                    <button type="submit"
+                                            class="btn btn-primary float-md-right"> Gerar Contrato <i
+                                            class="fa fa-chevron-right"></i>
+                                    </button>
+                                {% endif %}
+                                <a href="{% url 'index' %}"
+                                   class="btn btn-light"> <i class="fa fa-chevron-left"></i> Escolher outros Serviços </a>
+                            </div>
+                        </div> <!-- card.// -->
+
+                        <div class="alert alert-success mt-3">
+                            <p class="icontext"><i class="icon text-success fa fa-truck"></i> Este contrato tem validade de
+                                1 ano
+                            </p>
                         </div>
-                    </div> <!-- card.// -->
 
-                    <div class="alert alert-success mt-3">
-                        <p class="icontext"><i class="icon text-success fa fa-truck"></i> Este contrato tem validade de
-                            1 ano
-                        </p>
-                    </div>
-
-                </main> <!-- col.// -->
-                <aside class="col-md-3">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <form action="{% url 'aplicar-cupom' %}" method="get">{% csrf_token %}
-                                <div class="form-group">
-                                    <label>Tem cupom?</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="cupom" placeholder="Codigo do cupom">
-                                        <span class="input-group-append">
+                    </main> <!-- col.// -->
+                    <aside class="col-md-3">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <form action="{% url 'aplicar-cupom' %}" method="get">{% csrf_token %}
+                                    <div class="form-group">
+                                        <label>Tem cupom?</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="cupom" placeholder="Codigo do cupom">
+                                            <span class="input-group-append">
 							                <button class="btn btn-primary" type="submit">Aplicar</button>
 						                </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div> <!-- card-body.// -->
+                        </div>  <!-- card .// -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Forma de Pagamento</label>
+                                    <div class="input-group">
+                                        <select name="forma" class="form-control">
+                                            <option value="DINHEIRO" selected>DINHEIRO</option>
+                                            <option value="BOLETO">BOLETO</option>
+                                            <option value="CRÉDITO">CRÉDITO</option>
+                                            <option value="DÉBITO">DÉBITO</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </form>
-                        </div> <!-- card-body.// -->
-                    </div>  <!-- card .// -->
-                    <div class="card">
-                        <div class="card-body">
-                            <dl class="dlist-align">
-                                <dt>Subtotal:</dt>
-                                <dd class="text-right">{{ carrinho.subtotal }}</dd>
-                            </dl>
-                            {% if carrinho.cupom %}
+                            </div> <!-- card-body.// -->
+                        </div>  <!-- card .// -->
+                        <div class="card">
+                            <div class="card-body">
                                 <dl class="dlist-align">
-                                    <dt>Desconto:</dt>
-                                    <dd class="text-right">- {{ carrinho.cupom.cupom.valor_de_desconto }}</dd>
+                                    <dt>Subtotal:</dt>
+                                    <dd class="text-right">{{ carrinho.subtotal }}</dd>
                                 </dl>
-                            {% endif %}
-                            <dl class="dlist-align">
-                                <dt>Total:</dt>
-                                <dd class="text-right  h5"><strong>{{ carrinho.valor_total }}</strong></dd>
-                            </dl>
-                            <hr>
-                            <p class="text-center mb-3">
-                                <img src="{% static 'theme-store/img/cards-marks.png' %}" height="26">
-                            </p>
+                                {% if carrinho.cupom %}
+                                    <dl class="dlist-align">
+                                        <dt>Desconto:</dt>
+                                        <dd class="text-right">- {{ carrinho.cupom.cupom.valor_de_desconto }}</dd>
+                                    </dl>
+                                {% endif %}
+                                <dl class="dlist-align">
+                                    <dt>Total:</dt>
+                                    <dd class="text-right  h5"><strong>{{ carrinho.valor_total }}</strong></dd>
+                                </dl>
+                                <hr>
+                                <p class="text-center mb-3">
+                                    <img src="{% static 'theme-store/img/cards-marks.png' %}" height="26">
+                                </p>
 
-                        </div> <!-- card-body.// -->
-                    </div>  <!-- card .// -->
-                </aside> <!-- col.// -->
-            </div>
+                            </div> <!-- card-body.// -->
+                        </div>  <!-- card .// -->
+                    </aside> <!-- col.// -->
 
+                </div>
+            </form>
         </div> <!-- container .//  -->
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->

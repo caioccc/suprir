@@ -61,6 +61,16 @@ def finalizar_contrato_servico(request, pk):
     return redirect('/painel')
 
 
+def andamento_contrato_servico(request, pk):
+    try:
+        contrato = ContratoDeServico.objects.get(id=pk)
+        contrato.status = 'EM ANDAMENTO'
+        contrato.save()
+    except (Exception,):
+        messages.error(request, 'Erro ao dar andamento no servico, tente novamente.')
+    return redirect('/painel')
+
+
 class RejeiteContratoForm(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
     model = ContratoDeServico
     form_class = FormRejeiteContrato
