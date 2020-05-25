@@ -24,7 +24,7 @@ from app.views.PanelModule import DashboardView, ContractUpdateView, \
     ClienteList, EditarPerfilView, RejeiteContratoForm
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
-    DocumentoContrato
+    DocumentoContrato, gerar_contrato, aplicar_cupom
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -47,7 +47,8 @@ urlpatterns = [
     url(r'^meuperfil/(?P<pk>[0-9]+)/$', MeuPerfil.as_view(), name='meu-perfil'),
     url(r'^meuscontratos/$', MeusContratosView.as_view(), name='meus-contratos'),
     url(r'^meuscontratos/documento/(?P<pk>[0-9]+)$', DocumentoContrato.as_view(), name='documento-contrato'),
-
+    url(r'^gerarcontrato/$', gerar_contrato, name='gerar-contrato'),
+    url(r'^aplicar-cupom/$', aplicar_cupom, name='aplicar-cupom'),
 
     url(r'^startsystemdefault/$', StartSystem.as_view(), name='startsystem'),
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),

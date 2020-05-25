@@ -72,7 +72,7 @@ class ProfissionalAdmin(admin.ModelAdmin):
     )
     list_display = (
         'user', 'id', 'nome_profissional', 'estado', 'cidade', 'categoria', 'telefone_1', 'whatsapp', 'cpf', 'cnpj',
-        'is_approved', 'is_online', 'created_at',)
+        'is_approved', 'is_online', 'receber_pelo_sistema', 'created_at',)
 
     def nome_profissional(self, obj):
         return obj.user.first_name

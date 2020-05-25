@@ -227,6 +227,7 @@ class FormaPagamento(TimeStamped):
 
 
 STATUS_CONTRATO = (
+    ('ABERTO', 'ABERTO'),
     ('EM ANDAMENTO', 'EM ANDAMENTO'),
     ('REJEITADO', 'REJEITADO'),
     ('REALIZADO', 'REALIZADO'),
@@ -287,6 +288,8 @@ class CarrinhoDeServicos(TimeStamped, BaseAddress):
         subtotal = 0.0
         for item in self.itemservico_set.all():
             subtotal = subtotal + item.valor_total
+        if self.cupom:
+            subtotal = subtotal - self.cupom.cupom.valor_de_desconto
         self.subtotal = subtotal
         self.valor_total = subtotal
         super(CarrinhoDeServicos, self).save(*args, **kwargs)
@@ -340,7 +343,7 @@ class ContratoDeServico(TimeStamped):
         verbose_name_plural = u'Contratos de Servicos'
 
     carrinho = models.OneToOneField(CarrinhoDeServicos, on_delete=models.CASCADE, blank=True, null=True)
-    status = models.CharField(max_length=100, choices=STATUS_CONTRATO, blank=True, null=True, default='EM ANDAMENTO')
+    status = models.CharField(max_length=100, choices=STATUS_CONTRATO, blank=True, null=True, default='ABERTO')
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
     motivo = models.TextField(blank=True, null=True)

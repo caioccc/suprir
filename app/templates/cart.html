@@ -61,7 +61,7 @@
                             {% if carrinho.profissional.receber_pelo_sistema %}
 
                             {% else %}
-                                <a href="#"
+                                <a href="{% url 'gerar-contrato' %}"
                                    class="btn btn-primary float-md-right"> Gerar Contrato <i
                                         class="fa fa-chevron-right"></i>
                                 </a>
@@ -81,14 +81,14 @@
                 <aside class="col-md-3">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <form>
+                            <form action="{% url 'aplicar-cupom' %}" method="get">{% csrf_token %}
                                 <div class="form-group">
                                     <label>Tem cupom?</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="" placeholder="Codigo do cupom">
+                                        <input type="text" class="form-control" name="cupom" placeholder="Codigo do cupom">
                                         <span class="input-group-append">
-							<button class="btn btn-primary">Aplicar</button>
-						</span>
+							                <button class="btn btn-primary" type="submit">Aplicar</button>
+						                </span>
                                     </div>
                                 </div>
                             </form>
@@ -100,10 +100,12 @@
                                 <dt>Subtotal:</dt>
                                 <dd class="text-right">{{ carrinho.subtotal }}</dd>
                             </dl>
-                            <!--<dl class="dlist-align">
-                                <dt>Discount:</dt>
-                                <dd class="text-right">USD 658</dd>
-                            </dl> -->
+                            {% if carrinho.cupom %}
+                                <dl class="dlist-align">
+                                    <dt>Desconto:</dt>
+                                    <dd class="text-right">- {{ carrinho.cupom.cupom.valor_de_desconto }}</dd>
+                                </dl>
+                            {% endif %}
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
                                 <dd class="text-right  h5"><strong>{{ carrinho.valor_total }}</strong></dd>

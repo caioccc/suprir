@@ -72,6 +72,10 @@
                                                     <label class="label label-warning">
                                                         <i class="fa fa-exclamation"></i> Em Andamento
                                                     </label>
+                                                {% elif contrato.status == 'ABERTO' %}
+                                                    <label class="label label-info">
+                                                         Em Aberto
+                                                    </label>
                                                 {% else %}
                                                     <label class="label label-danger">
                                                         <i class="fa fa-times"></i> Rejeitado

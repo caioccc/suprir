@@ -119,6 +119,10 @@
                                                     <label class="label label-warning ">
                                                         {{ contrato.status }}
                                                     </label>
+                                                {% elif contrato.status == 'ABERTO' %}
+                                                    <label class="label label-info ">
+                                                        {{ contrato.status }}
+                                                    </label>
                                                 {% else %}
                                                     <label class="label label-danger ">
                                                         {{ contrato.status }}

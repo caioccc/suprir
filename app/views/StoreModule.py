@@ -9,7 +9,7 @@ from search_views.views import SearchListView
 
 from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico
+from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom
 
 
 class ServicoFilter(BaseFilter):
@@ -232,7 +232,50 @@ class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
 
 
 def gerar_contrato(request):
-    pass
+    carrinho = get_cart(request)
+    try:
+        contract = ContratoDeServico(
+            carrinho=carrinho,
+            cliente=request.user.cliente,
+            profissional=carrinho.profissional
+        )
+        contract.save()
+        carrinho.status = False
+        carrinho.save()
+        messages.success(request, 'Contrato gerado. Aguarde o profissional dar andamento ao contrato.')
+        return redirect('/meuscontratos/')
+    except (Exception,):
+        messages.error(request, 'Erro ao gerar contrato, tente novamente.')
+        return redirect('/carrinho/' + str(carrinho.id))
+
+
+def aplicar_cupom(request):
+    carrinho = get_cart(request)
+    try:
+        if 'cupom' in request.GET:
+            cupom_code = request.GET['cupom']
+            cupons = carrinho.profissional.cupom_set.filter(codigo__iexact=cupom_code)
+            if len(cupons) > 0:
+                cupom = cupons.first()
+                if cupom.is_approved:
+                    item_cupom = ItemCupom(cupom=cupom)
+                    item_cupom.save()
+                    carrinho.cupom = item_cupom
+                    carrinho.save()
+                    messages.success(request, 'Cupom adicionado com sucesso.')
+                    return redirect('/carrinho/' + str(carrinho.id))
+                else:
+                    messages.error(request, 'Este cupom nao é válido.')
+                    return redirect('/carrinho/' + str(carrinho.id))
+            else:
+                messages.error(request, 'Este cupom nao é válido.')
+                return redirect('/carrinho/' + str(carrinho.id))
+        else:
+            messages.error(request, 'Nenhum cupom informado.')
+            return redirect('/carrinho/' + str(carrinho.id))
+    except (Exception,):
+        messages.error(request, 'Erro ao aplicar o cupom, tente novamente.')
+        return redirect('/carrinho/' + str(carrinho.id))
 
 
 class MeusContratosView(LoginRequiredMixin, CustomContextMixin, ListView):
