@@ -137,6 +137,6 @@ def get_number_items_cart(user):
 @register.filter
 def filter_true(collection):
     try:
-        return collection.filter(is_approved=True)
+        return collection.filter(is_approved=True, disponivel=True)
     except (Exception,):
         return None

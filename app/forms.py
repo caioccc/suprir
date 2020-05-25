@@ -96,6 +96,13 @@ class FormRegisterProfissional(ModelForm, FormRegisterCliente):
 
     def __init__(self, *args, **kwargs):
         super(FormRegisterProfissional, self).__init__(*args, **kwargs)
+        self.fields['link_facebook'].widget.attrs['required'] = False
+        self.fields['link_instagram'].widget.attrs['required'] = False
+        self.fields['url_site'].widget.attrs['required'] = False
+        self.fields['telefone_2'].widget.attrs['required'] = False
+        self.fields['cpf'].widget.attrs['required'] = False
+        self.fields['cpf'].required = False
+        self.fields['cnpj'].widget.attrs['required'] = False
 
 
 class FormCarrinho(ModelForm, BaseForm):

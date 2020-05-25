@@ -150,8 +150,6 @@
                         $('.cpfclass').hide()
                     }
                 });
-                //$('[name=cpf]').inputmask('999.999.999-99');
-                //$('[name=cnpj]').inputmask('99.999.999/9999-99');
                 $('[name=cidade],[name=estado],[name=endereco], [name=bairro]').attr('readonly', true);
                 $('[name=cep]').focusout(function () {
                     $('#loading').show();
@@ -160,7 +158,7 @@
                     console.log('cep pesquisado:', cepCode);
                     if (cepCode.length <= 0) {
                         $('#loading').hide();
-                        return;
+                        retu
                     }
 
                     $.ajax({

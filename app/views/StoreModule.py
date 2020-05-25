@@ -49,7 +49,7 @@ class IndexView(CustomContextMixin, SearchListView):
 
     def get_queryset(self):
         params = self.get_params_search()
-        servicos = self.model.objects.filter(is_approved=True)
+        servicos = self.model.objects.filter(is_approved=True, disponivel=True)
         if 'categoria' in params:
             servicos = servicos.filter(profissional__categoria__id=params['categoria'])
         categories = [str(key).replace('_filter', '') for key in params if '_filter' in key]
