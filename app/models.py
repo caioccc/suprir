@@ -78,6 +78,41 @@ class CommonUserData(TimeStamped, BaseAddress):
         return u'%s %s' % (self.user.first_name, self.user.last_name)
 
 
+class TelegramBot(TimeStamped):
+    class Meta:
+        verbose_name = u'Telegram Bot'
+        verbose_name_plural = u'Telegram Bots'
+
+    first_name = models.CharField(max_length=300, blank=True, null=True)
+    chat_id = models.CharField(max_length=300, blank=True, null=True)
+    last_name = models.CharField(max_length=300, blank=True, null=True)
+    username = models.CharField(max_length=300, blank=True, null=True)
+    is_approved = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
+class RecycleTelegramItem(TimeStamped):
+    class Meta:
+        verbose_name = u'Telegram Bot Reciclavel'
+        verbose_name_plural = u'Bots Reciclaveis'
+
+    first_name = models.CharField(max_length=300, blank=True, null=True)
+    chat_id = models.CharField(max_length=300, blank=True, null=True)
+    last_name = models.CharField(max_length=300, blank=True, null=True)
+    username = models.CharField(max_length=300, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
 class Cliente(CommonUserData):
     class Meta:
         verbose_name = u'Cliente'
@@ -110,6 +145,7 @@ class Profissional(CommonUserData):
     link_instagram = models.URLField(blank=True, null=True)
     url_site = models.URLField(blank=True, null=True)
     is_approved = models.BooleanField(default=False)
+    telegram_bot = models.ForeignKey(TelegramBot, blank=True, null=True)
     receber_pelo_sistema = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):

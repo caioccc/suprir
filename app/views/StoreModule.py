@@ -10,6 +10,7 @@ from search_views.views import SearchListView
 from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
 from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom, FormaPagamento
+from app.views.TelegramAPI import telegram_bot_sendtext, make_message_telegram
 
 
 class ServicoFilter(BaseFilter):
@@ -254,6 +255,12 @@ def gerar_contrato(request):
         contract.save()
         carrinho.status = False
         carrinho.save()
+        try:
+            if carrinho.profissional.telegram_bot:
+                mensagem = make_message_telegram(contract)
+                telegram_bot_sendtext(chat_id=str(carrinho.profissional.telegram_bot.chat_id), message=mensagem)
+        except (Exception,):
+            print('Erro ao notificar via telegram')
         messages.success(request, 'Contrato gerado. Aguarde o profissional dar andamento ao contrato.')
         return redirect('/meuscontratos/')
     except (Exception,):

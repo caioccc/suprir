@@ -73,15 +73,16 @@
 
                     </main> <!-- col.// -->
                     <aside class="col-md-3">
+                    <form></form>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <form action="{% url 'aplicar-cupom' %}" method="get">{% csrf_token %}
+                                <form id="formcupom" action="{% url 'aplicar-cupom' %}" method="get">{% csrf_token %}
                                     <div class="form-group">
                                         <label>Tem cupom?</label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="cupom" placeholder="Codigo do cupom">
                                             <span class="input-group-append">
-							                <button class="btn btn-primary" type="submit">Aplicar</button>
+							                <button id="add-cupom" class="btn btn-primary" type="button">Aplicar</button>
 						                </span>
                                         </div>
                                     </div>
@@ -134,4 +135,11 @@
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->
 
+    <script>
+    $(document).ready(function () {
+        $('#add-cupom').click(function () {
+           $('#formcupom').submit();
+        });
+    });
+    </script>
 {% endblock %}

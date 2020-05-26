@@ -3,7 +3,8 @@ from django.contrib import admin
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
-    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom
+    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem
+from app.views.TelegramAPI import get_chat_ids
 
 
 def approve_selected(modeladmin, request, queryset):
@@ -14,8 +15,22 @@ def desapprove_selected(modeladmin, request, queryset):
     queryset.update(is_approved=False)
 
 
+def get_new_itens(modeladmin, request, queryset):
+    dic = get_chat_ids()
+    if len(dic) > 0:
+        for item in RecycleTelegramItem.objects.all():
+            item.delete()
+        for item in dic:
+            rec = RecycleTelegramItem(chat_id=item['id'],
+                                      first_name=item['first_name'],
+                                      last_name=item['last_name'],
+                                      username=item['username'])
+            rec.save()
+
+
 approve_selected.short_description = "Aprovar itens selecionados"
 desapprove_selected.short_description = "Desaprovar itens selecionados"
+get_new_itens.short_description = "Recuperar novos contatos"
 
 
 class FotoServicoInline(admin.TabularInline):
@@ -71,8 +86,8 @@ class ProfissionalAdmin(admin.ModelAdmin):
         'user__first_name', 'cpf', 'cnpj',
     )
     list_display = (
-        'user', 'id', 'nome_profissional', 'estado', 'cidade', 'categoria', 'telefone_1', 'whatsapp', 'cpf', 'cnpj',
-        'is_approved', 'is_online', 'receber_pelo_sistema', 'created_at',)
+        'user', 'id', 'nome_profissional', 'estado', 'cidade', 'categoria', 'telefone_1', 'cpf', 'cnpj',
+        'is_approved', 'is_online', 'receber_pelo_sistema', 'telegram_bot', 'created_at',)
 
     def nome_profissional(self, obj):
         return obj.user.first_name
@@ -201,6 +216,22 @@ class ItemCupomAdmin(admin.ModelAdmin):
     list_display = ('cupom', 'created_at')
 
 
+class TelegramBotAdmin(admin.ModelAdmin):
+    list_filter = ('is_approved',)
+    search_fields = (
+        'chat_id', 'first_name',
+    )
+    list_display = ('chat_id', 'id', 'first_name', 'last_name', 'username', 'is_approved', 'created_at')
+
+
+class RecycleTelegramItemAdmin(admin.ModelAdmin):
+    search_fields = (
+        'chat_id', 'first_name',
+    )
+    list_display = ('chat_id', 'id', 'first_name', 'last_name', 'username', 'created_at')
+    actions = [get_new_itens, ]
+
+
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Profissional, ProfissionalAdmin)
 admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
@@ -217,3 +248,5 @@ admin.site.register(ComentarioServico, ComentarioServicoAdmin)
 admin.site.register(Mensagem, MensagemAdmin)
 admin.site.register(Cupom, CupomAdmin)
 admin.site.register(ItemCupom, ItemCupomAdmin)
+admin.site.register(TelegramBot, TelegramBotAdmin)
+admin.site.register(RecycleTelegramItem, RecycleTelegramItemAdmin)
