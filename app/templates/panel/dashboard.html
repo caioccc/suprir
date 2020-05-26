@@ -92,6 +92,7 @@
                                         <th>VALOR TOTAL</th>
                                         <th>FORMA PAGAMENTO</th>
                                         <th>STATUS</th>
+                                        <th>DOCUMENTO</th>
                                         <th>DATA</th>
                                         <th></th>
                                         <th></th>
@@ -128,6 +129,11 @@
                                                         {{ contrato.status }}
                                                     </label>
                                                 {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{% url 'documento-contrato-pro' contrato.pk %}" target="_blank">
+                                                    <i class="fa fa-file-word-o fa-2x"></i>
+                                                </a>
                                             </td>
                                             <td>
                                                 {{ contrato.created_at|date:"d/m/Y G:i" }}

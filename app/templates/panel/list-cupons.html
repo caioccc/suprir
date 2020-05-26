@@ -12,13 +12,16 @@
     {% include 'utils/loading.html' %}
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" id="clientes">
+            <div class="box box-primary" id="contratos_de_servico">
                 <div class="box-header">
                     <h3 class="box-title">
-                        Meus Clientes
+                        Cupons Cadastrados
                     </h3>
                 </div>
                 <div class="box-header">
+                    <a href="{% url 'create-cupom' %}" class="btn btn-primary pull-left"><i
+                            class="fa fa-plus"></i> Adicionar Cupom
+                    </a>
                 </div>
                 <!-- form start -->
                 <div class="box-body">
@@ -29,49 +32,46 @@
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>CLIENTE</th>
+                                        <th>CODIGO</th>
                                         <th>ID</th>
-                                        <th>BAIRRO</th>
-                                        <th>CIDADE</th>
-                                        <th>TELEFONE</th>
+                                        <th>VALOR DESCONTO</th>
+                                        <th>APROVADO</th>
                                         <th>DATA</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for cliente in clientes %}
+                                    {% for cupom in cupons %}
                                         <tr>
                                             <td>
-                                                {{ cliente.user.first_name }} {{ cliente.user.last_name }}
+                                                {{ cupom.codigo }}
                                             </td>
                                             <td>
-                                                {{ cliente.id }}
+                                                {{ cupom.id }}
                                             </td>
+                                            <td>{{ cupom.valor_de_desconto|floatformat:2 }}</td>
                                             <td>
-                                                {% if cliente.bairro %}
-                                                    {{ cliente.bairro }}
+                                                {% if cupom.is_approved %}
+                                                    <label class="label label-success"><i class="fa fa-check"></i>
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger"><i class="fa fa-close"></i>
+                                                    </label>
                                                 {% endif %}
                                             </td>
-                                            <td>{{ cliente.cidade }}</td>
-                                            <td>{{ cliente.user.username }}</td>
                                             <td>
-                                                {{ cliente.created_at|date:"d/m/Y G:i" }}
+                                                {{ cupom.created_at|date:"d/m/Y G:i" }}
                                             </td>
-                                            <td class="text-center">
-                                                <!-- <a href=""> <i
-                                                        class="fa fa-eye"></i></a> -->
-                                                <a target="_blank"
-                                                   href="https://api.whatsapp.com/send?phone={{ cliente.telefone_1|get_numero_telefone_zap }}"
+                                            <td>
+                                                <a href="{% url 'edit-cupom' cupom.pk %}"
                                                    class="btn btn-default"> <i
-                                                        class="fa fa-whatsapp"></i></a>
+                                                        class="fa fa-edit"></i></a>
                                             </td>
-                                            <td class="text-center">
-                                                <!--<a href=""> <i
-                                                        class="fa fa-trash-o"></i></a> -->
-                                                <a href="tel:{{ cliente.user.username }}"
+                                            <td>
+                                                <a href="{% url 'delete-cupom' cupom.pk %}"
                                                    class="btn btn-default"> <i
-                                                        class="fa fa-phone-square"></i></a>
+                                                        class="fa fa-trash-o"></i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -88,10 +88,10 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#clientes').addClass('active');
+            $('#cupons').addClass('active');
             $('#table').DataTable({
                 responsive: true,
-                order: [[5, "desc"]],
+                order: [[4, "desc"]],
                 "language": {
                     "lengthMenu": "Exibir _MENU_ registros por página",
                     "zeroRecords": "Nenhum item encontrado",

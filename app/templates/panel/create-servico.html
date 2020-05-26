@@ -75,6 +75,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            $('[name=valor_base_1]').addClass('hidden');
             $('[name=valor_base]').change(function () {
                 $(this).val($(this).val().replace(',', '.'))
             });

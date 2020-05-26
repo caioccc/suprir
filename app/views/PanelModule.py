@@ -5,13 +5,13 @@ from django.db import transaction
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
-from django.views.generic import CreateView, DeleteView, FormView
+from django.views.generic import CreateView, DeleteView, FormView, DetailView
 from django.views.generic import ListView, UpdateView
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
-    FormUser, FormRejeiteContrato
+    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
-from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional
+from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom
 
 
 class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -284,3 +284,78 @@ class EditarPerfilView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Update
         else:
             data['form_user'] = FormUser(instance=self.object.user)
         return data
+
+
+class ListCupons(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    template_name = 'panel/list-cupons.html'
+    model = Cupom
+    ordering = '-created_at'
+    context_object_name = 'cupons'
+
+    def get_queryset(self):
+        return self.model.objects.filter(profissional=self.request.user.profissional)
+
+
+class CreateCupom(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateView):
+    model = Cupom
+    form_class = FormCreateCupom
+    template_name = 'panel/create-cupom.html'
+    context_object_name = 'cupom'
+    success_url = '/painel/cupons/'
+
+    def get_initial(self):
+        data = super(CreateCupom, self).get_initial()
+        data['profissional'] = self.request.user.profissional
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Cupom criado com sucesso')
+        return super(CreateCupom, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente')
+        return super(CreateCupom, self).form_invalid(form)
+
+
+class EditCupom(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    model = Cupom
+    form_class = FormEditCupom
+    template_name = 'panel/update-cupom.html'
+    context_object_name = 'cupom'
+    success_url = '/painel/cupons/'
+
+    def get_initial(self):
+        data = super(EditCupom, self).get_initial()
+        data['profissional'] = self.request.user.profissional
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Cupom atualizado com sucesso')
+        return super(EditCupom, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente')
+        return super(EditCupom, self).form_invalid(form)
+
+
+class RemoveCupom(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Cupom
+    template_name = 'panel/delete-cupom.html'
+    context_object_name = 'cupom'
+    success_url = '/painel/cupons/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Cupom removido com sucesso')
+        return super(RemoveCupom, self).delete(self.request, *args, **kwargs)
+
+
+class DocumentoContratoProfissional(LoginRequiredMixin, ProfessionalUserRequiredMixin, DetailView):
+    login_url = '/login/'
+    model = ContratoDeServico
+    template_name = 'documento-contrato.html'
+    context_object_name = 'contrato'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.profissional.contratodeservico_set.filter(id=self.kwargs['pk']).exists():
+            return self.handle_no_permission()
+        return super(DocumentoContratoProfissional, self).dispatch(request, *args, **kwargs)

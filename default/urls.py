@@ -21,7 +21,7 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
     StartTestSystem
 from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
-    ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico
+    ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico, ListCupons, CreateCupom, EditCupom, RemoveCupom, DocumentoContratoProfissional
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
     DocumentoContrato, gerar_contrato, aplicar_cupom
@@ -54,11 +54,11 @@ urlpatterns = [
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),
 
     url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
+    url(r'^painel/documento/(?P<pk>[0-9]+)$', DocumentoContratoProfissional.as_view(), name='documento-contrato-pro'),
     url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),
     url(r'^painel/finalizar/(?P<pk>[0-9]+)/$', finalizar_contrato_servico, name='finalizar-contrato'),
     url(r'^painel/andamento/(?P<pk>[0-9]+)/$', andamento_contrato_servico, name='andamento-contrato'),
     url(r'^painel/rejeite/(?P<pk>[0-9]+)/$', RejeiteContratoForm.as_view(), name='rejeite-contrato-form'),
-
     url(r'^painel/clientes/$', ClienteList.as_view(), name='list-clientes'),
     url(r'^painel/servicos/$', ServicosList.as_view(), name='list-servicos'),
     url(r'^painel/servicos/create/$', CreateServico.as_view(), name='create-servico'),
@@ -67,4 +67,8 @@ urlpatterns = [
     url(r'^painel/comentarios/$', ListComentarios.as_view(), name='list-comentarios'),
     url(r'^painel/comentarios/revisao/(?P<pk>[0-9]+)/$', RevisaoView.as_view(), name='revisao-servico'),
     url(r'^painel/perfil/(?P<pk>[0-9]+)/$', EditarPerfilView.as_view(), name='editar-perfil'),
+    url(r'^painel/cupons/$', ListCupons.as_view(), name='list-cupons'),
+    url(r'^painel/cupons/create/$', CreateCupom.as_view(), name='create-cupom'),
+    url(r'^painel/cupons/(?P<pk>[0-9]+)/$', EditCupom.as_view(), name='edit-cupom'),
+    url(r'^painel/cupons/delete/(?P<pk>[0-9]+)/$', RemoveCupom.as_view(), name='delete-cupom'),
 ]

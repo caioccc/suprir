@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
 from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem, \
-    Cliente
+    Cliente, Cupom
 
 
 class BaseForm(forms.Form):
@@ -161,7 +161,8 @@ class FormFotoServico(ModelForm, BaseForm):
         self.fields['url'].widget.attrs['class'] = 'hidden'
 
 
-FotoServicoFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico, extra=1)
+FotoServicoFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico,
+                                           extra=1, min_num=1, max_num=5)
 
 
 class FormProfissional(ModelForm, BaseForm):
@@ -297,3 +298,27 @@ class FormEditCliente(ModelForm, BaseForm):
         self.fields['photo'].label = ''
         self.fields['telefone_1'].label = 'Telefone Celular'
         self.fields['photo'].widget.attrs['class'] = 'hidden'
+
+
+class FormCreateCupom(ModelForm, BaseForm):
+    class Meta:
+        model = Cupom
+        fields = ['profissional', 'codigo', 'valor_de_desconto', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormCreateCupom, self).__init__(*args, **kwargs)
+        self.fields['profissional'].widget.attrs['class'] = 'hidden'
+        self.fields['profissional'].label = ''
+
+
+class FormEditCupom(ModelForm, BaseForm):
+    class Meta:
+        model = Cupom
+        fields = ['profissional', 'codigo', 'valor_de_desconto', 'is_approved', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormEditCupom, self).__init__(*args, **kwargs)
+        self.fields['profissional'].widget.attrs['class'] = 'hidden'
+        self.fields['profissional'].label = ''
+        self.fields['is_approved'].label = 'Disponivel'
+        self.fields['is_approved'].widget.attrs['class'] = ''
