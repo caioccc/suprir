@@ -65,11 +65,15 @@
                                             </td>
                                             <td>
                                                 <a href="{% url 'edit-cupom' cupom.pk %}"
+                                                   data-toggle="tooltip" title=""
+                                                   data-original-title="Editar cupom {{ cupom.id }}"
                                                    class="btn btn-default"> <i
                                                         class="fa fa-edit"></i></a>
                                             </td>
                                             <td>
                                                 <a href="{% url 'delete-cupom' cupom.pk %}"
+                                                   data-toggle="tooltip" title=""
+                                                   data-original-title="Remover o cupom {{ cupom.id }}"
                                                    class="btn btn-default"> <i
                                                         class="fa fa-trash-o"></i></a>
                                             </td>

@@ -61,7 +61,8 @@
                                             <td class="text-center">
                                                 <!-- <a href=""> <i
                                                         class="fa fa-eye"></i></a> -->
-                                                <a target="_blank"
+                                                <a target="_blank" data-toggle="tooltip" title=""
+                                                   data-original-title="Falar no Whastapp"
                                                    href="https://api.whatsapp.com/send?phone={{ cliente.telefone_1|get_numero_telefone_zap }}"
                                                    class="btn btn-default"> <i
                                                         class="fa fa-whatsapp"></i></a>
@@ -70,6 +71,8 @@
                                                 <!--<a href=""> <i
                                                         class="fa fa-trash-o"></i></a> -->
                                                 <a href="tel:{{ cliente.user.username }}"
+                                                   data-toggle="tooltip" title=""
+                                                   data-original-title="Ligar para {{ cliente.user.username }}"
                                                    class="btn btn-default"> <i
                                                         class="fa fa-phone-square"></i></a>
                                             </td>

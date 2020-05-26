@@ -76,7 +76,7 @@
                         <dl class="row">
                             <dt class="col-sm-3">Quem oferece</dt>
                             <dd class="col-sm-9"><a
-                                    href="#">{{ servico.profissional }}</a></dd>
+                                    href="{% url 'list-services-profissional' servico.profissional.id %}">{{ servico.profissional }}</a></dd>
 
                             <dt class="col-sm-3">Fotos</dt>
                             <dd class="col-sm-9">
