@@ -69,8 +69,6 @@
             <!-- /.box-body -->
             <div class=" box-footer ">
                 <a href="{% url 'dashboard-profissional' %}" id="btn_cancelar" class="btn btn-default pull-left">Voltar</a>
-                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Salvar
-                </button>
             </div>
         </form>
     </div>
@@ -89,6 +87,8 @@
 
             $('#dashboard').addClass('active');
             $('input, select, textarea').attr('disabled', true);
+
+            $('[name*=\'-valor_total_1\']').addClass('hidden')
         });
     </script>
     <script>

@@ -60,8 +60,13 @@
                                             class="fa fa-chevron-right"></i>
                                     </button>
                                 {% endif %}
-                                <a href="{% url 'list-services-profissional' carrinho.profissional.id %}"
-                                   class="btn btn-light"> <i class="fa fa-chevron-left"></i> Escolher outros Serviços </a>
+                                {% if carrinho.profissional %}
+                                    <a href="{% url 'list-services-profissional' carrinho.profissional.id %}"
+                                       class="btn btn-light"> <i class="fa fa-chevron-left"></i> Escolher outros Serviços </a>
+                                {% else %}
+                                    <a href="{% url 'index' %}"
+                                       class="btn btn-light"> <i class="fa fa-chevron-left"></i> Escolher outros Serviços </a>
+                                {% endif %}
                             </div>
                         </div> <!-- card.// -->
 
@@ -73,7 +78,7 @@
 
                     </main> <!-- col.// -->
                     <aside class="col-md-3">
-                    <form></form>
+                        <form></form>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <form id="formcupom" action="{% url 'aplicar-cupom' %}" method="get">{% csrf_token %}
@@ -136,10 +141,10 @@
     <!-- ========================= SECTION CONTENT END// ========================= -->
 
     <script>
-    $(document).ready(function () {
-        $('#add-cupom').click(function () {
-           $('#formcupom').submit();
+        $(document).ready(function () {
+            $('#add-cupom').click(function () {
+                $('#formcupom').submit();
+            });
         });
-    });
     </script>
 {% endblock %}
