@@ -45,7 +45,7 @@ class CommonUserData(TimeStamped, BaseAddress):
     class Meta:
         abstract = True
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True, blank=True, null=True)
     telefone_1 = models.CharField(max_length=30, blank=True, null=True)
     whatsapp = models.CharField(max_length=30, blank=True, null=True)
     photo = models.URLField(blank=True, null=True, default='https://placehold.it/300x300')
@@ -428,6 +428,56 @@ class Mensagem(TimeStamped):
     email = models.EmailField(blank=True, null=True)
     telefone = models.IntegerField(max_length=20, blank=True, null=True)
     resolvido = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
+CHOICES_FLUXO_CAIXA = (
+    ('DEBITO', 'DEBITO'),
+    ('CREDITO', 'CREDITO'),
+    ('BOLETO', 'BOLETO'),
+    ('DINHEIRO', 'DINHEIRO'),
+    ('CHEQUE', 'CHEQUE'),
+    ('DEBITO', 'DEBITO')
+)
+
+
+class Entrada(TimeStamped):
+    class Meta:
+        verbose_name = u'Entrada'
+        verbose_name_plural = u'Entradas'
+
+    profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
+    valor = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
+    descricao = models.CharField(max_length=300, blank=True, null=True)
+    cliente = models.CharField(max_length=300, blank=True, null=True)
+    data = models.DateField()
+    tipo_pagamento = models.CharField(max_length=300, blank=True, null=True,
+                                      choices=CHOICES_FLUXO_CAIXA, verbose_name='Tipo de Pagamento')
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
+class Saida(TimeStamped):
+    class Meta:
+        verbose_name = u'Saida'
+        verbose_name_plural = u'Saidas'
+
+    profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
+    valor = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
+    descricao = models.CharField(max_length=300, blank=True, null=True)
+    cliente = models.CharField(max_length=300, blank=True, null=True)
+    data = models.DateField()
+    tipo_pagamento = models.CharField(max_length=300, blank=True, null=True,
+                                      choices=CHOICES_FLUXO_CAIXA, verbose_name='Tipo de Pagamento')
 
     def __unicode__(self):
         return u'%s' % self.id

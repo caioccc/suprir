@@ -21,7 +21,8 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
     StartTestSystem
 from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
-    ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico, ListCupons, CreateCupom, EditCupom, RemoveCupom, DocumentoContratoProfissional
+    ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico, ListCupons, CreateCupom, EditCupom, RemoveCupom, DocumentoContratoProfissional, EditEntrada, DeleteEntrada, \
+    CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
     DocumentoContrato, gerar_contrato, aplicar_cupom
@@ -71,4 +72,12 @@ urlpatterns = [
     url(r'^painel/cupons/create/$', CreateCupom.as_view(), name='create-cupom'),
     url(r'^painel/cupons/(?P<pk>[0-9]+)/$', EditCupom.as_view(), name='edit-cupom'),
     url(r'^painel/cupons/delete/(?P<pk>[0-9]+)/$', RemoveCupom.as_view(), name='delete-cupom'),
+    url(r'^painel/entradas/$', ListEntradas.as_view(), name='list-entradas'),
+    url(r'^painel/entradas/create/$', CreateEntrada.as_view(), name='create-entrada'),
+    url(r'^painel/entradas/(?P<pk>[0-9]+)/$', EditEntrada.as_view(), name='edit-entrada'),
+    url(r'^painel/entradas/delete/(?P<pk>[0-9]+)/$', DeleteEntrada.as_view(), name='delete-entrada'),
+    url(r'^painel/saidas/$', ListSaidas.as_view(), name='list-saidas'),
+    url(r'^painel/saidas/create/$', CreateSaida.as_view(), name='create-saida'),
+    url(r'^painel/saidas/(?P<pk>[0-9]+)/$', EditSaida.as_view(), name='edit-saida'),
+    url(r'^painel/saidas/delete/(?P<pk>[0-9]+)/$', DeleteSaida.as_view(), name='delete-saida'),
 ]

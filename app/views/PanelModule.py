@@ -9,9 +9,9 @@ from django.views.generic import CreateView, DeleteView, FormView, DetailView
 from django.views.generic import ListView, UpdateView
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
-    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom
+    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
-from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom
+from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida
 
 
 class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -359,3 +359,119 @@ class DocumentoContratoProfissional(LoginRequiredMixin, ProfessionalUserRequired
         if not self.request.user.profissional.contratodeservico_set.filter(id=self.kwargs['pk']).exists():
             return self.handle_no_permission()
         return super(DocumentoContratoProfissional, self).dispatch(request, *args, **kwargs)
+
+
+class ListEntradas(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    template_name = 'panel/list-entradas.html'
+    model = Entrada
+    ordering = '-created_at'
+    context_object_name = 'entradas'
+
+    def get_queryset(self):
+        return self.model.objects.filter(profissional=self.request.user.profissional).order_by('-created_at')
+
+
+class CreateEntrada(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateView):
+    template_name = 'panel/create-entrada.html'
+    model = Entrada
+    form_class = FormEntrada
+    context_object_name = 'entrada'
+    success_url = '/painel/entradas/'
+
+    def get_initial(self):
+        data = super(CreateEntrada, self).get_initial()
+        data['profissional'] = self.request.user.profissional
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Entrada criada com sucesso.')
+        return super(CreateEntrada, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente.')
+        return super(CreateEntrada, self).form_invalid(form)
+
+
+class EditEntrada(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    template_name = 'panel/update-entrada.html'
+    model = Entrada
+    form_class = FormEntrada
+    context_object_name = 'entrada'
+    success_url = '/painel/entradas/'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Entrada atualizada com sucesso.')
+        return super(EditEntrada, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente.')
+        return super(EditEntrada, self).form_invalid(form)
+
+
+class DeleteEntrada(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Entrada
+    template_name = 'panel/delete-entrada.html'
+    context_object_name = 'entrada'
+    success_url = '/painel/entradas/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Entrada removida com sucesso')
+        return super(DeleteEntrada, self).delete(self.request, *args, **kwargs)
+
+
+class ListSaidas(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    template_name = 'panel/list-saidas.html'
+    model = Saida
+    ordering = '-created_at'
+    context_object_name = 'saidas'
+
+    def get_queryset(self):
+        return self.model.objects.filter(profissional=self.request.user.profissional).order_by('-created_at')
+
+
+class CreateSaida(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateView):
+    template_name = 'panel/create-saida.html'
+    model = Saida
+    form_class = FormSaida
+    context_object_name = 'saida'
+    success_url = '/painel/saidas/'
+
+    def get_initial(self):
+        data = super(CreateSaida, self).get_initial()
+        data['profissional'] = self.request.user.profissional
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Saida criada com sucesso.')
+        return super(CreateSaida, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente.')
+        return super(CreateSaida, self).form_invalid(form)
+
+
+class EditSaida(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    template_name = 'panel/update-saida.html'
+    model = Saida
+    form_class = FormSaida
+    context_object_name = 'saida'
+    success_url = '/painel/saidas/'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Saida atualizada com sucesso.')
+        return super(EditSaida, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente.')
+        return super(EditSaida, self).form_invalid(form)
+
+
+class DeleteSaida(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Saida
+    template_name = 'panel/delete-saida.html'
+    context_object_name = 'saida'
+    success_url = '/painel/saidas/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Saida removida com sucesso')
+        return super(DeleteSaida, self).delete(self.request, *args, **kwargs)

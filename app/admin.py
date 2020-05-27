@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
-    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem
+    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem, Entrada, Saida
 from app.views.TelegramAPI import get_chat_ids
 
 
@@ -232,6 +232,24 @@ class RecycleTelegramItemAdmin(admin.ModelAdmin):
     actions = [get_new_itens, ]
 
 
+class EntradaAdmin(admin.ModelAdmin):
+    list_filter = ('profissional', 'tipo_pagamento')
+    search_fields = (
+        'cliente',
+    )
+    list_display = ('profissional', 'id', 'valor', 'descricao', 'cliente', 'data', 'tipo_pagamento',
+                    'created_at')
+
+
+class SaidaAdmin(admin.ModelAdmin):
+    list_filter = ('profissional', 'tipo_pagamento')
+    search_fields = (
+        'cliente',
+    )
+    list_display = ('profissional', 'id', 'valor', 'descricao', 'cliente', 'data', 'tipo_pagamento',
+                    'created_at')
+
+
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Profissional, ProfissionalAdmin)
 admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
@@ -250,3 +268,5 @@ admin.site.register(Cupom, CupomAdmin)
 admin.site.register(ItemCupom, ItemCupomAdmin)
 admin.site.register(TelegramBot, TelegramBotAdmin)
 admin.site.register(RecycleTelegramItem, RecycleTelegramItemAdmin)
+admin.site.register(Entrada, EntradaAdmin)
+admin.site.register(Saida, SaidaAdmin)

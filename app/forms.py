@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
 from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem, \
-    Cliente, Cupom
+    Cliente, Cupom, Entrada, Saida
 
 
 class BaseForm(forms.Form):
@@ -322,3 +322,27 @@ class FormEditCupom(ModelForm, BaseForm):
         self.fields['profissional'].label = ''
         self.fields['is_approved'].label = 'Disponivel'
         self.fields['is_approved'].widget.attrs['class'] = ''
+
+
+class FormEntrada(ModelForm, BaseForm):
+    class Meta:
+        model = Entrada
+        fields = ['profissional', 'cliente', 'descricao', 'valor', 'tipo_pagamento', 'data', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormEntrada, self).__init__(*args, **kwargs)
+        self.fields['profissional'].label = ''
+        self.fields['profissional'].widget.attrs['class'] = 'hidden'
+        self.fields['data'].widget.attrs['class'] = 'datepicker'
+
+
+class FormSaida(ModelForm, BaseForm):
+    class Meta:
+        model = Saida
+        fields = ['profissional', 'cliente', 'descricao', 'valor', 'tipo_pagamento', 'data', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormSaida, self).__init__(*args, **kwargs)
+        self.fields['profissional'].label = ''
+        self.fields['profissional'].widget.attrs['class'] = 'hidden'
+        self.fields['data'].widget.attrs['class'] = 'datepicker'

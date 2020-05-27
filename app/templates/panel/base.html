@@ -153,6 +153,16 @@
                         <i class="fa fa-tags"></i> <span>Cupons</span>
                     </a>
                 </li>
+                <li class="treeview" id="fluxocaixa">
+                    <a href="#">
+                        <i class="fa fa-rocket"></i> <span>Fluxo de Caixa</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li id="painel-fluxo"><a href="#"><i class="fa fa-circle-o"></i> Painel</a></li>
+                        <li id="entradas"><a href="{% url 'list-entradas' %}"><i class="fa fa-circle-o"></i> Entradas </a></li>
+                        <li id="saidas"><a href="{% url 'list-saidas' %}"><i class="fa fa-circle-o"></i> Saidas </a></li>
+                    </ul>
+                </li>
                 <li id="comentarios">
                     <a href="{% url 'list-comentarios' %}">
                         <i class="fa fa-comments"></i> <span>Comentários</span>
@@ -251,6 +261,7 @@
 
 <script src="{% static "dist/js/chartReport.js" %}"></script>
 
+
 <script type="text/javascript">
 
     var tour = null;
@@ -262,14 +273,25 @@
 
 
     $(document).ready(function () {
+        $.fn.datepicker.dates['en'] = {
+            days: ["Domingo", "Segunda", "Terca", "Quarta", "Quinta",
+                "Sexta", "Sabado"],
+            daysShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
+            daysMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sa"],
+            months: ["Janeiro", "Fevereiro", "Marco", "Abril",
+                "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+            monthsShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+            today: "Hoje",
+            clear: "Limpar",
+        };
+
 
         $('.datepicker').datepicker({
             clearBtn: true,
             format: 'dd/mm/yyyy',
             todayHighlight: true,
-            autoclose: true
+            autoclose: true,
         });
-
         $('#busca_cep').click(function () {
             $('#loading').show();
             var cep = $('[name=cep]');
@@ -300,6 +322,7 @@
                 }
             });
         });
+
 
         $('#btn_salvar').click(function () {
             $('#loading').show();
