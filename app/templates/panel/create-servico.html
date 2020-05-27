@@ -21,7 +21,7 @@
                 </div>
                 <hr/>
                 <h3>Fotos</h3>
-                <div class="row">
+                <div class="row" id="space_fotos">
                     <div class="col-md-12">
                         {{ fotoservicoset.management_form }}
                         <table class="table">
@@ -88,6 +88,92 @@
             });
 
             $('#servicos').addClass('active');
+
+            tour = new Tour({
+                name: 'create_servico',
+                backdrop: true,
+                template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
+                steps: [
+                    {
+                        element: ".box.box-primary",
+                        placement: "top",
+                        title: "Adicionar Serviço",
+                        content: "Aqui temos o formulário para criar um serviço."
+                    },
+                    {
+                        element: ".box.box-primary",
+                        placement: "top",
+                        title: "Criar um Serviço",
+                        content: "Através dos campos vamos definir o novo serviço criado."
+                    },
+                    {
+                        element: "#id_titulo",
+                        placement: "top",
+                        title: "Título",
+                        content: "Insira aqui o titulo do Serviço."
+                    },
+                    {
+                        element: "#id_descricao",
+                        placement: "top",
+                        title: "Descrição",
+                        content: "Insira aqui a descrição do Serviço."
+                    },
+                    {
+                        element: "#id_valor_base_0",
+                        placement: "top",
+                        title: "Preço",
+                        content: "Insira aqui o preço do Serviço."
+                    },
+                    {
+                        element: "#id_disponivel",
+                        placement: "top",
+                        title: "Disponibilidade",
+                        content: "Se este cupom não estiver mais ativo, desmarque esta caixa. Se não, deixe marcado. "
+                    },
+                     {
+                        element: "#space_fotos",
+                        placement: "top",
+                        title: "Fotos",
+                        content: "Use este espaço para adicionar as fotos dos seu serviço  a ser oferecido. "
+                    },
+                    {
+                        element: "#id_fotoservico_set-0-file",
+                        placement: "top",
+                        title: "Campo de Foto",
+                        content: "Clique neste espaço e indique qual foto você deseja fazer upload."
+                    },
+                    {
+                        element: ".add-row",
+                        placement: "top",
+                        title: "Adicionar mais Fotos",
+                        content: "Clique neste botão caso desejar adicionar mais fotos."
+                    },
+                    {
+                        element: ".delete-row",
+                        placement: "top",
+                        title: "Remover Fotos",
+                        content: "Clique neste botão caso desejar remover alguma foto."
+                    },
+                    {
+                        element: "#btn_salvar",
+                        title: "Salvar",
+                        placement: "left",
+                        content: "Utilize este botão para criar o novo serviço.",
+                        onShow: function (tour) {
+                            var timeOut = setTimeout(function () {
+                                $('#fim').removeClass('hidden');
+                                $('#prox').addClass('hidden');
+                                timeOut = setTimeout(function () {
+                                    $('#fim').removeClass('hidden');
+                                    clearTimeout(timeOut);
+                                }, 500);
+                            }, 500);
+
+                        }
+                    }
+
+                ]
+            });
         });
     </script>
     <script>

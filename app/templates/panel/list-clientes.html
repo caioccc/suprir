@@ -119,6 +119,44 @@
                 }
             });
 
+            tour = new Tour({
+                name: 'list_clientes',
+                backdrop: true,
+                template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
+                steps: [
+                    {
+                        element: ".box.box-primary",
+                        placement: "top",
+                        title: "Lista de Clientes",
+                        content: "Aqui temos a tabela de clientes que realizaram algum contrato com você."
+                    },
+                    {
+                        element: ".box.box-primary",
+                        placement: "top",
+                        title: "Lista dos Clientes",
+                        content: "Através desta tela será possível ligar para o cliente ou falar diretamente pelo whatsapp."
+                    },
+                    {
+                        element: "#table_filter",
+                        title: "Busca",
+                        placement: "left",
+                        content: "Utilize este campo de busca para procurar por algum cliente específico.",
+                        onShow: function (tour) {
+                            var timeOut = setTimeout(function () {
+                                $('#fim').removeClass('hidden');
+                                $('#prox').addClass('hidden');
+                                timeOut = setTimeout(function () {
+                                    $('#fim').removeClass('hidden');
+                                    clearTimeout(timeOut);
+                                }, 500);
+                            }, 500);
+
+                        }
+                    }
+
+                ]
+            });
+
         });
     </script>
 
