@@ -160,12 +160,17 @@
                 </li>
                 <li id="profile">
                     <a href="{% url 'editar-perfil' user.profissional.id %}">
-                        <i class="fa fa-users"></i> <span>Editar Perfil</span>
+                        <i class="fa fa-user"></i> <span>Editar Perfil</span>
                     </a>
                 </li>
                 <li id="loja">
                     <a href="{% url 'list-services-profissional' user.profissional.id %}">
                         <i class="fa fa-shopping-bag"></i> <span>Ver Loja de Serviços</span>
+                    </a>
+                </li>
+                <li id="ajuda">
+                    <a href="#" onclick="init_tour()">
+                        <i class="fa fa-question-circle"></i> <span>Ajuda</span>
                     </a>
                 </li>
                 <li id="logout">
@@ -247,6 +252,13 @@
 <script src="{% static "dist/js/chartReport.js" %}"></script>
 
 <script type="text/javascript">
+
+    var tour = null;
+
+    function init_tour() {
+        tour.restart();
+        tour.start(true);
+    }
 
 
     $(document).ready(function () {
