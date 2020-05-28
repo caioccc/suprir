@@ -183,7 +183,7 @@ class Servico(TimeStamped):
     descricao = models.TextField(blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True)
     disponivel = models.BooleanField(default=True)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
     valor_base = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
 
     def __str__(self):
@@ -206,7 +206,7 @@ class AdicionalDeServico(TimeStamped):
     servico = models.ForeignKey(Servico, blank=True, null=True, on_delete=models.CASCADE)
     valor = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
     disponivel = models.BooleanField(default=True)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
 
     def __unicode__(self):
         return u'%s' % self.titulo

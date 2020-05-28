@@ -299,7 +299,7 @@
             if (cepCode.length <= 0) return;
             $.ajax({
                 type: 'GET',
-                url: 'http://apps.widenet.com.br/busca-cep/api/cep.json',
+                url: 'https://apps.widenet.com.br/busca-cep/api/cep.json',
                 data: {code: cepCode},
                 success: function (result) {
                     $('#loading').hide();
