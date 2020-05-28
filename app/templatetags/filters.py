@@ -65,7 +65,9 @@ def get_avaliacao_media(servico):
     try:
         sum = 0
         qtd = 0
-        comms = servico.comentarioservico_set.all()
+        comms = servico.comentarioservico_set.filter(status=True)
+        if len(comms) < 1:
+            return 10
         for com in comms:
             if com.avaliacao:
                 qtd += 1

@@ -5,7 +5,7 @@ from base64 import b64encode
 
 import pyimgur
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
@@ -383,6 +383,7 @@ class ContratoDeServico(TimeStamped):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     profissional = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
     motivo = models.TextField(blank=True, null=True)
+    is_avaliado = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s' % self.id
@@ -399,7 +400,10 @@ class ComentarioServico(TimeStamped):
     servico = models.ForeignKey(Servico, on_delete=models.CASCADE, blank=True, null=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
     comentario = models.TextField(blank=True, null=True)
-    avaliacao = models.CharField(max_length=2, blank=True, null=True)
+    avaliacao = models.IntegerField(blank=True, null=True, default=10, validators=[
+        MaxValueValidator(10),
+        MinValueValidator(1)
+    ])
     status = models.BooleanField(default=True, )
 
     def __unicode__(self):

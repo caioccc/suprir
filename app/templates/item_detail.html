@@ -53,11 +53,39 @@
                         <div class="rating-wrap my-3">
                             <ul class="rating-stars">
                                 <li style="width:80%">
-                                    <i class="fa fa-star checked"></i> <i
-                                        class="fa fa-star checked"></i>
-                                    <i class="fa fa-star checked"></i> <i
-                                        class="fa fa-star checked"></i>
-                                    <i class="fa fa-star"></i>
+                                    {% with media=servico|get_avaliacao_media %}
+                                        {% if media < 3 %}
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i> <i
+                                                class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        {% elif media >= 3 and media < 5 %}
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star checked"></i>
+                                            <i class="fa fa-star"></i> <i
+                                                class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        {% elif media >= 5 and media < 7 %}
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star checked"></i>
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        {% elif media >= 7 and media < 9 %}
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star checked"></i>
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star checked"></i>
+                                            <i class="fa fa-star"></i>
+                                        {% elif media >= 9 %}
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star checked"></i>
+                                            <i class="fa fa-star checked"></i> <i
+                                                class="fa fa-star checked"></i>
+                                            <i class="fa fa-star checked"></i>
+                                        {% endif %}
+                                    {% endwith %}
                                 </li>
                             </ul>
                             <small class="label-rating text-muted">{{ servico|get_avaliacao_media }}/10</small>

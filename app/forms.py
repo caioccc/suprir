@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
 from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem, \
-    Cliente, Cupom, Entrada, Saida
+    Cliente, Cupom, Entrada, Saida, ComentarioServico
 
 
 class BaseForm(forms.Form):
@@ -346,3 +346,22 @@ class FormSaida(ModelForm, BaseForm):
         self.fields['profissional'].label = ''
         self.fields['profissional'].widget.attrs['class'] = 'hidden'
         self.fields['data'].widget.attrs['class'] = 'datepicker'
+
+
+class FormComentario(ModelForm, BaseForm):
+    class Meta:
+        model = ComentarioServico
+        fields = ['servico', 'cliente', 'avaliacao', 'comentario', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormComentario, self).__init__(*args, **kwargs)
+        self.fields['servico'].label = ''
+        self.fields['servico'].widget.attrs['class'] = 'hidden'
+        self.fields['cliente'].label = ''
+        self.fields['cliente'].widget.attrs['class'] = 'hidden'
+
+
+class FormContratoAvaliacao(ModelForm, BaseForm):
+    class Meta:
+        model = ContratoDeServico
+        fields = ['is_avaliado', ]

@@ -1,16 +1,17 @@
 # coding=utf-8
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import DetailView, CreateView, UpdateView, ListView
 from django.views.generic import TemplateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 
-from app.forms import ServicoSearchForm, ProfissionalSearchForm
+from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormComentario, FormContratoAvaliacao
 from app.forms import FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
-from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom, FormaPagamento
+from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom, FormaPagamento, ComentarioServico
 from app.views.TelegramAPI import telegram_bot_sendtext, make_message_telegram
 
 
@@ -319,3 +320,43 @@ class DocumentoContrato(LoginRequiredMixin, CustomContextMixin, DetailView):
         if not self.request.user.cliente.contratodeservico_set.filter(id=self.kwargs['pk']).exists():
             return self.handle_no_permission()
         return super(DocumentoContrato, self).dispatch(request, *args, **kwargs)
+
+
+class AvaliacaoView(LoginRequiredMixin, CustomContextMixin, UpdateView):
+    login_url = '/login/'
+    model = ContratoDeServico
+    template_name = 'avaliacao.html'
+    context_object_name = 'contrato'
+    form_class = FormContratoAvaliacao
+    success_url = '/meuscontratos/'
+
+    def get_queryset(self):
+        return super(AvaliacaoView, self).get_queryset()
+
+    def get_context_data(self, **kwargs):
+        data = super(AvaliacaoView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['form_avaliacao'] = FormComentario(self.request.POST, self.request.FILES)
+        else:
+            data['form_avaliacao'] = FormComentario(initial={'cliente': self.request.user.cliente,
+                                                             'servico': self.object.carrinho.itemservico_set.first().servico})
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        form_avaliacao = context['form_avaliacao']
+        with transaction.atomic():
+            if form_avaliacao.is_valid():
+                form_avaliacao.save()
+                self.object = form.save()
+                contrato = self.object
+                contrato.is_avaliado = True
+                contrato.save()
+                messages.success(self.request, 'Avaliacao realizada com sucesso.')
+            else:
+                return self.form_invalid(form)
+        return super(AvaliacaoView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ocorreu algum erro, tente novamente')
+        return super(AvaliacaoView, self).form_invalid(form)

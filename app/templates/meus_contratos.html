@@ -52,6 +52,7 @@
                                         <th scope="col">Status</th>
                                         <th scope="col">Data</th>
                                         <th scope="col">Contrato</th>
+                                        <th scope="col"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -91,6 +92,16 @@
                                                     <a href="{% url 'documento-contrato' contrato.pk %}" target="_blank">
                                                         <i class="fa fa-file-alt"></i>
                                                     </a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if contrato.status == 'REALIZADO' %}
+                                                    {% if not contrato.is_avaliado %}
+                                                        <a href="{% url 'avaliar-servico' contrato.pk %}"
+                                                           class="btn btn-primary">
+                                                            <i class="fa fa-comment-alt"></i> Avaliar
+                                                        </a>
+                                                    {% endif %}
                                                 {% endif %}
                                             </td>
                                         </tr>

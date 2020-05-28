@@ -177,13 +177,14 @@ class AdicionalEscolhidoAdmin(admin.ModelAdmin):
 
 class ContratoDeServicoAdmin(admin.ModelAdmin):
     list_filter = (
-        'carrinho__profissional__estado', 'carrinho__profissional__cidade', 'carrinho__forma_pagamento')
+        'carrinho__profissional__estado', 'carrinho__profissional__cidade', 'carrinho__forma_pagamento',
+        'is_avaliado')
     search_fields = (
         'carrinho__cliente__user__first_name', 'carrinho__profissional__user__first_name',
         'carrinho__profissional__cpf',
         'carrinho__profissional__cnpj', 'carrinho__cliente__cpf', 'carrinho__cliente__cnpj',
     )
-    list_display = ('carrinho', 'id', 'status', 'motivo', 'created_at')
+    list_display = ('carrinho', 'id', 'status', 'motivo', 'is_avaliado', 'created_at')
 
 
 class ComentarioServicoAdmin(admin.ModelAdmin):

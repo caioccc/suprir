@@ -25,7 +25,7 @@ from app.views.PanelModule import DashboardView, ContractUpdateView, \
     CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
-    DocumentoContrato, gerar_contrato, aplicar_cupom
+    DocumentoContrato, gerar_contrato, aplicar_cupom, AvaliacaoView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^meuscontratos/documento/(?P<pk>[0-9]+)$', DocumentoContrato.as_view(), name='documento-contrato'),
     url(r'^gerarcontrato/$', gerar_contrato, name='gerar-contrato'),
     url(r'^aplicar-cupom/$', aplicar_cupom, name='aplicar-cupom'),
+    url(r'^avaliar/(?P<pk>[0-9]+)/$', AvaliacaoView.as_view(), name='avaliar-servico'),
 
     url(r'^startsystemdefault/$', StartSystem.as_view(), name='startsystem'),
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),
