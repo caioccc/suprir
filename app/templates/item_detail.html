@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load filters %}
-
+{% load djmoney %}
 {% block content %}
     <section class="py-3 bg-light">
         <div class="container">
@@ -67,7 +67,7 @@
                         </div> <!-- rating-wrap.// -->
 
                         <div class="mb-3">
-                            <var class="price h4">{{ servico.valor_base }}</var>
+                            <var class="price h4">{% money_localize servico.valor_base %}</var>
                         </div> <!-- price-detail-wrap .// -->
 
                         <p>{{ servico.descricao }} </p>

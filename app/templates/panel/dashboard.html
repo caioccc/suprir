@@ -1,7 +1,7 @@
 {% extends 'panel/base.html' %}
 {% load staticfiles %}
 {% load filters %}
-
+{% load djmoney %}
 {% block content %}
 
     <style>
@@ -109,7 +109,7 @@
                                                 {{ contrato.id }}
                                             </td>
                                             <td>{{ contrato.cliente.telefone_1 }}</td>
-                                            <td>{{ contrato.carrinho.valor_total|floatformat:2 }}</td>
+                                            <td>{% money_localize contrato.carrinho.valor_total %}</td>
                                             <td> {{ contrato.carrinho.forma_pagamento.forma }}</td>
                                             <td>
                                                 {% if contrato.status == 'REALIZADO' %}
