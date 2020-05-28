@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from search_views.filters import BaseFilter
 from search_views.views import SearchListView
 
-# from app.forms import ServicoSearchForm, ProfissionalSearchForm
+from app.forms import ServicoSearchForm, ProfissionalSearchForm
 from app.forms import FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
 from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom, FormaPagamento
@@ -39,7 +39,7 @@ class IndexView(CustomContextMixin, SearchListView):
     context_object_name = 'servicos'
     ordering = '?'
 
-    # form_class = ServicoSearchForm
+    form_class = ServicoSearchForm
     filter_class = ServicoFilter
 
     def get_params_search(self):
@@ -81,7 +81,7 @@ class ProfissionalView(CustomContextMixin, SearchListView):
     context_object_name = 'profissionais'
     ordering = '?'
 
-    # form_class = ProfissionalSearchForm
+    form_class = ProfissionalSearchForm
     filter_class = ProfissionalFilter
 
     def get_params_search(self):
