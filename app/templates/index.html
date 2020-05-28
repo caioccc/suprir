@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load filters %}
+{% load djmoney %}
 {% block content %}
 
     <!-- ========================= SECTION CONTENT ========================= -->
@@ -165,7 +166,7 @@
                                 <aside class="col-sm-3">
                                     <div class="info-aside">
                                         <div class="price-wrap">
-                                            <span class="h5 price">R$ {{ servico.valor_base|floatformat:2 }}</span>
+                                            <span class="h5 price">{% money_localize servico.valor_base %}</span>
                                             <small class="text-muted">/por serviço</small>
                                         </div> <!-- price-wrap.// -->
                                         <small class="text-warning">{{ servico.profissional.cidade }}-{{ servico.profissional.estado }}</small>
