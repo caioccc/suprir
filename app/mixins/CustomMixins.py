@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
 from django.views.generic.base import ContextMixin
 
-from app.forms import ServicoSearchForm
+# from app.forms import ServicoSearchForm
 from app.models import CategoriaDeProfissional, Profissional
 
 
@@ -44,7 +44,7 @@ class CustomContextMixin(ContextMixin):
         kwargs['estados'] = self.get_estados()
         kwargs['cidades'] = self.get_cidades()
         kwargs['filter_categorias'] = self.get_filter_categorias()
-        kwargs['form_query'] = ServicoSearchForm
+        # kwargs['form_query'] = ServicoSearchForm
         return super(CustomContextMixin, self).get_context_data(**kwargs)
 
     def get_estados(self):
