@@ -1,4 +1,5 @@
 # coding=utf-8
+import datetime
 import random
 
 from django.contrib import messages
@@ -11,7 +12,7 @@ from djmoney.money import Money
 from app.forms import FormLogin, FormRegisterCliente, FormRegisterProfissional
 from app.mixins.CustomMixins import CustomContextMixin
 from app.models import Cliente, Profissional, CategoriaDeProfissional, FormaPagamento, ComentarioServico, Servico, \
-    FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico
+    FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico, Entrada, Saida
 
 
 class LoginView(CustomContextMixin, FormView):
@@ -379,6 +380,7 @@ class StartTestSystem(RedirectView):
         self.create_carts()
         self.create_contracts()
         self.create_comments()
+        self.create_entradas_e_saidas()
         logout(self.request)
         return super(StartTestSystem, self).get(request, *args, **kwargs)
 
@@ -624,3 +626,43 @@ class StartTestSystem(RedirectView):
             pay = FormaPagamento(forma=pay)
             pay.save()
         return FormaPagamento.objects.all()
+
+    def get_days_between_dates(self):
+        start_date = datetime.date(2020, 1, 1)
+        end_date = datetime.date(2020, 5, 29)
+        time_between_dates = end_date - start_date
+        days_between_dates = time_between_dates.days
+        return days_between_dates
+
+    def get_date_random(self):
+        start_date = datetime.date(2020, 1, 1)
+        days_between_dates = self.get_days_between_dates()
+        random_number_of_days = random.randrange(days_between_dates)
+        random_date = start_date + datetime.timedelta(days=random_number_of_days)
+        return random_date
+
+    def create_entradas_e_saidas(self):
+        for entr in Entrada.objects.all():
+            entr.delete()
+        for sai in Saida.objects.all():
+            sai.delete()
+        for profi in Profissional.objects.all():
+            for dia in range(self.get_days_between_dates()):
+                entrada = Entrada(
+                    profissional=profi,
+                    valor=Money(random.randint(10, 300), 'BRL'),
+                    descricao='',
+                    tipo_pagamento='CHEQUE',
+                    cliente=names[random.randrange(len(names))],
+                    data=self.get_date_random()
+                )
+                entrada.save()
+                saida = Saida(
+                    profissional=profi,
+                    valor=Money(random.randint(10, 300), 'BRL'),
+                    descricao='',
+                    cliente=names[random.randrange(len(names))],
+                    tipo_pagamento='CHEQUE',
+                    data=self.get_date_random()
+                )
+                saida.save()

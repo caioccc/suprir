@@ -22,7 +22,8 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
 from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico, ListCupons, CreateCupom, EditCupom, RemoveCupom, DocumentoContratoProfissional, EditEntrada, DeleteEntrada, \
-    CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida, FluxoCaixa, get_month_data
+    CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida, FluxoCaixa, get_month_data, ListInteresse, CreateInteresse, UpdateInteresse, DeleteInteresse, ListPropostas, \
+    CreateProposta, DeleteProposta, reject_bid, generate_process
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
     DocumentoContrato, gerar_contrato, aplicar_cupom, AvaliacaoView
@@ -83,5 +84,14 @@ urlpatterns = [
     url(r'^painel/saidas/delete/(?P<pk>[0-9]+)/$', DeleteSaida.as_view(), name='delete-saida'),
     url(r'^painel/fluxocaixa/$', FluxoCaixa.as_view(), name='fluxo-caixa'),
     url(r'^painel/fluxocaixa/get-data/$', get_month_data, name='get-data-fluxo'),
+    url(r'^painel/interesses/$', ListInteresse.as_view(), name='list-interesses'),
+    url(r'^painel/interesses/create/$', CreateInteresse.as_view(), name='create-interesse'),
+    url(r'^painel/interesses/(?P<pk>[0-9]+)/$', UpdateInteresse.as_view(), name='edit-interesse'),
+    url(r'^painel/interesses/delete/(?P<pk>[0-9]+)/$', DeleteInteresse.as_view(), name='delete-interesse'),
+    url(r'^painel/propostas/$', ListPropostas.as_view(), name='list-propostas'),
+    url(r'^painel/propostas/create/(?P<pk>[0-9]+)/$', CreateProposta.as_view(), name='create-proposta'),
+    url(r'^painel/propostas/delete/(?P<pk>[0-9]+)/$', DeleteProposta.as_view(), name='delete-proposta'),
 
+    url(r'^painel/propostas/reject/(?P<pk>[0-9]+)/$', reject_bid, name='rejeitar-proposta'),
+    url(r'^painel/propostas/acept/(?P<pk>[0-9]+)/$', generate_process, name='aceitar-proposta'),
 ]

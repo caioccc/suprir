@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm, inlineformset_factory
 
 from app.models import Profissional, CarrinhoDeServicos, ContratoDeServico, ItemServico, Servico, FotoServico, Mensagem, \
-    Cliente, Cupom, Entrada, Saida, ComentarioServico
+    Cliente, Cupom, Entrada, Saida, ComentarioServico, Interesse, Proposta, Processo
 
 
 class BaseForm(forms.Form):
@@ -365,3 +365,42 @@ class FormContratoAvaliacao(ModelForm, BaseForm):
     class Meta:
         model = ContratoDeServico
         fields = ['is_avaliado', ]
+
+
+class FormInteresse(ModelForm, BaseForm):
+    class Meta:
+        model = Interesse
+        fields = ['profissional_dono', 'titulo']
+
+    def __init__(self, *args, **kwargs):
+        super(FormInteresse, self).__init__(*args, **kwargs)
+        self.fields['profissional_dono'].label = ''
+        self.fields['profissional_dono'].widget.attrs['class'] = 'hidden'
+
+
+class FormProposta(ModelForm, BaseForm):
+    class Meta:
+        model = Proposta
+        fields = ['profissional_socio', 'titulo', 'interesse']
+
+    def __init__(self, *args, **kwargs):
+        super(FormProposta, self).__init__(*args, **kwargs)
+        self.fields['profissional_socio'].label = ''
+        self.fields['profissional_socio'].widget.attrs['class'] = 'hidden'
+        self.fields['interesse'].label = ''
+        self.fields['interesse'].widget.attrs['class'] = 'hidden'
+
+
+class FormProcesso(ModelForm, BaseForm):
+    class Meta:
+        model = Processo
+        fields = ['profissional_socio', 'profissional_dono', 'interesse', 'proposta', 'titulo', ]
+
+    def __init__(self, *args, **kwargs):
+        super(FormProcesso, self).__init__(*args, **kwargs)
+        self.fields['profissional_socio'].label = 'Profissional Socio'
+        self.fields['profissional_dono'].label = 'Profissional de Abertura'
+        self.fields['interesse'].label = ''
+        self.fields['interesse'].widget.attrs['class'] = 'hidden'
+        self.fields['proposta'].label = ''
+        self.fields['proposta'].widget.attrs['class'] = 'hidden'

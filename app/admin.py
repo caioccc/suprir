@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
-    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem, Entrada, Saida
+    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem, Entrada, Saida, Interesse, Proposta, Processo
 from app.views.TelegramAPI import get_chat_ids
 
 
@@ -251,6 +251,28 @@ class SaidaAdmin(admin.ModelAdmin):
                     'created_at')
 
 
+class InteresseAdmin(admin.ModelAdmin):
+    search_fields = (
+        'titulo',
+    )
+    list_display = ('profissional_dono', 'id', 'titulo', 'descricao', 'status', 'created_at')
+
+
+class PropostaAdmin(admin.ModelAdmin):
+    search_fields = (
+        'titulo',
+    )
+    list_display = ('profissional_socio', 'id', 'titulo', 'interesse', 'descricao', 'status', 'created_at')
+
+
+class ProcessoAdmin(admin.ModelAdmin):
+    search_fields = (
+        'titulo',
+    )
+    list_display = ('profissional_socio', 'profissional_socio', 'id', 'titulo',
+                    'interesse', 'proposta', 'descricao', 'status', 'motivo', 'created_at')
+
+
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Profissional, ProfissionalAdmin)
 admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
@@ -271,3 +293,6 @@ admin.site.register(TelegramBot, TelegramBotAdmin)
 admin.site.register(RecycleTelegramItem, RecycleTelegramItemAdmin)
 admin.site.register(Entrada, EntradaAdmin)
 admin.site.register(Saida, SaidaAdmin)
+admin.site.register(Interesse, InteresseAdmin)
+admin.site.register(Proposta, PropostaAdmin)
+admin.site.register(Processo, ProcessoAdmin)

@@ -488,3 +488,69 @@ class Saida(TimeStamped):
 
     def __str__(self):
         return u'%s' % self.id
+
+
+class Interesse(TimeStamped):
+    class Meta:
+        verbose_name = u'Interesse'
+        verbose_name_plural = u'Interesses'
+
+    profissional_dono = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=300, blank=True, null=True)
+    descricao = models.TextField(blank=True, )
+    status = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
+STATUS_PROPOSTA = (
+    ('ACEITO', 'ACEITO'),
+    ('REJEITADO', 'REJEITADO'),
+    ('AGUARDANDO', 'AGUARDANDO')
+)
+
+
+class Proposta(TimeStamped):
+    class Meta:
+        verbose_name = u'Proposta'
+        verbose_name_plural = u'Proposta'
+
+    profissional_socio = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=300, blank=True, null=True)
+    interesse = models.ForeignKey(Interesse, blank=True, null=True, on_delete=models.CASCADE)
+    descricao = models.TextField(blank=True, )
+    status = models.CharField(max_length=300, blank=True, null=True,
+                              choices=STATUS_PROPOSTA, default='AGUARDANDO')
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id
+
+
+class Processo(TimeStamped):
+    class Meta:
+        verbose_name = u'Processo'
+        verbose_name_plural = u'Processo'
+
+    profissional_socio = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE,
+                                           related_name='profissional_socio')
+    profissional_dono = models.ForeignKey(Profissional, blank=True, null=True, on_delete=models.CASCADE,
+                                          related_name='profissional_dono')
+    titulo = models.CharField(max_length=300, blank=True, null=True)
+    interesse = models.ForeignKey(Interesse, blank=True, null=True, on_delete=models.CASCADE)
+    proposta = models.ForeignKey(Proposta, blank=True, null=True, on_delete=models.CASCADE)
+    descricao = models.TextField(blank=True, )
+    status = models.CharField(max_length=100, choices=STATUS_CONTRATO, blank=True, null=True, default='ABERTO')
+    motivo = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id

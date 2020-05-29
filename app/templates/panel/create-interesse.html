@@ -7,7 +7,7 @@
     <div class="box box-primary" style="margin-top: 30px;">
         <div class="box-header">
             <h3 class="box-title">
-                <center style="font-size: 20px;">Atualizar Cupom</center>
+                <center style="font-size: 20px;">Adicionar Interesse</center>
             </h3>
         </div>
         <!-- /.box-header -->
@@ -23,9 +23,9 @@
             </div>
             <!-- /.box-body -->
             <div class=" box-footer ">
-                <a href="{% url 'list-cupons' %}" id="btn_cancelar"
+                <a href="{% url 'list-interesses' %}" id="btn_cancelar"
                    class="btn btn-default pull-left">Voltar</a>
-                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Editar
+                <button type="submit" id="btn_salvar" class="btn btn-primary pull-right">Adicionar
                 </button>
             </div>
         </form>
@@ -33,43 +33,32 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#cupons').addClass('active');
+            $('#faz').addClass('active');
+            $('#interesses').addClass('active');
             $('[name=valor_de_desconto_1]').addClass('hidden');
 
             tour = new Tour({
-                name: 'update_cupom',
+                name: 'create_interesse',
                 backdrop: true,
                 template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
                 steps: [
                     {
                         element: ".box.box-primary",
                         placement: "top",
-                        title: "Editar Cupom",
-                        content: "Aqui temos o formulário para editar um cupom."
+                        title: "Adicionar Interesse",
+                        content: "Aqui temos o formulário para criar um interesse."
                     },
                     {
-                        element: "#id_codigo",
+                        element: ".box.box-primary",
                         placement: "top",
-                        title: "Codigo",
-                        content: "Insira aqui o novo codigo do cupom, se necessário. Exemplo: #VALE10"
-                    },
-                    {
-                        element: "#id_valor_de_desconto_0",
-                        placement: "top",
-                        title: "Valor de desconto",
-                        content: "Insira aqui o valor de desconto do cupom. Exemplo: 10.00"
-                    },
-                    {
-                        element: "#id_is_approved",
-                        placement: "top",
-                        title: "Disponibilidade",
-                        content: "Se este cupom não estiver mais ativo, desmarque esta caixa. Se não, deixe marcado. "
+                        title: "Criar um Interesse",
+                        content: "Através dos campos vamos definir o novo interesse criado."
                     },
                     {
                         element: "#btn_salvar",
-                        title: "Editar",
+                        title: "Salvar",
                         placement: "left",
-                        content: "Utilize este botão para atualizar o cupom.",
+                        content: "Utilize este botão para criar o novo interesse.",
                         onShow: function (tour) {
                             var timeOut = setTimeout(function () {
                                 $('#fim').removeClass('hidden');

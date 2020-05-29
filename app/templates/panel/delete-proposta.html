@@ -1,0 +1,41 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <div class="box box-primary" style="margin-top: 30px;">
+        <div class="box-header">
+            <h3 class="box-title">
+                <center style="font-size: 20px;">Remover Proposta</center>
+            </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Tem certeza que deseja remover a proposta '{{ proposta.titulo }}'?</p>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <!-- /.box-body -->
+            <div class=" box-footer ">
+                <a href="{% url 'list-propostas' %}" id="btn_cancelar"
+                   class="btn btn-default pull-left">Voltar</a>
+                <button type="submit" id="btn_salvar" class="btn btn-danger pull-right">Sim, Remover!
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#faz').addClass('active');
+            $('#propostas').addClass('active');
+        });
+    </script>
+
+{% endblock %}

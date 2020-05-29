@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Language" content="pt-br">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="{% static 'theme-store/img/favicon.ico' %}" rel="shortcut icon"
+          type="image/x-icon">
     <title>Dashboard</title>
     <!-- TODO: Inserir SEO TAGS -->
     <!-- Tell the browser to be responsive to screen width -->
@@ -155,12 +157,22 @@
                 </li>
                 <li class="treeview" id="fluxocaixa">
                     <a href="#">
-                        <i class="fa fa-rocket"></i> <span>Fluxo de Caixa</span>
+                        <i class="fa fa-line-chart"></i> <span>Fluxo de Caixa</span>
                     </a>
                     <ul class="treeview-menu">
                         <li id="painel-fluxo"><a href="{% url 'fluxo-caixa' %}"><i class="fa fa-circle-o"></i> Painel</a></li>
                         <li id="entradas"><a href="{% url 'list-entradas' %}"><i class="fa fa-circle-o"></i> Entradas </a></li>
                         <li id="saidas"><a href="{% url 'list-saidas' %}"><i class="fa fa-circle-o"></i> Saidas </a></li>
+                    </ul>
+                </li>
+                <li class="treeview" id="faz">
+                    <a href="#">
+                        <i class="fa fa-rocket"></i> <span>Faz Que Eu Faço</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li id="interesses"><a href="{% url 'list-interesses' %}"><i class="fa fa-circle-o"></i> Interesses</a></li>
+                        <li id="propostas"><a href="{% url 'list-propostas' %}"><i class="fa fa-circle-o"></i> Propostas </a></li>
+                        <li id="processos"><a href=""><i class="fa fa-circle-o"></i> Processos </a></li>
                     </ul>
                 </li>
                 <li id="comentarios">

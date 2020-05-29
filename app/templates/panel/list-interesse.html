@@ -12,15 +12,15 @@
     {% include 'utils/loading.html' %}
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary" id="contratos_de_servico">
+            <div class="box box-primary" id="">
                 <div class="box-header">
                     <h3 class="box-title">
-                        Cupons Cadastrados
+                        Interesses Cadastrados
                     </h3>
                 </div>
-                <div class="box-header" id="add_cupom">
-                    <a href="{% url 'create-cupom' %}" class="btn btn-primary pull-left"><i
-                            class="fa fa-plus"></i> Adicionar Cupom
+                <div class="box-header" id="add_interesse">
+                    <a href="{% url 'create-interesse' %}" class="btn btn-primary pull-left"><i
+                            class="fa fa-plus"></i> Adicionar Interesse
                     </a>
                 </div>
                 <!-- form start -->
@@ -32,50 +32,41 @@
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>CODIGO</th>
+                                        <th>INTERESSE</th>
                                         <th>ID</th>
-                                        <th>VALOR DESCONTO</th>
-                                        <th>APROVADO</th>
                                         <th>DATA</th>
-                                        <th>EDITAR</th>
+                                        <th>PARTICIPAR</th>
                                         <th>REMOVER</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for cupom in cupons %}
+                                    {% for interesse in interesses %}
                                         <tr>
                                             <td>
-                                                {{ cupom.codigo }}
+                                                {{ interesse.titulo }}
                                             </td>
                                             <td>
-                                                {{ cupom.id }}
+                                                {{ interesse.id }}
                                             </td>
-                                            <td>{{ cupom.valor_de_desconto|floatformat:2 }}</td>
                                             <td>
-                                                {% if cupom.is_approved %}
-                                                    <label class="label label-success"><i class="fa fa-check"></i>
-                                                    </label>
-                                                {% else %}
-                                                    <label class="label label-danger"><i class="fa fa-close"></i>
-                                                    </label>
+                                                {{ interesse.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td>
+                                                {% if interesse.profissional_dono.pk != user.profissional.pk %}
+                                                    <a href="{% url 'create-proposta' interesse.pk %}"
+                                                       data-toggle="tooltip" title=""
+                                                       data-original-title="Realizar uma proposta ao criador do interesse {{ interesse.id }}"
+                                                       class="btn btn-primary">Fazer Proposta</a>
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                {{ cupom.created_at|date:"d/m/Y G:i" }}
-                                            </td>
-                                            <td>
-                                                <a href="{% url 'edit-cupom' cupom.pk %}"
-                                                   data-toggle="tooltip" title=""
-                                                   data-original-title="Editar cupom {{ cupom.id }}"
-                                                   class="btn btn-default"> <i
-                                                        class="fa fa-edit"></i></a>
-                                            </td>
-                                            <td>
-                                                <a href="{% url 'delete-cupom' cupom.pk %}"
-                                                   data-toggle="tooltip" title=""
-                                                   data-original-title="Remover o cupom {{ cupom.id }}"
-                                                   class="btn btn-default"> <i
-                                                        class="fa fa-trash-o"></i></a>
+                                                {% if interesse.profissional_dono.pk == user.profissional.pk %}
+                                                    <a href="{% url 'delete-interesse' interesse.pk %}"
+                                                       data-toggle="tooltip" title=""
+                                                       data-original-title="Remover o interesse {{ interesse.id }}"
+                                                       class="btn btn-default"> <i
+                                                            class="fa fa-trash-o"></i></a>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -92,7 +83,8 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#cupons').addClass('active');
+            $('#faz').addClass('active');
+            $('#interesses').addClass('active');
             $('#table').DataTable({
                 responsive: true,
                 order: [[1, "desc"]],
@@ -124,33 +116,33 @@
 
             } else {
                 tour = new Tour({
-                    name: 'list_cupons',
+                    name: 'list_interesses',
                     backdrop: true,
                     template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
                     steps: [
                         {
                             element: ".box.box-primary",
                             placement: "top",
-                            title: "Lista de Cupons",
-                            content: "Aqui temos a tabela de cupons adicionados e ordenados por data e hora."
+                            title: "Lista de Interesses",
+                            content: "Aqui temos a tabela de interesses cadastrados por todos os profissionais e ordenados por data e hora."
                         },
                         {
                             element: ".box.box-primary",
                             placement: "top",
-                            title: "Acompanhamento dos Cupons",
-                            content: "Através desta tela será possível editar ou remover os cupons que foram criados."
+                            title: "Acompanhamento dos Interesses",
+                            content: "Através desta tela será possível adicionar ou remover os interesses que foram criados por voce."
                         },
                         {
-                            element: "#add_cupom",
+                            element: "#add_interesses",
                             placement: "top",
-                            title: "Adicionar Cupom",
-                            content: "Através deste botão será possível adicionar novos cupons para seus clientes."
+                            title: "Adicionar Interesse",
+                            content: "Através deste botão será possível adicionar novos interesses."
                         },
                         {
                             element: "#table_filter",
                             title: "Busca",
                             placement: "left",
-                            content: "Utilize este campo de busca para procurar por algum cupom específico.",
+                            content: "Utilize este campo de busca para procurar por algum interesse específico.",
                             onShow: function (tour) {
                                 var timeOut = setTimeout(function () {
                                     $('#fim').removeClass('hidden');

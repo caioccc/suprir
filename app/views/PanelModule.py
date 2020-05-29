@@ -17,9 +17,9 @@ import time
 from djmoney.money import Money
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
-    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida
+    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida, FormInteresse, FormProposta
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
-from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida
+from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida, Interesse, Proposta
 
 
 class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -569,3 +569,124 @@ def get_month_data(request):
         ])
 
     return JsonResponse(array, safe=False)
+
+
+class ListInteresse(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    template_name = 'panel/list-interesse.html'
+    context_object_name = 'interesses'
+    model = Interesse
+    ordering = '-created_at'
+
+    def get_queryset(self):
+        return self.model.objects.filter(status=True).order_by('-created_at')
+
+
+class CreateInteresse(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateView):
+    template_name = 'panel/create-interesse.html'
+    context_object_name = 'interesse'
+    model = Interesse
+    form_class = FormInteresse
+    success_url = '/painel/interesses'
+
+    def get_initial(self):
+        data = super(CreateInteresse, self).get_initial()
+        data['profissional_dono'] = self.request.user.profissional
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Interesse criado com sucesso')
+        return super(CreateInteresse, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente')
+        return super(CreateInteresse, self).form_invalid(form)
+
+
+class UpdateInteresse(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    template_name = 'panel/update-interesse.html'
+    context_object_name = 'interesse'
+    model = Interesse
+    form_class = FormInteresse
+    success_url = '/painel/interesses'
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Interesse atualizado com sucesso')
+        return super(UpdateInteresse, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente')
+        return super(UpdateInteresse, self).form_invalid(form)
+
+
+class DeleteInteresse(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Interesse
+    template_name = 'panel/delete-interesse.html'
+    context_object_name = 'interesse'
+    success_url = '/painel/interesses/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Interesse removido com sucesso')
+        return super(DeleteInteresse, self).delete(self.request, *args, **kwargs)
+
+
+class ListPropostas(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    template_name = 'panel/list-propostas.html'
+    model = Proposta
+    context_object_name = 'propostas_realizadas'  # apenas remover, criar so na lista de interesses
+    ordering = '-created_at'
+
+    def get_queryset(self):
+        return self.model.objects.filter(profissional_socio=self.request.user.profissional)
+
+    def get_context_data(self, **kwargs):  # apenas gerar processo ou rejeitar proposta
+        kwargs['propostas_recebidas'] = self.model.objects.filter(interesse__profissional_dono=self.request.user.profissional).order_by('-created_at')
+        return super(ListPropostas, self).get_context_data(**kwargs)
+
+
+def generate_process(request, pk):
+    proposta = Proposta.objects.get(pk=pk)
+    proposta.status = 'ACEITO'
+    proposta.save()
+    messages.success(request, 'Proposta Aceita com sucesso')
+    return redirect('/painel/propostas/')
+
+
+def reject_bid(request, pk):
+    proposta = Proposta.objects.get(pk=pk)
+    proposta.status = 'REJEITADO'
+    proposta.save()
+    messages.success(request, 'Proposta Rejeitada')
+    return redirect('/painel/propostas/')
+
+
+class CreateProposta(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateView):
+    model = Proposta
+    context_object_name = 'proposta'
+    success_url = '/painel/propostas/'
+    form_class = FormProposta
+    template_name = 'panel/create-proposta.html'
+
+    def get_initial(self):
+        data = super(CreateProposta, self).get_initial()
+        data['profissional_socio'] = self.request.user.profissional
+        data['interesse'] = Interesse.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
+        return data
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Proposta criada com sucesso')
+        return super(CreateProposta, self).form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Houve algum erro, tente novamente')
+        return super(CreateProposta, self).form_invalid(form)
+
+
+class DeleteProposta(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Proposta
+    template_name = 'panel/delete-proposta.html'
+    context_object_name = 'proposta'
+    success_url = '/painel/propostas/'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Proposta removida com sucesso')
+        return super(DeleteProposta, self).delete(self.request, *args, **kwargs)
