@@ -1,12 +1,20 @@
 # coding=utf-8
+import calendar
+import json
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
-from django.views.generic import CreateView, DeleteView, FormView, DetailView
+from django.views.generic import CreateView, DeleteView, FormView, DetailView, TemplateView
 from django.views.generic import ListView, UpdateView
+
+from datetime import datetime, timedelta
+import time
+
+from djmoney.money import Money
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
     FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida
@@ -475,3 +483,89 @@ class DeleteSaida(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView)
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Saida removida com sucesso')
         return super(DeleteSaida, self).delete(self.request, *args, **kwargs)
+
+
+class FluxoCaixa(LoginRequiredMixin, ProfessionalUserRequiredMixin, TemplateView):
+    template_name = 'panel/fluxo-caixa.html'
+
+    def get_saldo_total(self):
+        soma_entrada = Money(0, 'BRL')
+        for entrada in Entrada.objects.filter(profissional=self.request.user.profissional):
+            soma_entrada += entrada.valor
+        soma_saida = Money(0, 'BRL')
+        for saida in Saida.objects.filter(profissional=self.request.user.profissional):
+            soma_saida += saida.valor
+        return soma_entrada - soma_saida
+
+    def get_total_entradas_mes(self):
+        now = datetime.now()
+        soma = Money(0, 'BRL')
+        for entrada in Entrada.objects.filter(profissional=self.request.user.profissional,
+                                              data__month=now.month,
+                                              data__year=now.year):
+            soma += entrada.valor
+        return soma
+
+    def get_total_saidas_mes(self):
+        now = datetime.now()
+        soma = Money(0, 'BRL')
+        for saida in Saida.objects.filter(profissional=self.request.user.profissional,
+                                          data__month=now.month,
+                                          data__year=now.year):
+            soma += saida.valor
+        return soma
+
+    def get_saldo_operacional_mes(self):
+        ent = self.get_total_entradas_mes()
+        sai = self.get_total_saidas_mes()
+        return ent - sai
+
+    def get_context_data(self, **kwargs):
+        kwargs['entradas_mes'] = self.get_total_entradas_mes()
+        kwargs['saidas_mes'] = self.get_total_saidas_mes()
+        kwargs['saldo_operacional'] = self.get_saldo_operacional_mes()
+        kwargs['saldo_total'] = self.get_saldo_total()
+        return super(FluxoCaixa, self).get_context_data(**kwargs)
+
+
+def get_month_data(request):
+    array = []
+    now = datetime.now()
+    entrada = Entrada.objects.filter(profissional=request.user.profissional, data__year=now.year).order_by('data')
+    if len(entrada) > 0:
+        entrada = entrada.first().data
+    else:
+        entrada = now.date()
+    saida = Saida.objects.filter(profissional=request.user.profissional, data__year=now.year).order_by('data')
+    if len(saida) > 0:
+        saida = saida.first().data
+    else:
+        saida = now.date()
+    data_mais_antiga = min(entrada, saida)
+
+    now = now + timedelta(days=1)
+    diff = (now.date() - data_mais_antiga).days
+    sum_entrada_dia = Money(0, 'BRL')
+    sum_saida_dia = Money(0, 'BRL')
+    for i in range(diff):
+        data_busca_entradas = data_mais_antiga + timedelta(days=i)
+        entradas_dia = Entrada.objects.filter(profissional=request.user.profissional,
+                                              data__year=data_busca_entradas.year,
+                                              data__month=data_busca_entradas.month,
+                                              data__day=data_busca_entradas.day)
+        saidas_dia = Saida.objects.filter(profissional=request.user.profissional,
+                                          data__year=data_busca_entradas.year,
+                                          data__month=data_busca_entradas.month,
+                                          data__day=data_busca_entradas.day)
+
+        for entrada in entradas_dia:
+            sum_entrada_dia += entrada.valor
+
+        for saida in saidas_dia:
+            sum_saida_dia += saida.valor
+        array.append([
+            calendar.timegm(data_busca_entradas.timetuple()) * 1000,
+            float(sum_entrada_dia - sum_saida_dia)
+        ])
+
+    return JsonResponse(array, safe=False)

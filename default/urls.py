@@ -22,7 +22,7 @@ from app.views.LoginModule import LoginView, LogoutView, RegistroCliente, Regist
 from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico, ListCupons, CreateCupom, EditCupom, RemoveCupom, DocumentoContratoProfissional, EditEntrada, DeleteEntrada, \
-    CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida
+    CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida, FluxoCaixa, get_month_data
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
     DocumentoContrato, gerar_contrato, aplicar_cupom, AvaliacaoView
@@ -81,4 +81,7 @@ urlpatterns = [
     url(r'^painel/saidas/create/$', CreateSaida.as_view(), name='create-saida'),
     url(r'^painel/saidas/(?P<pk>[0-9]+)/$', EditSaida.as_view(), name='edit-saida'),
     url(r'^painel/saidas/delete/(?P<pk>[0-9]+)/$', DeleteSaida.as_view(), name='delete-saida'),
+    url(r'^painel/fluxocaixa/$', FluxoCaixa.as_view(), name='fluxo-caixa'),
+    url(r'^painel/fluxocaixa/get-data/$', get_month_data, name='get-data-fluxo'),
+
 ]

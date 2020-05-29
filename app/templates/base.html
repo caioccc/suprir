@@ -270,7 +270,7 @@
                 <aside class="col-md col-6">
                     <h6 class="title">Organização</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="{% url 'sobre' %}">Sobre Nós</a></li>
                         <li><a href="#">Regras e Termos</a>
                         </li>
                     </ul>
@@ -278,8 +278,7 @@
                 <aside class="col-md col-6">
                     <h6 class="title">Ajuda</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#">Fale Conosco</a></li>
-                        <li><a href="#">F.A.Q</a></li>
+                        <li><a href="{% url 'fale-conosco' %}">Fale Conosco</a></li>
                         <li><a href="#">Ajuda na Tela</a></li>
                     </ul>
                 </aside>
@@ -288,8 +287,10 @@
                     <ul class="list-unstyled">
                         <li><a href="{% url 'login' %}"> Login </a></li>
                         <li><a href="{% url 'registro-cliente' %}"> Registro </a></li>
-                        <li><a href="#"> Meus Contratos </a></li>
-                        <li><a href="#"> Carrinho </a></li>
+                        <li><a href="{% url 'meus-contratos' %}"> Meus Contratos </a></li>
+                        {% if user.cliente %}
+                            <li><a href="{% url 'carrinho' user|get_id_carrinho %}"> Carrinho </a></li>
+                        {% endif %}
                     </ul>
                 </aside>
                 <aside class="col-md">

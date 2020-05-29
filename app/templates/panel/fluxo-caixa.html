@@ -1,0 +1,140 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+{% load djmoney %}
+{% block content %}
+
+    <style>
+        .small-box .icon {
+            font-size: 70px;
+        }
+    </style>
+    {% include 'utils/loading.html' %}
+    <div class="row">
+        <div class="col-lg-3 col-xs-6" id="servicos_realizado">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h4>{{ entradas_mes }}</h4>
+
+                    <p>Entradas no mês</p>
+                </div>
+                <div class="icon">
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6" id="servicos_andamento">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h4>{{ saidas_mes }}</h4>
+
+                    <p>Saídas no mês</p>
+                </div>
+                <div class="icon">
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6" id="carrinhos_abertos">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h4>{{ saldo_operacional }}</h4>
+
+                    <p>Saldo Operacional</p>
+                </div>
+                <div class="icon">
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6" id="servicos_cadastrados">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h4>{{ saldo_total }}</h4>
+
+                    <p>Saldo Total</p>
+                </div>
+                <div class="icon">
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary" id="carrinhos_em_aberto">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Fluxo de Caixa ao longo do tempo
+                    </h3>
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div id="container" style="height: 400px; width: 100%"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#fluxocaixa').addClass('active');
+            $('#painel-fluxo').addClass('active');
+            Highcharts.getJSON('{% url 'get-data-fluxo' %}', function (data) {
+                Highcharts.setOptions({
+                    lang: {
+                        viewData: 'Ver Tabela de Dados',
+                        printChart: 'Imprimir Grafico',
+                        months: [
+                            'Janeiro', 'Fevereiro', 'Março', 'Abril',
+                            'Maio', 'Junho', 'Julho', 'Agosto',
+                            'Stembro', 'Outubro', 'Novembro', 'Dezembro'
+                        ],
+                        weekdays: [
+                            'Domingo', 'Segunda', 'Terça', 'Quarta',
+                            'Quinta', 'Sexta', 'Sábado'
+                        ],
+                        loading: '',
+                        rangeSelectorFrom: "De",
+                        rangeSelectorTo: 'Ate',
+                        resetZoom: 'Redefinir zoom',
+                        viewFullscreen: 'Ver em Tela Cheia',
+                        shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago',
+                            'Set', 'Out', 'Nov', 'Dez']
+                    },
+                });
+                Highcharts.stockChart('container',
+                    {
+
+                        rangeSelector: {
+                            selected: 1
+                        },
+                        title: {
+                            text: 'Saldo Operacional Total por dia'
+                        },
+                        series: [{
+                            name: 'Saldo',
+                            data: data,
+                            tooltip: {
+                                valueDecimals: 2
+                            }
+                        }]
+                    },
+                );
+            });
+
+        });
+    </script>
+
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+
+
+{% endblock %}
