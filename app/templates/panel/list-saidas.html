@@ -1,7 +1,7 @@
 {% extends 'panel/base.html' %}
 {% load staticfiles %}
 {% load filters %}
-
+{% load djmoney %}
 {% block content %}
 
     <style>
@@ -59,7 +59,7 @@
                                             <td>
                                                 {{ saida.id }}
                                             </td>
-                                            <td>{{ saida.valor|floatformat:2 }}</td>
+                                            <td>{% money_localize saida.valor %}</td>
                                             <td>
                                                 {% if saida.descricao %}
                                                     {{ saida.descricao }}

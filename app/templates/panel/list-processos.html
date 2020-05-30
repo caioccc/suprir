@@ -28,8 +28,8 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>PROFISSIONAL</th>
-                                        <th>PROFISSIONAL</th>
+                                        <th>DONO</th>
+                                        <th>SOCIO</th>
                                         <th>INTERESSE</th>
                                         <th>PROPOSTA</th>
                                         <th>STATUS</th>
@@ -74,10 +74,12 @@
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                <a href="{% url 'documento-contrato-pro' processo.pk %}" target="_blank" data-toggle="tooltip" title=""
-                                                   data-original-title="Documento de Contrato {{ processo.id }}">
-                                                    <i class="fa fa-file-word-o fa-2x"></i>
-                                                </a>
+                                                {% if processo.status == 'EM ANDAMENTO' or processo.status == 'REALIZADO' %}
+                                                    <a href="{% url 'documento-contrato-pro' processo.pk %}" target="_blank" data-toggle="tooltip" title=""
+                                                       data-original-title="Documento de Contrato {{ processo.id }}">
+                                                        <i class="fa fa-file-word-o fa-2x"></i>
+                                                    </a>
+                                                {% endif %}
                                             </td>
                                             <td>
                                                 {{ processo.created_at|date:"d/m/Y G:i" }}

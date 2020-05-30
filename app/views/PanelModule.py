@@ -660,7 +660,7 @@ def generate_process(request, pk, ):
         descricao=''
     )
     proc.save()
-    messages.success(request, 'Proposta Aceita com sucesso. Um Processo foi aberto e esta aguardando pagamento.')
+    messages.success(request, 'Proposta Aceita com sucesso. Um Processo foi aberto e está aguardando pagamento.')
     return redirect('/painel/processos/')
 
 

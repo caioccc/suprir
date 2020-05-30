@@ -1,10 +1,11 @@
 # coding=utf-8
 from django.contrib.auth.mixins import AccessMixin
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic.base import ContextMixin
 
 from app.forms import ServicoSearchForm
-from app.models import CategoriaDeProfissional, Profissional
+from app.models import CategoriaDeProfissional, Profissional, ContratoDeServico, Proposta
 
 
 class UserLoggedMixin(object):
@@ -23,11 +24,24 @@ class UserLoggedMixin(object):
         return super(UserLoggedMixin, self).dispatch(request, *args, **kwargs)
 
 
-class ProfessionalUserRequiredMixin(AccessMixin):
+class ProfessionalUserRequiredMixin(AccessMixin, ContextMixin):
     login_url = '/login/'
     """
     CBV mixin which verifies that the current user is authenticated.
     """
+
+    def get_context_data(self, **kwargs):
+        new_contracts = ContratoDeServico.objects.filter(
+            Q(profissional=self.request.user.profissional),
+            Q(status='ABERTO')
+        )
+        new_propostas = Proposta.objects.filter(
+            Q(interesse__profissional_dono=self.request.user.profissional),
+            Q(status='AGUARDANDO')
+        )
+        kwargs['new_contracts'] = new_contracts
+        kwargs['new_propostas'] = new_propostas
+        return super(ProfessionalUserRequiredMixin, self).get_context_data(**kwargs)
 
     def dispatch(self, request, *args, **kwargs):
         try:

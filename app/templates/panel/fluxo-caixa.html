@@ -13,9 +13,9 @@
     <div class="row">
         <div class="col-lg-3 col-xs-6" id="servicos_realizado">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-green">
                 <div class="inner">
-                    <h4>{{ entradas_mes }}</h4>
+                    <h4>{% money_localize entradas_mes %}</h4>
 
                     <p>Entradas no mês</p>
                 </div>
@@ -26,9 +26,9 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6" id="servicos_andamento">
             <!-- small box -->
-            <div class="small-box bg-green">
+            <div class="small-box bg-red">
                 <div class="inner">
-                    <h4>{{ saidas_mes }}</h4>
+                    <h4>{% money_localize saidas_mes %}</h4>
 
                     <p>Saídas no mês</p>
                 </div>
@@ -41,7 +41,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h4>{{ saldo_operacional }}</h4>
+                    <h4>{% money_localize saldo_operacional %}</h4>
 
                     <p>Saldo Operacional</p>
                 </div>
@@ -52,9 +52,9 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6" id="servicos_cadastrados">
             <!-- small box -->
-            <div class="small-box bg-red">
+            <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h4>{{ saldo_total }}</h4>
+                    <h4>{% money_localize saldo_total %}</h4>
 
                     <p>Saldo Total</p>
                 </div>
@@ -95,6 +95,7 @@
                             'Maio', 'Junho', 'Julho', 'Agosto',
                             'Stembro', 'Outubro', 'Novembro', 'Dezembro'
                         ],
+                        numericSymbols: ["mil", "Milhao", "Bilhao"],
                         weekdays: [
                             'Domingo', 'Segunda', 'Terça', 'Quarta',
                             'Quinta', 'Sexta', 'Sábado'
@@ -112,13 +113,33 @@
                     {
 
                         rangeSelector: {
-                            selected: 1
+                            selected: 1,
+                            buttons: [{
+                                type: 'month',
+                                count: 1,
+                                text: '1m'
+                            }, {
+                                type: 'month',
+                                count: 3,
+                                text: '3m'
+                            }, {
+                                type: 'month',
+                                count: 6,
+                                text: '6m'
+                            }, {
+                                type: 'ytd',
+                                text: '1a'
+                            }, {
+                                type: 'all',
+                                text: 'Tudo'
+                            }]
                         },
+
                         title: {
                             text: 'Saldo Operacional Total por dia'
                         },
                         series: [{
-                            name: 'Saldo',
+                            name: 'Saldo (R$)',
                             data: data,
                             tooltip: {
                                 valueDecimals: 2

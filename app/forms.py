@@ -147,6 +147,7 @@ class FormServico(ModelForm, BaseForm):
         self.fields['profissional'].widget.attrs['class'] = 'hidden'
         for field_name, field in self.fields.items():
             field.widget.attrs['required'] = True
+        self.fields['disponivel'].widget.attrs['required'] = False
 
 
 class FormFotoServico(ModelForm, BaseForm):

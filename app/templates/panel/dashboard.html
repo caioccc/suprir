@@ -13,7 +13,13 @@
     <div class="row">
         <div class="col-lg-3 col-xs-6" id="servicos_realizado">
             <!-- small box -->
-            <div class="small-box bg-aqua">
+            <div class="small-box bg-aqua"
+                 data-toggle="tooltip"
+                 data-placement="bottom"
+                 title=""
+                 data-original-title="Aqui fica registrado o número de serviços realizados dentro do
+                                        mês corrente."
+            >
                 <div class="inner">
                     <h4>{{ user|get_qtd_servicos_realizados_mes }}</h4>
 
@@ -26,7 +32,13 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6" id="servicos_andamento">
             <!-- small box -->
-            <div class="small-box bg-green">
+            <div class="small-box bg-green"
+                 data-toggle="tooltip"
+                 data-placement="bottom"
+                 title=""
+                 data-original-title="Aqui fica registrado o número de serviços em andamento dentro do
+                                        mês corrente."
+            >
                 <div class="inner">
                     <h4>{{ user|get_qtd_servicos_em_andamento }}</h4>
 
@@ -39,7 +51,13 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6" id="carrinhos_abertos">
             <!-- small box -->
-            <div class="small-box bg-yellow">
+            <div class="small-box bg-yellow"
+                 data-toggle="tooltip"
+                 data-placement="bottom"
+                 title=""
+                 data-original-title="Aqui fica registrado a quantidade de pedidos de serviço que estão nos carrinhos dos clientes e que não foram finalizados
+                 na loja do Suprir. Os clientes com seus respectivos números para contato ficam na tabela de Carrinhos em Aberto."
+            >
                 <div class="inner">
                     <h4>{{ user|get_carrinhos_em_aberto|length }}</h4>
 
@@ -52,7 +70,13 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6" id="servicos_cadastrados">
             <!-- small box -->
-            <div class="small-box bg-red">
+            <div class="small-box bg-red"
+                 data-toggle="tooltip"
+                 data-placement="bottom"
+                 title=""
+                 data-original-title="Aqui fica registrado o número de serviços cadastrados por você
+                  dentro do sistema."
+            >
                 <div class="inner">
                     <h4>{{ user|get_qtd_meus_servicos_cadastrados }}</h4>
 
@@ -113,19 +137,39 @@
                                             <td> {{ contrato.carrinho.forma_pagamento.forma }}</td>
                                             <td>
                                                 {% if contrato.status == 'REALIZADO' %}
-                                                    <label class="label label-success ">
+                                                    <label class="label label-success "
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram realizadas
+                                                           com sucesso ficam com este status.">
                                                         {{ contrato.status }}
                                                     </label>
                                                 {% elif contrato.status == 'EM ANDAMENTO' %}
-                                                    <label class="label label-warning ">
+                                                    <label class="label label-warning "
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram aceitos
+                                                           pelos profissionais apos serem gerados,
+                                                           ficam com este status.">
                                                         {{ contrato.status }}
                                                     </label>
                                                 {% elif contrato.status == 'ABERTO' %}
-                                                    <label class="label label-info ">
+                                                    <label class="label label-info "
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram
+                                                           gerados, porem ainda necessitam serem aprovados
+                                                           pelos profissionais para darem andamento,
+                                                           ficam com este status.">
                                                         {{ contrato.status }}
                                                     </label>
                                                 {% else %}
-                                                    <label class="label label-danger ">
+                                                    <label class="label label-danger "
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram
+                                                            rejeitados por algum motivo pelo profissional,
+                                                            ficam identificadas desta forma em seu status.">
                                                         {{ contrato.status }}
                                                     </label>
                                                 {% endif %}
@@ -349,7 +393,7 @@
 
             setInterval(function () {
                 location.reload();
-            }, 60000*10);
+            }, 60000 * 10);
 
         });
     </script>

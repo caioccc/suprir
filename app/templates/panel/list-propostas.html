@@ -156,11 +156,13 @@
                                                 {{ prop.created_at|date:"d/m/Y G:i" }}
                                             </td>
                                             <td>
-                                                <a href="{% url 'delete-proposta' prop.pk %}"
-                                                   data-toggle="tooltip" title=""
-                                                   data-original-title="Remover a proposta {{ prop.id }}"
-                                                   class="btn btn-default"> <i
-                                                        class="fa fa-trash-o"></i></a>
+                                                {% if not prop.status == 'ACEITO' %}
+                                                    <a href="{% url 'delete-proposta' prop.pk %}"
+                                                       data-toggle="tooltip" title=""
+                                                       data-original-title="Remover a proposta {{ prop.id }}"
+                                                       class="btn btn-default"> <i
+                                                            class="fa fa-trash-o"></i></a>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}
