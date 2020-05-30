@@ -430,7 +430,7 @@ class Mensagem(TimeStamped):
     mensagem = models.TextField(blank=True, null=True)
     nome = models.CharField(max_length=300, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    telefone = models.IntegerField(max_length=20, blank=True, null=True)
+    telefone = models.IntegerField(blank=True, null=True)
     resolvido = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -459,6 +459,7 @@ class Entrada(TimeStamped):
     valor = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
     descricao = models.CharField(max_length=300, blank=True, null=True)
     cliente = models.CharField(max_length=300, blank=True, null=True)
+    telefone = models.IntegerField(blank=True, null=True)
     data = models.DateField()
     tipo_pagamento = models.CharField(max_length=300, blank=True, null=True,
                                       choices=CHOICES_FLUXO_CAIXA, verbose_name='Tipo de Pagamento')
@@ -479,6 +480,7 @@ class Saida(TimeStamped):
     valor = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
     descricao = models.CharField(max_length=300, blank=True, null=True)
     cliente = models.CharField(max_length=300, blank=True, null=True)
+    telefone = models.IntegerField(blank=True, null=True)
     data = models.DateField()
     tipo_pagamento = models.CharField(max_length=300, blank=True, null=True,
                                       choices=CHOICES_FLUXO_CAIXA, verbose_name='Tipo de Pagamento')
@@ -501,10 +503,10 @@ class Interesse(TimeStamped):
     status = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return u'%s' % self.id
+        return u'%s' % self.titulo
 
     def __str__(self):
-        return u'%s' % self.id
+        return u'%s' % self.titulo
 
 
 STATUS_PROPOSTA = (
@@ -527,10 +529,19 @@ class Proposta(TimeStamped):
                               choices=STATUS_PROPOSTA, default='AGUARDANDO')
 
     def __unicode__(self):
-        return u'%s' % self.id
+        return u'%s' % self.titulo
 
     def __str__(self):
-        return u'%s' % self.id
+        return u'%s' % self.titulo
+
+
+STATUS_PROCESSO = (
+    ('AGUARDANDO PAGAMENTO', 'AGUARDANDO PAGAMENTO'),
+    ('ABERTO', 'ABERTO'),
+    ('EM ANDAMENTO', 'EM ANDAMENTO'),
+    ('REJEITADO', 'REJEITADO'),
+    ('REALIZADO', 'REALIZADO'),
+)
 
 
 class Processo(TimeStamped):
@@ -546,7 +557,7 @@ class Processo(TimeStamped):
     interesse = models.ForeignKey(Interesse, blank=True, null=True, on_delete=models.CASCADE)
     proposta = models.ForeignKey(Proposta, blank=True, null=True, on_delete=models.CASCADE)
     descricao = models.TextField(blank=True, )
-    status = models.CharField(max_length=100, choices=STATUS_CONTRATO, blank=True, null=True, default='ABERTO')
+    status = models.CharField(max_length=100, choices=STATUS_PROCESSO, blank=True, null=True, default='AGUARDANDO PAGAMENTO')
     motivo = models.TextField(blank=True, null=True)
 
     def __unicode__(self):

@@ -327,10 +327,11 @@ class FormEditCupom(ModelForm, BaseForm):
 class FormEntrada(ModelForm, BaseForm):
     class Meta:
         model = Entrada
-        fields = ['profissional', 'cliente', 'descricao', 'valor', 'tipo_pagamento', 'data', ]
+        fields = ['profissional', 'cliente', 'telefone', 'descricao', 'valor', 'tipo_pagamento', 'data', ]
 
     def __init__(self, *args, **kwargs):
         super(FormEntrada, self).__init__(*args, **kwargs)
+        self.fields['telefone'].label = 'Telefone do Cliente'
         self.fields['profissional'].label = ''
         self.fields['profissional'].widget.attrs['class'] = 'hidden'
         self.fields['data'].widget.attrs['class'] = 'datepicker'
@@ -339,10 +340,11 @@ class FormEntrada(ModelForm, BaseForm):
 class FormSaida(ModelForm, BaseForm):
     class Meta:
         model = Saida
-        fields = ['profissional', 'cliente', 'descricao', 'valor', 'tipo_pagamento', 'data', ]
+        fields = ['profissional', 'cliente', 'telefone', 'descricao', 'valor', 'tipo_pagamento', 'data', ]
 
     def __init__(self, *args, **kwargs):
         super(FormSaida, self).__init__(*args, **kwargs)
+        self.fields['telefone'].label = 'Telefone do Cliente'
         self.fields['profissional'].label = ''
         self.fields['profissional'].widget.attrs['class'] = 'hidden'
         self.fields['data'].widget.attrs['class'] = 'datepicker'
@@ -374,6 +376,7 @@ class FormInteresse(ModelForm, BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(FormInteresse, self).__init__(*args, **kwargs)
+        self.fields['titulo'].label = 'Informe seu interesse'
         self.fields['profissional_dono'].label = ''
         self.fields['profissional_dono'].widget.attrs['class'] = 'hidden'
 
@@ -385,6 +388,7 @@ class FormProposta(ModelForm, BaseForm):
 
     def __init__(self, *args, **kwargs):
         super(FormProposta, self).__init__(*args, **kwargs)
+        self.fields['titulo'].label = 'Informe sua proposta'
         self.fields['profissional_socio'].label = ''
         self.fields['profissional_socio'].widget.attrs['class'] = 'hidden'
         self.fields['interesse'].label = ''

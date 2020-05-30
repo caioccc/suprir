@@ -120,8 +120,9 @@
                                        cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th>TITULO</th>
+                                        <th>PROPOSTA</th>
                                         <th>ID</th>
+                                        <th>INTERESSE</th>
                                         <th>STATUS</th>
                                         <th>DATA</th>
                                         <th>REMOVER</th>
@@ -135,6 +136,9 @@
                                             </td>
                                             <td>
                                                 {{ prop.id }}
+                                            </td>
+                                            <td>
+                                                {{ prop.interesse }}
                                             </td>
                                             <td>
                                                 {% if prop.status == 'AGUARDANDO' %}

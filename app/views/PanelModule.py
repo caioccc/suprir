@@ -5,6 +5,7 @@ import json
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
@@ -17,9 +18,9 @@ import time
 from djmoney.money import Money
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
-    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida, FormInteresse, FormProposta
+    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida, FormInteresse, FormProposta, FormProcesso
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
-from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida, Interesse, Proposta
+from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida, Interesse, Proposta, Processo
 
 
 class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -632,23 +633,35 @@ class DeleteInteresse(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteV
 class ListPropostas(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
     template_name = 'panel/list-propostas.html'
     model = Proposta
-    context_object_name = 'propostas_realizadas'  # apenas remover, criar so na lista de interesses
+    context_object_name = 'propostas_realizadas'
     ordering = '-created_at'
 
     def get_queryset(self):
         return self.model.objects.filter(profissional_socio=self.request.user.profissional)
 
-    def get_context_data(self, **kwargs):  # apenas gerar processo ou rejeitar proposta
+    def get_context_data(self, **kwargs):
         kwargs['propostas_recebidas'] = self.model.objects.filter(interesse__profissional_dono=self.request.user.profissional).order_by('-created_at')
         return super(ListPropostas, self).get_context_data(**kwargs)
 
 
-def generate_process(request, pk):
+def generate_process(request, pk, ):
     proposta = Proposta.objects.get(pk=pk)
     proposta.status = 'ACEITO'
     proposta.save()
-    messages.success(request, 'Proposta Aceita com sucesso')
-    return redirect('/painel/propostas/')
+    interesse = proposta.interesse
+    interesse.status = False
+    interesse.save()
+    proc = Processo(
+        profissional_dono=proposta.interesse.profissional_dono,
+        profissional_socio=proposta.profissional_socio,
+        titulo=proposta.interesse.titulo,
+        interesse=proposta.interesse,
+        proposta=proposta,
+        descricao=''
+    )
+    proc.save()
+    messages.success(request, 'Proposta Aceita com sucesso. Um Processo foi aberto e esta aguardando pagamento.')
+    return redirect('/painel/processos/')
 
 
 def reject_bid(request, pk):
@@ -690,3 +703,36 @@ class DeleteProposta(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteVi
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Proposta removida com sucesso')
         return super(DeleteProposta, self).delete(self.request, *args, **kwargs)
+
+
+class ListProcessos(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
+    template_name = 'panel/list-processos.html'
+    model = Processo
+    context_object_name = 'processos'
+    ordering = '-created_at'
+
+    def get_queryset(self):
+        return self.model.objects.filter(Q(profissional_dono=self.request.user.profissional) |
+                                         Q(profissional_socio=self.request.user.profissional))
+
+
+class ViewProcesso(LoginRequiredMixin, ProfessionalUserRequiredMixin, UpdateView):
+    template_name = 'panel/view-processo.html'
+    model = Processo
+    form_class = FormProcesso
+    context_object_name = 'processo'
+    success_url = '/painel/processos/'
+
+
+class FinalizarProcesso(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView):
+    model = Processo
+    template_name = 'panel/finalizar-processo.html'
+    context_object_name = 'processo'
+    success_url = '/painel/processos/'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.status = 'REALIZADO'
+        self.object.save()
+        success_url = self.get_success_url()
+        return HttpResponseRedirect(success_url)

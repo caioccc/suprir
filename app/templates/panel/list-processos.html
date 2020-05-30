@@ -1,0 +1,160 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <style>
+        .small-box .icon {
+            font-size: 70px;
+        }
+    </style>
+    {% include 'utils/loading.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary" id="list_processos">
+                <div class="box-header">
+                    <h3 class="box-title">
+                        Processos
+                    </h3>
+                </div>
+                <!-- form start -->
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>PROFISSIONAL</th>
+                                        <th>PROFISSIONAL</th>
+                                        <th>INTERESSE</th>
+                                        <th>PROPOSTA</th>
+                                        <th>STATUS</th>
+                                        <th>DOCUMENTO</th>
+                                        <th>DATA</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for processo in processos %}
+                                        <tr>
+                                            <td>{{ processo.id }}</td>
+                                            <td>
+                                                {{ processo.profissional_dono }}
+                                            </td>
+                                            <td>
+                                                {{ processo.profissional_socio }}
+                                            </td>
+                                            <td>
+                                                {{ processo.interesse.titulo }}
+                                            </td>
+                                            <td>
+                                                {{ processo.proposta.titulo }}
+                                            </td>
+                                            <td>
+                                                {% if processo.status == 'AGUARDANDO PAGAMENTO' %}
+                                                    <label class="label label-info"><i class="fa fa-exclamation"></i> AGUARDANDO PAGAMENTO DONO
+                                                    </label>
+                                                {% elif processo.status == 'ABERTO' %}
+                                                    <label class="label label-info"><i class="fa fa-exclamation"></i> AGUARDANDO PAGAMENTO SOCIO
+                                                    </label>
+                                                {% elif processo.status == 'EM ANDAMENTO' %}
+                                                    <label class="label label-warning"><i class="fa fa-play"></i> EM ANDAMENTO
+                                                    </label>
+                                                {% elif processo.status == 'REALIZADO' %}
+                                                    <label class="label label-success"><i class="fa fa-check"></i> REALIZADO
+                                                    </label>
+                                                {% else %}
+                                                    <label class="label label-danger"><i class="fa fa-times"></i> REJEITADO
+                                                    </label>
+
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'documento-contrato-pro' processo.pk %}" target="_blank" data-toggle="tooltip" title=""
+                                                   data-original-title="Documento de Contrato {{ processo.id }}">
+                                                    <i class="fa fa-file-word-o fa-2x"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{ processo.created_at|date:"d/m/Y G:i" }}
+                                            </td>
+                                            <td>
+                                                {% if processo.status == 'AGUARDANDO PAGAMENTO' %}
+                                                    <a href="#"
+                                                       data-toggle="tooltip" title=""
+                                                       data-original-title="Pagar Taxa Dono"
+                                                       class="btn btn-default"> <i
+                                                            class="fa fa-check-square"></i> Pagar Taxa Dono</a>
+                                                {% elif processo.status == 'ABERTO' %}
+                                                    <a href="#"
+                                                       data-toggle="tooltip" title=""
+                                                       data-original-title="Pagar Taxa Socio"
+                                                       class="btn btn-default"> <i
+                                                            class="fa fa-check-square"></i> Pagar Taxa Socio</a>
+                                                {% else %}
+                                                    {% if not processo.status == 'REALIZADO' %}
+                                                        <a href="{% url 'finalizar-processo' processo.pk %}"
+                                                           data-toggle="tooltip" title=""
+                                                           data-original-title="Finalizar Processo {{ processo.id }}"
+                                                           class="btn btn-default"> <i
+                                                                class="fa fa-check-square"></i> Finalizar</a>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#faz').addClass('active');
+            $('#processos').addClass('active');
+            $('#table').DataTable({
+                responsive: true,
+                order: [[0, "desc"]],
+                "language": {
+                    "lengthMenu": "Exibir _MENU_ registros por página",
+                    "zeroRecords": "Nenhum item encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "emptyTable": "Sem dados disponíveis na tabela",
+                    "infoFiltered": "(filtrado do total de _MAX_ registros)",
+                    "thousands": ".",
+                    "loadingRecords": "Carregando...",
+                    "processing": "Processando...",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próximo",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ativar para classificar a coluna ascendente",
+                        "sortDescending": ": ativar para classificar a coluna descendente"
+                    }
+                }
+            });
+            tour = new Tour({
+                name: 'list_processos',
+                backdrop: true,
+                template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
+                steps: []
+            });
+        });
+    </script>
+
+{% endblock %}

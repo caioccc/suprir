@@ -33,6 +33,7 @@
                                     <thead>
                                     <tr>
                                         <th>CLIENTE</th>
+                                        <th>TELEFONE</th>
                                         <th>ID</th>
                                         <th>VALOR</th>
                                         <th>DESCRICAO</th>
@@ -49,10 +50,21 @@
                                                 {{ saida.cliente }}
                                             </td>
                                             <td>
+                                                {% if saida.telefone %}
+                                                    <a href="tel:{{ saida.telefone }}">
+                                                        {{ saida.telefone }}
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
                                                 {{ saida.id }}
                                             </td>
                                             <td>{{ saida.valor|floatformat:2 }}</td>
-                                            <td>{{ saida.descricao }}</td>
+                                            <td>
+                                                {% if saida.descricao %}
+                                                    {{ saida.descricao }}
+                                                {% endif %}
+                                            </td>
                                             <td>{{ saida.tipo_pagamento }}</td>
                                             <td>
                                                 {{ saida.data|date:"d/m/Y" }}
@@ -92,7 +104,7 @@
 
             $('#table').DataTable({
                 responsive: true,
-                order: [[1, "desc"]],
+                order: [[2, "desc"]],
                 "language": {
                     "lengthMenu": "Exibir _MENU_ registros por página",
                     "zeroRecords": "Nenhum item encontrado",

@@ -654,6 +654,7 @@ class StartTestSystem(RedirectView):
                     descricao='',
                     tipo_pagamento='CHEQUE',
                     cliente=names[random.randrange(len(names))],
+                    telefone=83986697661,
                     data=self.get_date_random()
                 )
                 entrada.save()
@@ -663,6 +664,7 @@ class StartTestSystem(RedirectView):
                     descricao='',
                     cliente=names[random.randrange(len(names))],
                     tipo_pagamento='CHEQUE',
+                    telefone=83986697661,
                     data=self.get_date_random()
                 )
                 saida.save()

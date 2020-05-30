@@ -15,6 +15,14 @@ def desapprove_selected(modeladmin, request, queryset):
     queryset.update(is_approved=False)
 
 
+def abrir_processo_selected(modeladmin, request, queryset):
+    queryset.update(status='ABERTO')
+
+
+def dar_andamento_selected(modeladmin, request, queryset):
+    queryset.update(status='EM ANDAMENTO')
+
+
 def get_new_itens(modeladmin, request, queryset):
     dic = get_chat_ids()
     if len(dic) > 0:
@@ -31,6 +39,8 @@ def get_new_itens(modeladmin, request, queryset):
 approve_selected.short_description = "Aprovar itens selecionados"
 desapprove_selected.short_description = "Desaprovar itens selecionados"
 get_new_itens.short_description = "Recuperar novos contatos"
+dar_andamento_selected.short_description = "Dar Andamento aos itens selecionados"
+abrir_processo_selected.short_description = "Abrir processos selecionados"
 
 
 class FotoServicoInline(admin.TabularInline):
@@ -238,7 +248,7 @@ class EntradaAdmin(admin.ModelAdmin):
     search_fields = (
         'cliente',
     )
-    list_display = ('profissional', 'id', 'valor', 'descricao', 'cliente', 'data', 'tipo_pagamento',
+    list_display = ('profissional', 'id', 'valor', 'descricao', 'cliente', 'telefone', 'data', 'tipo_pagamento',
                     'created_at')
 
 
@@ -247,7 +257,7 @@ class SaidaAdmin(admin.ModelAdmin):
     search_fields = (
         'cliente',
     )
-    list_display = ('profissional', 'id', 'valor', 'descricao', 'cliente', 'data', 'tipo_pagamento',
+    list_display = ('profissional', 'id', 'valor', 'descricao', 'cliente', 'telefone', 'data', 'tipo_pagamento',
                     'created_at')
 
 
@@ -269,6 +279,7 @@ class ProcessoAdmin(admin.ModelAdmin):
     search_fields = (
         'titulo',
     )
+    actions = [dar_andamento_selected, abrir_processo_selected]
     list_display = ('profissional_socio', 'profissional_socio', 'id', 'titulo',
                     'interesse', 'proposta', 'descricao', 'status', 'motivo', 'created_at')
 

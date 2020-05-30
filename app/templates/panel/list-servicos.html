@@ -34,10 +34,9 @@
                                     <tr>
                                         <th>TITULO</th>
                                         <th>ID</th>
-                                        <th>VALOR BASE</th>
+                                        <th>VALOR</th>
                                         <th>DISPONIVEL</th>
                                         <th>APROVADO</th>
-                                        <th>QTD FOTOS</th>
                                         <th>DATA</th>
                                         <th>EDITAR</th>
                                         <th>REMOVER</th>
@@ -71,7 +70,6 @@
                                                     </label>
                                                 {% endif %}
                                             </td>
-                                            <td>{{ servico.fotoservico_set.all|length }}</td>
                                             <td>
                                                 {{ servico.created_at|date:"d/m/Y G:i" }}
                                             </td>

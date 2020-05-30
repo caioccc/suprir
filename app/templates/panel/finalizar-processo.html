@@ -1,0 +1,42 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+
+    <div class="box box-primary" style="margin-top: 30px;">
+        <div class="box-header">
+            <h3 class="box-title">
+                <center style="font-size: 20px;">Finalizar Processo</center>
+            </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Tem certeza que deseja finalizar o processo '{{ processo.id }}',
+                            tornando-o REALIZADO com sucesso?</p>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <!-- /.box-body -->
+            <div class=" box-footer ">
+                <a href="{% url 'list-processos' %}" id="btn_cancelar"
+                   class="btn btn-default pull-left">Voltar</a>
+                <button type="submit" id="btn_salvar" class="btn btn-success pull-right">Sim, FINALIZAR!
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#faz').addClass('active');
+            $('#processos').addClass('active');
+        });
+    </script>
+
+{% endblock %}
