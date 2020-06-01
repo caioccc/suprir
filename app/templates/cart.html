@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load filters %}
 {% block content %}
+    {% include 'utils/loading.html' %}
     <!-- ========================= SECTION CONTENT ========================= -->
     <section class="section-content padding-y">
         <div class="container">
@@ -55,7 +56,7 @@
                                 {% if carrinho.profissional.receber_pelo_sistema %}
 
                                 {% else %}
-                                    <button type="submit"
+                                    <button type="submit" id="gerar"
                                             class="btn btn-primary float-md-right"> Gerar Contrato <i
                                             class="fa fa-chevron-right"></i>
                                     </button>
@@ -144,6 +145,9 @@
         $(document).ready(function () {
             $('#add-cupom').click(function () {
                 $('#formcupom').submit();
+            });
+            $('#gerar').click(function () {
+                $('#loading').show();
             });
         });
     </script>

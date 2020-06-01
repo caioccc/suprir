@@ -118,7 +118,7 @@
                                                        class="btn btn-default"> <i
                                                             class="fa fa-check-square"></i> Pagar Taxa Socio</a>
                                                 {% else %}
-                                                    {% if not processo.status == 'REALIZADO' %}
+                                                    {% if not processo.status == 'REALIZADO' and not processo.status == 'REJEITADO'  %}
                                                         <a href="{% url 'finalizar-processo' processo.pk %}"
                                                            data-toggle="tooltip" title=""
                                                            data-original-title="Finalizar Processo {{ processo.id }}"

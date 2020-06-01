@@ -91,7 +91,7 @@ class RejeiteContratoForm(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upd
         return data
 
     def form_valid(self, form):
-        cliente = self.model.cliente
+        cliente = ContratoDeServico.objects.get(pk=self.kwargs.get(self.pk_url_kwarg)).cliente
         send_mail_and_telegram(cliente, 'Oi, seu contrato gerado foi rejeitado pelo profissional. Por favor, entre no sistema e entre em contato com o profissional.', 'Contrato de Servico foi rejeitado.')
         messages.success(self.request, 'A Administracao ira avaliar o processo.')
         return super(RejeiteContratoForm, self).form_valid(form)

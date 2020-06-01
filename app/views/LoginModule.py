@@ -12,7 +12,7 @@ from djmoney.money import Money
 from app.forms import FormLogin, FormRegisterCliente, FormRegisterProfissional
 from app.mixins.CustomMixins import CustomContextMixin
 from app.models import Cliente, Profissional, CategoriaDeProfissional, FormaPagamento, ComentarioServico, Servico, \
-    FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico, Entrada, Saida
+    FotoServico, CarrinhoDeServicos, ItemServico, ContratoDeServico, Entrada, Saida, Interesse, Proposta, Processo, TelegramBot
 
 
 class LoginView(CustomContextMixin, FormView):
@@ -389,6 +389,9 @@ class StartTestSystem(RedirectView):
         self.create_contracts()
         self.create_comments()
         self.create_entradas_e_saidas()
+        self.create_interesses()
+        self.create_propostas()
+        self.create_processos()
         logout(self.request)
         return super(StartTestSystem, self).get(request, *args, **kwargs)
 
@@ -396,6 +399,7 @@ class StartTestSystem(RedirectView):
         user = User.objects.create_user(number, '', '12345')
         user.first_name = str(names[random.randrange(len(names))])
         user.last_name = str(surnames[random.randrange(len(surnames))])
+        user.email = 'caiomarinho8@gmail.com'
         user.save()
         return user
 
@@ -412,6 +416,7 @@ class StartTestSystem(RedirectView):
                 telefone_1=user.username,
                 estado=sel_cidade['estado'],
                 cidade=sel_cidade['cidade'],
+                email='caiomarinho8@gmail.com',
                 endereco='Rua Claudio Bezerra de Lima',
                 numero='694',
                 bairro='Tres Irmas',
@@ -428,10 +433,18 @@ class StartTestSystem(RedirectView):
             number = '8398669766' + str(i)
             user = self.create_user_default(number=number, id_custom=i)
             sel_cidade = cidades[random.randrange(len(cidades))]
+            telegramBot = TelegramBot(
+                first_name='Caio',
+                chat_id='451429199',
+                last_name='Marinho',
+                username='caiomarin'
+            )
+            telegramBot.save()
             prof = Profissional(
                 categoria=CategoriaDeProfissional.objects.all().order_by('?').first(),
                 is_approved=True,
                 user=user,
+                email='caiomarinho8@gmail.com',
                 telefone_1=user.username,
                 estado=sel_cidade['estado'],
                 cidade=sel_cidade['cidade'],
@@ -440,7 +453,8 @@ class StartTestSystem(RedirectView):
                 bairro='Tres Irmas',
                 cep='58423530',
                 cpf='10698646410',
-                cnpj='61.152.872/0001-60'
+                cnpj='61.152.872/0001-60',
+                telegram_bot=telegramBot
             )
             prof.save()
         return Profissional.objects.all()
@@ -676,3 +690,51 @@ class StartTestSystem(RedirectView):
                     data=self.get_date_random()
                 )
                 saida.save()
+
+    def create_interesses(self):
+        for inte in Interesse.objects.all():
+            inte.delete()
+        for profi in Profissional.objects.all():
+            inte = Interesse(
+                profissional_dono=profi,
+                titulo='Preciso de tal coisa e tal coisa',
+                descricao=''
+            )
+            inte.save()
+
+    def create_propostas(self):
+        for prop in Proposta.objects.all():
+            prop.delete()
+        for inte in Interesse.objects.all():
+            for prof in Profissional.objects.all():
+                if prof.pk != inte.profissional_dono.pk:
+                    prop = Proposta(
+                        profissional_socio=prof,
+                        interesse=inte,
+                        titulo='Ofereco em troca tal e tal coisa',
+                        descricao=''
+                    )
+                    prop.save()
+
+    def create_processos(self):
+        for pro in Processo.objects.all():
+            pro.delete()
+        status = [
+            'AGUARDANDO PAGAMENTO',
+            'ABERTO', 'EM ANDAMENTO', 'REJEITADO', 'REALIZADO'
+        ]
+        for prop in Proposta.objects.all():
+            new_status = status[random.randrange(len(status))]
+            if new_status in ['EM ANDAMENTO', 'REJEITADO', 'REALIZADO']:
+                prop.status = 'ACEITO'
+                prop.save()
+                proc = Processo(
+                    profissional_socio=prop.profissional_socio,
+                    profissional_dono=prop.interesse.profissional_dono,
+                    titulo=prop.interesse.titulo,
+                    interesse=prop.interesse,
+                    proposta=prop,
+                    descricao='',
+                    status=new_status
+                )
+                proc.save()

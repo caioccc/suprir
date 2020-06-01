@@ -13,7 +13,7 @@ from app.forms import ServicoSearchForm, ProfissionalSearchForm, FormComentario,
 from app.forms import FormMensagem, FormEditCliente
 from app.mixins.CustomMixins import UserLoggedMixin, CustomContextMixin
 from app.models import Servico, Profissional, Mensagem, CarrinhoDeServicos, ItemServico, Cliente, ContratoDeServico, ItemCupom, FormaPagamento, ComentarioServico
-from app.views.TelegramAPI import telegram_bot_sendtext, make_message_telegram
+from app.views.TelegramAPI import telegram_bot_sendtext, make_message_telegram, send_mail_and_telegram
 
 
 class ServicoFilter(BaseFilter):
@@ -235,21 +235,15 @@ class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
         return super(MeuPerfil, self).form_valid(form)
 
 
-def message_gencart_client(carrinho):
-    cliente = carrinho.cliente
-    profissional = carrinho.profissional
-    return 'Ola, ' + cliente.user.first_name + '.\n' + 'Um contrato foi gerado com o profissional ' + \
-           profissional.user.first_name + ' ' + profissional.user.last_name + '.\n' + \
+def message_gencart_client():
+    return 'Ola, Um contrato foi gerado.\n' + \
            'Aguarde o profissional dar andamento ao contrato, e acompanhe o status em ' \
            'Meus Contratos, no sistema do SUPRIR.'
 
 
-def message_gencart_profissional(carrinho):
-    cliente = carrinho.cliente
-    profissional = carrinho.profissional
-    return 'Ola, ' + profissional.user.first_name + '.\n' + 'Um contrato foi gerado com o cliente ' + \
-           cliente.user.first_name + ' ' + cliente.user.last_name + '.\n' + \
-           'O Cliente o aguarda Dar Andamento ao contrato em seu painel, no sistema do SUPRIR.'
+def message_gencart_profissional():
+    return 'Ola, \n' + 'Um contrato foi gerado com um cliente.\n' + \
+           'Este Cliente o aguarda Dar Andamento ao contrato em seu painel, no sistema do SUPRIR.'
 
 
 def gerar_contrato(request):
@@ -275,23 +269,8 @@ def gerar_contrato(request):
         contract.save()
         carrinho.status = False
         carrinho.save()
-        try:
-            if carrinho.cliente.email:
-                send_mail(subject='Um contrato foi gerado.', message=message_gencart_client(carrinho),
-                          from_email='suporte.suprir@gmail.com', recipient_list=(str(carrinho.cliente.email),))
-        except (Exception,):
-            print('Erro ao notificar cliente via email')
-        try:
-            send_mail(subject='Um contrato foi gerado.', message=message_gencart_profissional(carrinho),
-                      from_email='suporte.suprir@gmail.com', recipient_list=(str(carrinho.profissional.email),))
-        except (Exception,):
-            print('Erro ao notificar profissional via email')
-        try:
-            if carrinho.profissional.telegram_bot:
-                mensagem = make_message_telegram(contract)
-                telegram_bot_sendtext(chat_id=str(carrinho.profissional.telegram_bot.chat_id), message=mensagem)
-        except (Exception,):
-            print('Erro ao notificar via telegram')
+        send_mail_and_telegram(carrinho.cliente, message_gencart_client(), 'Um contrato foi gerado.')
+        send_mail_and_telegram(carrinho.profissional, message_gencart_profissional(), 'Um contrato foi gerado.')
         messages.success(request, 'Contrato gerado. Aguarde o profissional dar andamento ao contrato.')
         return redirect('/meuscontratos/')
     except (Exception,):

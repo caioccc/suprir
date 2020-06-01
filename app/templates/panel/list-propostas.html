@@ -77,7 +77,7 @@
                                                     <a href="{% url 'aceitar-proposta' proposta.pk %}"
                                                        data-toggle="tooltip" title=""
                                                        data-original-title="Aceitar proposta {{ proposta.id }}"
-                                                       class="btn btn-default"> <i
+                                                       class="btn btn-default option"> <i
                                                             class="fa fa-check-square"></i></a>
                                                 {% endif %}
                                             </td>
@@ -86,7 +86,7 @@
                                                     <a href="{% url 'rejeitar-proposta' proposta.pk %}"
                                                        data-toggle="tooltip" title=""
                                                        data-original-title="Rejeitar a proposta {{ proposta.id }}"
-                                                       class="btn btn-default"> <i
+                                                       class="btn btn-default option"> <i
                                                             class="fa fa-times"></i></a>
                                                 {% endif %}
                                             </td>
@@ -179,11 +179,14 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.option').click(function () {
+                $('#loading').show();
+            });
             $('#faz').addClass('active');
             $('#propostas').addClass('active');
             $('#table').DataTable({
                 responsive: true,
-                order: [[1, "desc"]],
+                order: [[3, "desc"]],
                 "language": {
                     "lengthMenu": "Exibir _MENU_ registros por página",
                     "zeroRecords": "Nenhum item encontrado",
