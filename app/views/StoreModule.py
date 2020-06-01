@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import DetailView, CreateView, UpdateView, ListView
@@ -234,6 +235,23 @@ class MeuPerfil(LoginRequiredMixin, CustomContextMixin, UpdateView):
         return super(MeuPerfil, self).form_valid(form)
 
 
+def message_gencart_client(carrinho):
+    cliente = carrinho.cliente
+    profissional = carrinho.profissional
+    return 'Ola, ' + cliente.user.first_name + '.\n' + 'Um contrato foi gerado com o profissional ' + \
+           profissional.user.first_name + ' ' + profissional.user.last_name + '.\n' + \
+           'Aguarde o profissional dar andamento ao contrato, e acompanhe o status em ' \
+           'Meus Contratos, no sistema do SUPRIR.'
+
+
+def message_gencart_profissional(carrinho):
+    cliente = carrinho.cliente
+    profissional = carrinho.profissional
+    return 'Ola, ' + profissional.user.first_name + '.\n' + 'Um contrato foi gerado com o cliente ' + \
+           cliente.user.first_name + ' ' + cliente.user.last_name + '.\n' + \
+           'O Cliente o aguarda Dar Andamento ao contrato em seu painel, no sistema do SUPRIR.'
+
+
 def gerar_contrato(request):
     carrinho = get_cart(request)
     try:
@@ -258,6 +276,17 @@ def gerar_contrato(request):
         carrinho.status = False
         carrinho.save()
         try:
+            if carrinho.cliente.email:
+                send_mail(subject='Um contrato foi gerado.', message=message_gencart_client(carrinho),
+                          from_email='suporte.suprir@gmail.com', recipient_list=(str(carrinho.cliente.email),))
+        except (Exception,):
+            print('Erro ao notificar cliente via email')
+        try:
+            send_mail(subject='Um contrato foi gerado.', message=message_gencart_profissional(carrinho),
+                      from_email='suporte.suprir@gmail.com', recipient_list=(str(carrinho.profissional.email),))
+        except (Exception,):
+            print('Erro ao notificar profissional via email')
+        try:
             if carrinho.profissional.telegram_bot:
                 mensagem = make_message_telegram(contract)
                 telegram_bot_sendtext(chat_id=str(carrinho.profissional.telegram_bot.chat_id), message=mensagem)
@@ -266,8 +295,8 @@ def gerar_contrato(request):
         messages.success(request, 'Contrato gerado. Aguarde o profissional dar andamento ao contrato.')
         return redirect('/meuscontratos/')
     except (Exception,):
-        messages.error(request, 'Erro ao gerar contrato, tente novamente.')
-        return redirect('/carrinho/' + str(carrinho.id))
+        messages.error(request, 'Erro ao tentar gerar o contrato, tente novamente.')
+        return redirect('/meuscontratos/')
 
 
 def aplicar_cupom(request):

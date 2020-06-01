@@ -74,7 +74,8 @@ class ClienteAdmin(admin.ModelAdmin):
     )
     inlines = [CarrinhoInline, ]
     list_display = (
-        'id', 'user', 'nome_completo', 'estado', 'cidade', 'cpf', 'cnpj', 'telefone_1', 'whatsapp', 'is_online',
+        'id', 'user', 'nome_completo', 'estado', 'cidade', 'cpf', 'cnpj', 'telefone_1', 'whatsapp',
+        'email', 'is_online',
         'created_at')
 
     def nome_completo(self, obj):
@@ -97,7 +98,7 @@ class ProfissionalAdmin(admin.ModelAdmin):
     )
     list_display = (
         'user', 'id', 'nome_profissional', 'estado', 'cidade', 'categoria', 'telefone_1', 'cpf', 'cnpj',
-        'is_approved', 'is_online', 'receber_pelo_sistema', 'telegram_bot', 'created_at',)
+        'is_approved', 'is_online', 'receber_pelo_sistema', 'email', 'telegram_bot', 'created_at',)
 
     def nome_profissional(self, obj):
         return obj.user.first_name

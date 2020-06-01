@@ -37,6 +37,10 @@
           href="https://cdn.datatables.net/u/bs/dt-1.10.12,r-2.1.0/datatables.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour.min.css"/>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/smartwizard@5.0.0/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css"/>
+
     <style>
         #ajuda {
             cursor: pointer;
@@ -189,21 +193,34 @@
                         <i class="fa fa-dashboard"></i> <span>Início</span>
                     </a>
                 </li>
-                <li id="clientes">
-                    <a href="{% url 'list-clientes' %}">
-                        <i class="fa fa-users"></i> <span>Meus Clientes</span>
+                <li class="treeview" id="sistema">
+                    <a href="#">
+                        <i class="fa fa-database"></i> <span>Sistema</span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li id="clientes">
+                            <a href="{% url 'list-clientes' %}">
+                                <i class="fa fa-users"></i> <span>Meus Clientes</span>
+                            </a>
+                        </li>
+                        <li id="servicos">
+                            <a href="{% url 'list-servicos' %}">
+                                <i class="fa fa-list-alt"></i> <span>Serviços</span>
+                            </a>
+                        </li>
+                        <li id="cupons">
+                            <a href="{% url 'list-cupons' %}">
+                                <i class="fa fa-tags"></i> <span>Cupons</span>
+                            </a>
+                        </li>
+                        <li id="comentarios">
+                            <a href="{% url 'list-comentarios' %}">
+                                <i class="fa fa-comments"></i> <span>Comentários</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li id="servicos">
-                    <a href="{% url 'list-servicos' %}">
-                        <i class="fa fa-list-alt"></i> <span>Serviços</span>
-                    </a>
-                </li>
-                <li id="cupons">
-                    <a href="{% url 'list-cupons' %}">
-                        <i class="fa fa-tags"></i> <span>Cupons</span>
-                    </a>
-                </li>
+
                 <li class="treeview" id="fluxocaixa">
                     <a href="#">
                         <i class="fa fa-line-chart"></i> <span>Fluxo de Caixa</span>
@@ -224,9 +241,10 @@
                         <li id="processos"><a href="{% url 'list-processos' %}"><i class="fa fa-circle-o"></i> Processos </a></li>
                     </ul>
                 </li>
-                <li id="comentarios">
-                    <a href="{% url 'list-comentarios' %}">
-                        <i class="fa fa-comments"></i> <span>Comentários</span>
+
+                <li id="alerta">
+                    <a href="#" data-toggle="modal" data-target="#configurar-telegram">
+                        <i class="fa fa-exclamation-triangle"></i> <span>Configurar Alerta</span>
                     </a>
                 </li>
                 <li id="profile">
@@ -260,6 +278,95 @@
 
         <!-- Main content -->
         <section class="content">
+
+            <div class="modal" id="configurar-telegram">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title">Configurar Alerta pelo Telegram</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="smartwizard">
+                                <ul class="nav">
+                                    <li>
+                                        <a class="nav-link" href="#step-0">
+                                            Inicio
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#step-1">
+                                            Passo 1
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#step-2">
+                                            Passo 2
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#step-3">
+                                            Passo 3
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#step-4">
+                                            Passo 4
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#step-5">
+                                            Passo 5
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="step-0" class="tab-pane" role="tabpanel">
+                                        <h4>
+                                            Vá passando os passos um a um e configure seu sistema de alertas instantâneos, para receber as
+                                            notificações no momento exato em que elas surgem.
+                                        </h4>
+                                    </div>
+                                    <div id="step-1" class="tab-pane" role="tabpanel">
+                                        <img src="{% static 'theme-store/img/Pop02.png' %}" class="img-thumbnail img-responsive" alt="">
+                                        <br/>
+                                        <p>Android:
+                                            <a href="https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=pt_BR" target="_blank">
+                                                https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=pt_BR
+                                            </a>
+                                        </p>
+                                        <p>iOS:
+                                            <a href="https://apps.apple.com/br/app/telegram-messenger/id686449807" target="_blank">
+                                                https://apps.apple.com/br/app/telegram-messenger/id686449807
+                                            </a>
+                                        </p>
+                                    </div>
+                                    <div id="step-2" class="tab-pane" role="tabpanel">
+                                        <img src="{% static 'theme-store/img/Pop03.png' %}" class="img-thumbnail img-responsive" alt="">
+                                    </div>
+                                    <div id="step-3" class="tab-pane" role="tabpanel">
+                                        <img src="{% static 'theme-store/img/Pop04.png' %}" class="img-thumbnail img-responsive" alt="">
+                                    </div>
+                                    <div id="step-4" class="tab-pane" role="tabpanel">
+                                        <img src="{% static 'theme-store/img/Pop05.png' %}" class="img-thumbnail img-responsive" alt="">
+                                    </div>
+                                    <div id="step-5" class="tab-pane" role="tabpanel">
+                                        <img src="{% static 'theme-store/img/Pop06.png' %}" class="img-thumbnail img-responsive" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
             <!-- Small boxes (Stat box) -->
             {% block content %}
 
@@ -323,6 +430,10 @@
 <script src="{% static "dist/js/chartReport.js" %}"></script>
 
 
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/smartwizard@5.0.0/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+
+
 <script type="text/javascript">
 
     var tour = null;
@@ -331,7 +442,6 @@
         tour.restart();
         tour.start(true);
     }
-
 
     $(document).ready(function () {
         $.fn.datepicker.dates['en'] = {
@@ -383,6 +493,14 @@
                 }
             });
         });
+
+        $('#smartwizard').smartWizard({
+            lang: { // Language variables for button
+                next: 'Próximo',
+                previous: 'Anterior'
+            }
+        });
+        $('#smartwizard').smartWizard("goToStep", 0);
 
 
         $('#btn_salvar').click(function () {

@@ -120,6 +120,8 @@ class RegistroCliente(CustomContextMixin, FormView):
         user_data['first_name'] = data['nome']
         user_data['last_name'] = data['sobrenome']
         user_data['password'] = data['password']
+        if 'email' in data:
+            user_data['email'] = data['email']
         data_address_client = self.get_address_client(data)
         try:
             user = User.objects.create_user(**user_data)
@@ -155,6 +157,8 @@ class RegistroCliente(CustomContextMixin, FormView):
             data_pro['cidade'] = data['cidade']
         if 'estado' in data:
             data_pro['estado'] = str(data['estado']).upper()
+        if 'email' in data:
+            data_pro['email'] = data['email']
         return data_pro
 
 
@@ -183,6 +187,8 @@ class RegistroProfissional(CustomContextMixin, FormView):
         user_data['first_name'] = data['nome']
         user_data['last_name'] = data['sobrenome']
         user_data['password'] = data['password']
+        if 'email' in data:
+            user_data['email'] = data['email']
         data_pro = self.get_profissional_data(data)
         try:
             user = User.objects.create_user(**user_data)
@@ -230,6 +236,8 @@ class RegistroProfissional(CustomContextMixin, FormView):
             data_pro['link_instagram'] = data['link_instagram']
         if 'url_site' in data:
             data_pro['url_site'] = data['url_site']
+        if 'email' in data:
+            data_pro['email'] = data['email']
         return data_pro
 
 

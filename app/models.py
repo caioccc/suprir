@@ -53,6 +53,7 @@ class CommonUserData(TimeStamped, BaseAddress):
     cnpj = models.CharField(max_length=100, blank=True, null=True, default="")
     is_online = models.BooleanField(default=False)
     file = models.FileField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         try:

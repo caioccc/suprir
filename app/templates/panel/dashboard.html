@@ -395,6 +395,50 @@
                 location.reload();
             }, 60000 * 10);
 
+            tour = new Tour({
+                name: 'index',
+                backdrop: true,
+                template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
+                steps: [
+                    {
+                        element: ".box.box-primary",
+                        placement: "top",
+                        title: "Boas vindas",
+                        content: "Oi, Seja Bem Vindo ao Sistema do SUPRIR."
+                    },
+                    {
+                        element: ".box.box-primary",
+                        placement: "top",
+                        title: "Bem vindo",
+                        content: "Conte conosco no que precisar, basta clicar no botão Ajuda em Laranja, ou" +
+                            "pedir ajuda à nossa IA que poderá lhe auxiliar, clicando no link AJUDA na barra esquerda."
+                    },
+                    {
+                        element: "#ajuda>a",
+                        placement: "right",
+                        backdrop: false,
+                        title: "Ajuda",
+                        content: "Neste botão você poderá requisitar a ajuda da nossa IA, que irá lhe informar sobre cada detalhe presente na tela.",
+                        onNext: function (tour) {
+                            $('#configurar-telegram').modal('show');
+                        }
+                    },
+                    {
+                        element: "#configurar-telegram",
+                        placement: "top",
+                        title: "Configurar Telegram Alerta",
+                        content: "Configure abaixo o sistema de alerta.",
+                        onShow: function (tour) {
+                            var timeOut = setTimeout(function () {
+                                tour.end();
+                            }, 2000);
+
+                        },
+                    },
+                ]
+            });
+            tour.start()
+
         });
     </script>
 

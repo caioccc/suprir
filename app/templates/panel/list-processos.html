@@ -56,19 +56,39 @@
                                             </td>
                                             <td>
                                                 {% if processo.status == 'AGUARDANDO PAGAMENTO' %}
-                                                    <label class="label label-info"><i class="fa fa-exclamation"></i> AGUARDANDO PAGAMENTO DONO
+                                                    <label class="label label-info"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Aguardando pagamento do dono do interesse, identificado como DONO na tabela."
+                                                    ><i class="fa fa-exclamation"></i> AGUARDANDO PAGAMENTO DONO
                                                     </label>
                                                 {% elif processo.status == 'ABERTO' %}
-                                                    <label class="label label-info"><i class="fa fa-exclamation"></i> AGUARDANDO PAGAMENTO SOCIO
+                                                    <label class="label label-info"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Aguardando pagamento do sócio, identificado como SÓCIO na tabela."
+                                                    ><i class="fa fa-exclamation"></i> AGUARDANDO PAGAMENTO SOCIO
                                                     </label>
                                                 {% elif processo.status == 'EM ANDAMENTO' %}
-                                                    <label class="label label-warning"><i class="fa fa-play"></i> EM ANDAMENTO
+                                                    <label class="label label-warning"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Aqui o processo está em andamento. Não se esqueça de finalizar o processo. Qualquer problema nos comunique no botão AJUDA."
+                                                    ><i class="fa fa-play"></i> EM ANDAMENTO
                                                     </label>
                                                 {% elif processo.status == 'REALIZADO' %}
-                                                    <label class="label label-success"><i class="fa fa-check"></i> REALIZADO
+                                                    <label class="label label-success"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Processo realizado e finalizado com sucesso."
+                                                    ><i class="fa fa-check"></i> REALIZADO
                                                     </label>
                                                 {% else %}
-                                                    <label class="label label-danger"><i class="fa fa-times"></i> REJEITADO
+                                                    <label class="label label-danger"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Processo foi rejeitado e cancelado."
+                                                    ><i class="fa fa-times"></i> REJEITADO
                                                     </label>
 
                                                 {% endif %}
@@ -117,6 +137,52 @@
 
                 </div>
                 <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5>Legenda: <small>passe o mouse, ou clique em cima do item.</small></h5>&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2"
+                             data-toggle="tooltip"
+                             title=""
+                             data-original-title="Os processos que foram realizadas com sucesso ficam com este status.">
+                            <i class="fa fa-check"></i> REALIZADO
+                        </div>
+                        <div class="col-sm-2" data-toggle="tooltip"
+                             title=""
+                             data-original-title="Os processos que foram rejeitados por algum motivo pelo profissional,
+                             ficam identificadas desta forma em seu status.">
+                            <i class="fa fa-times"></i> REJEITADO
+                        </div>
+                        <div class="col-sm-2"
+                             data-toggle="tooltip"
+                             title=""
+                             data-original-title="Os processos após serem gerados, e que ambos profissionais pagaram as taxas do sistema,
+                             ficam com este status."
+                        >
+                            <i class="fa fa-exclamation"></i> EM ANDAMENTO
+                        </div>
+                        <div class="col-sm-2"
+                             data-toggle="tooltip"
+                             title=""
+                             data-original-title="Os processos que foram gerados, porem ainda necessitam do pagamento da taxa do Dono do interesse,
+                             ficam com este status."
+                        >
+                            <i class=""></i> AGUARDANDO PAGAMENTO
+                        </div>
+                        <div class="col-sm-2"
+                             data-toggle="tooltip"
+                             title=""
+                             data-original-title="Os processos que foram gerados, porem ainda necessitam do pagamento da taxa do Sócio do interesse,
+                             ficam com este status."
+                        >
+                            <i class=""></i> EM ABERTO
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -22,6 +22,12 @@
                     </div> <!-- form-row end.// -->
                     <div class="form-row">
                         <div class="col form-group">
+                            <label>Email</label>
+                            {{ form.email }}
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
                             <label>CEP</label>
                             {{ form.cep }}
                             <small class="form-text text-muted">Insira apenas números</small>
@@ -84,7 +90,7 @@
                     <div class="form-row">
                         <div class="col form-group">
                             <label>Tipo</label>
-                            <select class="form-control" name="tipo" >
+                            <select class="form-control" name="tipo">
                                 <option value="pf">Pessoa Física</option>
                                 <option value="pj">Pessoa Jurídica</option>
                             </select>

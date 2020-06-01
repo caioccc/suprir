@@ -82,17 +82,20 @@ class FormRegisterCliente(FormBaseAddressNotRequired):
     telefone = forms.CharField(widget=forms.NumberInput(attrs={'required': True}))
     cpf = forms.CharField(widget=forms.TextInput(attrs={'required': True,
                                                         'maxlength': 100}))
+    email = forms.EmailField()
 
     def __init__(self, *args, **kwargs):
         super(FormRegisterCliente, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['required'] = 'True'
+        self.fields['email'].widget.attrs['required'] = False
+        self.fields['email'].required = False
 
 
 class FormRegisterProfissional(ModelForm, FormRegisterCliente):
     class Meta:
         model = Profissional
-        fields = ['categoria', 'telefone_2', 'link_facebook', 'link_instagram', 'url_site', 'cpf', 'cnpj']
+        fields = ['categoria', 'email', 'telefone_2', 'link_facebook', 'link_instagram', 'url_site', 'cpf', 'cnpj']
 
     def __init__(self, *args, **kwargs):
         super(FormRegisterProfissional, self).__init__(*args, **kwargs)
@@ -102,6 +105,8 @@ class FormRegisterProfissional(ModelForm, FormRegisterCliente):
         self.fields['telefone_2'].widget.attrs['required'] = False
         self.fields['cpf'].widget.attrs['required'] = False
         self.fields['cpf'].required = False
+        self.fields['email'].widget.attrs['required'] = False
+        self.fields['email'].required = False
         self.fields['cnpj'].widget.attrs['required'] = False
 
 
@@ -171,7 +176,7 @@ class FormProfissional(ModelForm, BaseForm):
         model = Profissional
         fields = ['categoria', 'user', 'telefone_1', 'telefone_2', 'link_facebook',
                   'link_instagram', 'url_site', 'whatsapp', 'photo', 'file', 'cpf', 'cnpj',
-                  'cep', 'endereco', 'numero', 'cidade', 'estado']
+                  'cep', 'endereco', 'numero', 'cidade', 'estado', 'email']
 
     def __init__(self, *args, **kwargs):
         super(FormProfissional, self).__init__(*args, **kwargs)
@@ -185,7 +190,7 @@ class FormProfissional(ModelForm, BaseForm):
 class FormUser(ModelForm, BaseForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', ]
+        fields = ['username', 'first_name', 'last_name', ]
 
     def __init__(self, *args, **kwargs):
         super(FormUser, self).__init__(*args, **kwargs)
@@ -290,7 +295,7 @@ class FormRejeiteContrato(ModelForm, BaseForm):
 class FormEditCliente(ModelForm, BaseForm):
     class Meta:
         model = Cliente
-        fields = ['telefone_1', 'whatsapp', 'photo', 'file', 'cpf', 'cep', 'endereco', 'numero', 'bairro', 'cidade',
+        fields = ['telefone_1', 'email', 'whatsapp', 'photo', 'file', 'cpf', 'cep', 'endereco', 'numero', 'bairro', 'cidade',
                   'estado', ]
 
     def __init__(self, *args, **kwargs):

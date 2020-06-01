@@ -91,6 +91,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#sistema').addClass('active');
             $('#clientes').addClass('active');
             $('#table').DataTable({
                 responsive: true,
@@ -156,6 +157,7 @@
 
                 ]
             });
+            tour.start()
 
         });
     </script>
