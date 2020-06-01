@@ -106,19 +106,15 @@
                                             </td>
                                             <td>
                                                 {% if processo.status == 'AGUARDANDO PAGAMENTO' %}
-                                                    <a href="#"
-                                                       data-toggle="tooltip" title=""
-                                                       data-original-title="Pagar Taxa Dono"
-                                                       class="btn btn-default"> <i
-                                                            class="fa fa-check-square"></i> Pagar Taxa Dono</a>
+                                                    <script src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                                                            data-preference-id="168339654-d73d5646-0a10-43e5-859c-8020b3f4aed2">
+                                                    </script>
                                                 {% elif processo.status == 'ABERTO' %}
-                                                    <a href="#"
-                                                       data-toggle="tooltip" title=""
-                                                       data-original-title="Pagar Taxa Socio"
-                                                       class="btn btn-default"> <i
-                                                            class="fa fa-check-square"></i> Pagar Taxa Socio</a>
+                                                    <script src="https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+                                                            data-preference-id="168339654-23d1f576-f0c1-46ee-84f1-32e3cd3fa2a9">
+                                                    </script>
                                                 {% else %}
-                                                    {% if not processo.status == 'REALIZADO' and not processo.status == 'REJEITADO'  %}
+                                                    {% if not processo.status == 'REALIZADO' and not processo.status == 'REJEITADO' %}
                                                         <a href="{% url 'finalizar-processo' processo.pk %}"
                                                            data-toggle="tooltip" title=""
                                                            data-original-title="Finalizar Processo {{ processo.id }}"
