@@ -1,4 +1,5 @@
 import requests
+from django.core.mail import send_mail
 
 from app.models import ContratoDeServico
 
@@ -41,3 +42,19 @@ def get_chat_ids():
                 'username': chat['username']
             })
     return dic
+
+
+def send_mail_and_telegram(object_custom_user, mensagem, titulo_email, ):
+    try:
+        if object_custom_user.telegram_bot:
+            telegram_bot_sendtext(chat_id=str(object_custom_user.telegram_bot.chat_id), message=mensagem)
+    except (Exception,):
+        print('Erro ao notificar' + titulo_email + 'para ' + object_custom_user +
+              ' via telegram')
+    try:
+        if object_custom_user.email:
+            send_mail(subject=titulo_email, message=mensagem,
+                      from_email='suporte.suprir@gmail.com', recipient_list=(str(object_custom_user.email),))
+    except (Exception,):
+        print('Erro ao notificar' + titulo_email + 'para ' + object_custom_user +
+              ' via email')

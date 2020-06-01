@@ -1,6 +1,6 @@
 # coding=utf-8
 import calendar
-import json
+from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,18 +9,15 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
-from django.views.generic import CreateView, DeleteView, FormView, DetailView, TemplateView
+from django.views.generic import CreateView, DeleteView, DetailView, TemplateView
 from django.views.generic import ListView, UpdateView
-
-from datetime import datetime, timedelta
-import time
-
 from djmoney.money import Money
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
     FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida, FormInteresse, FormProposta, FormProcesso
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
 from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida, Interesse, Proposta, Processo
+from app.views.TelegramAPI import send_mail_and_telegram
 
 
 class DashboardView(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -75,6 +72,7 @@ def andamento_contrato_servico(request, pk):
         contrato = ContratoDeServico.objects.get(id=pk)
         contrato.status = 'EM ANDAMENTO'
         contrato.save()
+        send_mail_and_telegram(contrato.cliente, 'Oi, seu contrato mudou de status. Agora ele esta em andamento. Obrigado pela preferencia.', 'Parece que o status do contrato de servico mudou.')
     except (Exception,):
         messages.error(request, 'Erro ao dar andamento no servico, tente novamente.')
     return redirect('/painel')
@@ -93,6 +91,8 @@ class RejeiteContratoForm(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upd
         return data
 
     def form_valid(self, form):
+        cliente = self.model.cliente
+        send_mail_and_telegram(cliente, 'Oi, seu contrato gerado foi rejeitado pelo profissional. Por favor, entre no sistema e entre em contato com o profissional.', 'Contrato de Servico foi rejeitado.')
         messages.success(self.request, 'A Administracao ira avaliar o processo.')
         return super(RejeiteContratoForm, self).form_valid(form)
 
@@ -359,15 +359,9 @@ class RemoveCupom(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView)
 
 
 class DocumentoContratoProfissional(LoginRequiredMixin, ProfessionalUserRequiredMixin, DetailView):
-    login_url = '/login/'
-    model = ContratoDeServico
-    template_name = 'documento-contrato.html'
-    context_object_name = 'contrato'
-
-    def dispatch(self, request, *args, **kwargs):
-        if not self.request.user.profissional.contratodeservico_set.filter(id=self.kwargs['pk']).exists():
-            return self.handle_no_permission()
-        return super(DocumentoContratoProfissional, self).dispatch(request, *args, **kwargs)
+    model = Processo
+    template_name = 'panel/documento-contrato-meiafolha.html'
+    context_object_name = 'processo'
 
 
 class ListEntradas(LoginRequiredMixin, ProfessionalUserRequiredMixin, ListView):
@@ -660,6 +654,8 @@ def generate_process(request, pk, ):
         descricao=''
     )
     proc.save()
+    mensagem = 'Sua proposta foi aceita. Acesse o sistema do SUPRIR para checar o status do novo processo gerado.'
+    send_mail_and_telegram(proposta.profissional_socio, mensagem, 'Sua proposta foi aceita.')
     messages.success(request, 'Proposta Aceita com sucesso. Um Processo foi aberto e está aguardando pagamento.')
     return redirect('/painel/processos/')
 
@@ -668,6 +664,8 @@ def reject_bid(request, pk):
     proposta = Proposta.objects.get(pk=pk)
     proposta.status = 'REJEITADO'
     proposta.save()
+    mensagem = 'Sua proposta foi rejeitada. Acesse o sistema do SUPRIR imediatamente.'
+    send_mail_and_telegram(proposta.profissional_socio, mensagem, 'Sua proposta foi rejeitada.')
     messages.success(request, 'Proposta Rejeitada')
     return redirect('/painel/propostas/')
 
@@ -687,6 +685,9 @@ class CreateProposta(LoginRequiredMixin, ProfessionalUserRequiredMixin, CreateVi
 
     def form_valid(self, form):
         messages.success(self.request, 'Proposta criada com sucesso')
+        interesse = Interesse.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
+        mensagem = 'Um nova proposta foi criada para seu interesse cadastrado. Acesse o sistema SUPRIR imediatamente para aceitar ou rejeitar ela.'
+        send_mail_and_telegram(interesse.profissional_dono, mensagem, 'Uma nova proposta para seu interesse foi criado.')
         return super(CreateProposta, self).form_valid(form)
 
     def form_invalid(self, form):
