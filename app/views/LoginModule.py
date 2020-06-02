@@ -1,7 +1,9 @@
 # coding=utf-8
 import datetime
 import random
+from base64 import b64encode
 
+import pyimgur
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -238,6 +240,15 @@ class RegistroProfissional(CustomContextMixin, FormView):
             data_pro['url_site'] = data['url_site']
         if 'email' in data:
             data_pro['email'] = data['email']
+        try:
+            CLIENT_ID = "cdadf801dc167ab"
+            bencode = b64encode(self.request.FILES['file'].read())
+            client = pyimgur.Imgur(CLIENT_ID)
+            r = client._send_request('https://api.imgur.com/3/image', method='POST', params={'image': bencode})
+            file = r['link']
+            data_pro['photo'] = file
+        except (Exception,):
+            pass
         return data_pro
 
 

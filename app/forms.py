@@ -95,10 +95,12 @@ class FormRegisterCliente(FormBaseAddressNotRequired):
 class FormRegisterProfissional(ModelForm, FormRegisterCliente):
     class Meta:
         model = Profissional
-        fields = ['categoria', 'email', 'telefone_2', 'link_facebook', 'link_instagram', 'url_site', 'cpf', 'cnpj']
+        fields = ['categoria', 'file', 'email', 'telefone_2', 'link_facebook', 'link_instagram', 'url_site', 'cpf', 'cnpj']
 
     def __init__(self, *args, **kwargs):
         super(FormRegisterProfissional, self).__init__(*args, **kwargs)
+        self.fields['file'].widget.attrs['required'] = False
+        self.fields['file'].label = 'Foto (logotipo)'
         self.fields['link_facebook'].widget.attrs['required'] = False
         self.fields['link_instagram'].widget.attrs['required'] = False
         self.fields['url_site'].widget.attrs['required'] = False

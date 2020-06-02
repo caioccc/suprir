@@ -9,7 +9,7 @@
         <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
             <article class="card-body">
                 <header class="mb-4"><h4 class="card-title">Registro de Profissional</h4></header>
-                <form action="" method="post">{% csrf_token %}
+                <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <div class="form-row">
                         <div class="col form-group">
                             <label>Nome</label>
@@ -24,6 +24,12 @@
                         <div class="col form-group">
                             <label>Email</label>
                             {{ form.email }}
+                        </div> <!-- form-group end.// -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label>Foto (logotipo)</label>
+                            {{ form.file }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">

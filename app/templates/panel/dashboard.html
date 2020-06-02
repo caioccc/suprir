@@ -10,10 +10,11 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    <div class="row" id="indicadores">
         <div class="col-lg-3 col-xs-6" id="servicos_realizado">
             <!-- small box -->
             <div class="small-box bg-aqua"
+                 id="realizados"
                  data-toggle="tooltip"
                  data-placement="bottom"
                  title=""
@@ -33,6 +34,7 @@
         <div class="col-lg-3 col-xs-6" id="servicos_andamento">
             <!-- small box -->
             <div class="small-box bg-green"
+                 id="andamento"
                  data-toggle="tooltip"
                  data-placement="bottom"
                  title=""
@@ -52,6 +54,7 @@
         <div class="col-lg-3 col-xs-6" id="carrinhos_abertos">
             <!-- small box -->
             <div class="small-box bg-yellow"
+                 id="pedidos"
                  data-toggle="tooltip"
                  data-placement="bottom"
                  title=""
@@ -71,6 +74,7 @@
         <div class="col-lg-3 col-xs-6" id="servicos_cadastrados">
             <!-- small box -->
             <div class="small-box bg-red"
+                 id="cadastrados"
                  data-toggle="tooltip"
                  data-placement="bottom"
                  title=""
@@ -404,17 +408,67 @@
                 template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Anterior</button><span data-role='separator'>|</span><button id='prox' class='btn btn-default' data-role='next'>Próximo »</button><button id='fim' class='btn btn-default hidden' data-role='end'>Finalizar</button> </div></div>",
                 steps: [
                     {
-                        element: ".box.box-primary",
+                        element: "#table",
                         placement: "top",
                         title: "Boas vindas",
                         content: "Oi, Seja Bem Vindo ao Sistema do SUPRIR."
                     },
                     {
-                        element: ".box.box-primary",
+                        element: "#table",
                         placement: "top",
                         title: "Bem vindo",
                         content: "Conte conosco no que precisar, basta clicar no botão Ajuda em Laranja, ou" +
                             "pedir ajuda à nossa IA que poderá lhe auxiliar, clicando no link AJUDA na barra esquerda."
+                    },
+                    {
+                        element: "#indicadores",
+                        placement: "bottom",
+                        title: "Indicadores",
+                        content: "Utilize os indicadores a seu favor. Fique sempre de olho nestes numeros."
+                    },
+                    {
+                        element: "#realizados",
+                        placement: "bottom",
+                        title: "Servicos Realizados",
+                        content: "Aqui fica a quantidade de servicos que foram realizados neste Mes."
+                    },
+                    {
+                        element: "#andamento",
+                        placement: "bottom",
+                        title: "Servicos em andamento",
+                        content: "Sao os servicos que estao em andamento."
+                    },
+                    {
+                        element: "#pedidos",
+                        placement: "bottom",
+                        title: "Pedidos de Servico",
+                        content: "Sao os pedidos de servicos realizados por possiveis clientes. Este indicador informa que" +
+                            "possiveis clientes visitaram seu perfil e colocaram no carrinho algum servico seu, e por" +
+                            "algum motivo nao finalizou o processo de compra."
+                    },
+                    {
+                        element: "#cadastrados",
+                        placement: "bottom",
+                        title: "Servicos Cadastrados",
+                        content: "Aqui ficam registrados os servicos que foram cadastrados por voce."
+                    },
+                    {
+                        element: "#table",
+                        placement: "top",
+                        title: "Tabelas de Contratos",
+                        content: "Nesta tabela fica os contratos gerados no sistema. Os clientes pedem na loja" +
+                            "de servicos o seu servico, e ele aparece aqui inicialmente como em ABERTO." +
+                            "Assim, quando voce der Andamento ao contrato, ele indicara que voce aprovou o" +
+                            " contrato de servico."
+                    },
+                    {
+                        element: ".navbar-custom-menu",
+                        placement: "bottom",
+                        title: "Mensagens",
+                        content: "Aqui fica indicando quando voce receber novas mensagens. Estas mensagens, podem " +
+                            "ser tanto de novos contratos de servico que necessitam de alguma acao sua, como " +
+                            "podem ser Propostas novas para seus interesses no modulo Faz Que Eu Faco. Fique atento " +
+                            "a estes icones sempre quando logar no sistema."
                     },
                     {
                         element: "#ajuda>a",
@@ -440,7 +494,7 @@
                     },
                 ]
             });
-            tour.start()
+            tour.start();
 
         });
     </script>
