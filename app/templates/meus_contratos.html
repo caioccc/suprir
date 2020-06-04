@@ -69,19 +69,38 @@
                                             <td>{% money_localize contrato.carrinho.valor_total %}</td>
                                             <td>
                                                 {% if contrato.status == 'REALIZADO' %}
-                                                    <label class="label label-success">
+                                                    <label class="label label-success"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram realizadas com sucesso ficam com este status."
+                                                    >
                                                         <i class="fa fa-check"></i> Realizado
                                                     </label>
                                                 {% elif contrato.status == 'EM ANDAMENTO' %}
-                                                    <label class="label label-warning">
+                                                    <label class="label label-warning"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram aceitos pelos profissionais apos serem gerados,
+                             ficam com este status."
+                                                    >
                                                         <i class="fa fa-exclamation"></i> Em Andamento
                                                     </label>
                                                 {% elif contrato.status == 'ABERTO' %}
-                                                    <label class="label label-info">
+                                                    <label class="label label-info"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram gerados, porem ainda necessitam serem aprovados pelos profissionais para darem andamento,
+                             ficam com este status."
+                                                    >
                                                         Em Aberto
                                                     </label>
                                                 {% else %}
-                                                    <label class="label label-danger">
+                                                    <label class="label label-danger"
+                                                           data-toggle="tooltip"
+                                                           title=""
+                                                           data-original-title="Os contratos que foram rejeitados por algum motivo pelo profissional,
+                                                            ficam identificadas desta forma em seu status."
+                                                    >
                                                         <i class="fa fa-times"></i> Rejeitado
                                                     </label>
                                                 {% endif %}

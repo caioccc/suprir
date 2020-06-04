@@ -21,6 +21,13 @@
                     <div class="col-md-12">
                         {{ carrinho_form.as_p }}
                     </div>
+                    {% if contrato.carrinho.cupom %}
+                        <div class="col-md-12">
+                            <p>
+                                <b>Usou Cupom</b>: {{ contrato.carrinho.cupom.cupom.codigo }}
+                            </p>
+                        </div>
+                    {% endif %}
                 </div>
                 <hr/>
                 <h3>Servicos</h3>

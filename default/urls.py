@@ -23,7 +23,7 @@ from app.views.PanelModule import DashboardView, ContractUpdateView, \
     finalizar_contrato_servico, ServicosList, CreateServico, UpdateServico, DeleteServico, ListComentarios, RevisaoView, \
     ClienteList, EditarPerfilView, RejeiteContratoForm, andamento_contrato_servico, ListCupons, CreateCupom, EditCupom, RemoveCupom, DocumentoContratoProfissional, EditEntrada, DeleteEntrada, \
     CreateEntrada, ListEntradas, ListSaidas, CreateSaida, EditSaida, DeleteSaida, FluxoCaixa, get_month_data, ListInteresse, CreateInteresse, UpdateInteresse, DeleteInteresse, ListPropostas, \
-    CreateProposta, DeleteProposta, reject_bid, generate_process, ListProcessos, ViewProcesso, FinalizarProcesso
+    CreateProposta, DeleteProposta, reject_bid, generate_process, ListProcessos, ViewProcesso, FinalizarProcesso, DocumentoContratoComCliente
 from app.views.StoreModule import IndexView, AreaProfissional, ViewServicoDetail, ProfissionalView, SobreView, \
     ContatoView, add_cart, CarrinhoView, remove_item_cart, MeuPerfil, ListServicesProfissionalView, MeusContratosView, \
     DocumentoContrato, gerar_contrato, aplicar_cupom, AvaliacaoView
@@ -57,7 +57,7 @@ urlpatterns = [
     url(r'^starttestdefault/$', StartTestSystem.as_view(), name='starttestsystem'),
 
     url(r'^painel/$', DashboardView.as_view(), name='dashboard-profissional'),
-    url(r'^painel/documento/(?P<pk>[0-9]+)$', DocumentoContratoProfissional.as_view(), name='documento-contrato-pro'),
+    url(r'^painel/documento/(?P<pk>[0-9]+)$', DocumentoContratoComCliente.as_view(), name='documento-contrato-com-cliente'),
     url(r'^painel/edit/(?P<pk>[0-9]+)/$', ContractUpdateView.as_view(), name='editar-contrato'),
     url(r'^painel/finalizar/(?P<pk>[0-9]+)/$', finalizar_contrato_servico, name='finalizar-contrato'),
     url(r'^painel/andamento/(?P<pk>[0-9]+)/$', andamento_contrato_servico, name='andamento-contrato'),
@@ -94,6 +94,8 @@ urlpatterns = [
 
     url(r'^painel/propostas/reject/(?P<pk>[0-9]+)/$', reject_bid, name='rejeitar-proposta'),
     url(r'^painel/propostas/acept/(?P<pk>[0-9]+)/$', generate_process, name='aceitar-proposta'),
+
+    url(r'^painel/processo/documento/(?P<pk>[0-9]+)$', DocumentoContratoProfissional.as_view(), name='documento-contrato-pro'),
 
     url(r'^painel/processos/$', ListProcessos.as_view(), name='list-processos'),
     url(r'^painel/processos/view/(?P<pk>[0-9]+)/$', ViewProcesso.as_view(), name='view-processo'),

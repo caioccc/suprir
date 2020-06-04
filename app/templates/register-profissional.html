@@ -9,59 +9,59 @@
         <div class="card mx-auto" style="max-width:520px; margin-top:40px;">
             <article class="card-body">
                 <header class="mb-4"><h4 class="card-title">Registro de Profissional</h4></header>
-                <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <form id="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Nome</label>
+                            <label>Nome *</label>
                             {{ form.nome }}
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
-                            <label>Sobrenome</label>
+                            <label>Sobrenome *</label>
                             {{ form.sobrenome }}
                         </div> <!-- form-group end.// -->
                     </div> <!-- form-row end.// -->
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Email</label>
+                            <label>Email *</label>
                             {{ form.email }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Foto (logotipo)</label>
+                            <label>Foto (logotipo) *</label>
                             {{ form.file }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>CEP</label>
+                            <label>CEP *</label>
                             {{ form.cep }}
                             <small class="form-text text-muted">Insira apenas números</small>
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Endereço</label>
+                            <label>Endereço *</label>
                             {{ form.endereco }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Número</label>
+                            <label>Número *</label>
                             {{ form.numero }}
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
-                            <label>Bairro</label>
+                            <label>Bairro *</label>
                             {{ form.bairro }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Cidade</label>
+                            <label>Cidade *</label>
                             {{ form.cidade }}
                         </div> <!-- form-group end.// -->
                         <div class="col form-group">
-                            <label>Estado</label>
+                            <label>Estado *</label>
                             {{ form.estado }}
                             <small class="form-text text-muted">Insira apenas a SIGLA</small>
                         </div> <!-- form-group end.// -->
@@ -69,7 +69,7 @@
                     </div> <!-- form-row.// -->
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Categoria</label>
+                            <label>Categoria *</label>
                             {{ form.categoria }}
                         </div> <!-- form-group end.// -->
                     </div>
@@ -104,19 +104,19 @@
                     </div>
                     <div class="cpfclass form-row">
                         <div class="col form-group">
-                            <label>CPF</label>
+                            <label>CPF *</label>
                             {{ form.cpf }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="cnpjclass form-row" style="display: none;">
                         <div class="col form-group">
-                            <label>CNPJ</label>
+                            <label>CNPJ *</label>
                             {{ form.cnpj }}
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-row">
                         <div class="col form-group">
-                            <label>Login</label>
+                            <label>Login *</label>
                             {{ form.telefone }}
                             <small class="form-text text-muted">Insira apenas números do CELULAR com DDD</small>
                         </div> <!-- form-group end.// -->
@@ -132,7 +132,7 @@
                         </div> <!-- form-group end.// -->
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Registrar</button>
+                        <button id="registrar" type="submit" class="btn btn-primary btn-block"> Registrar</button>
                     </div> <!-- form-group// -->
                     <div class="form-group">
                         <label class="custom-control custom-checkbox"> <input type="checkbox"
@@ -153,6 +153,20 @@
         <script>
 
             $(document).ready(function () {
+
+                $('#registrar').click(function () {
+                    var form = document.getElementById('form');
+                    for (var i = 0; i < form.elements.length; i++) {
+                        if (form.elements[i].value === '' && form.elements[i].hasAttribute('required')) {
+                            $('#loading').hide();
+                            swal("Alerta", "Preencha todos os campos obrigatorios", "info");
+                            return false;
+                        }
+                    }
+                    $('#loading').show();
+                });
+
+
                 $('[name=tipo]').on('change', function () {
                     if ($(this).val() === 'pf') {
                         $('.cpfclass').show();

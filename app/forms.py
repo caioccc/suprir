@@ -115,7 +115,7 @@ class FormRegisterProfissional(ModelForm, FormRegisterCliente):
 class FormCarrinho(ModelForm, BaseForm):
     class Meta:
         model = CarrinhoDeServicos
-        fields = ['cliente', 'valor_total', 'forma_pagamento', ]
+        fields = ['cliente', 'valor_total', 'forma_pagamento',]
 
     def __init__(self, *args, **kwargs):
         super(FormCarrinho, self).__init__(*args, **kwargs)
@@ -281,6 +281,7 @@ class FormMensagem(ModelForm, BaseForm):
         super(FormMensagem, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['required'] = 'True'
+        self.fields['telefone'].widget.attrs['required'] = False
 
 
 class FormRejeiteContrato(ModelForm, BaseForm):
@@ -385,6 +386,7 @@ class FormInteresse(ModelForm, BaseForm):
     def __init__(self, *args, **kwargs):
         super(FormInteresse, self).__init__(*args, **kwargs)
         self.fields['titulo'].label = 'Informe seu interesse'
+        self.fields['titulo'].widget.attrs['required'] = True
         self.fields['profissional_dono'].label = ''
         self.fields['profissional_dono'].widget.attrs['class'] = 'hidden'
 
@@ -397,6 +399,7 @@ class FormProposta(ModelForm, BaseForm):
     def __init__(self, *args, **kwargs):
         super(FormProposta, self).__init__(*args, **kwargs)
         self.fields['titulo'].label = 'Informe sua proposta'
+        self.fields['titulo'].widget.attrs['required'] = True
         self.fields['profissional_socio'].label = ''
         self.fields['profissional_socio'].widget.attrs['class'] = 'hidden'
         self.fields['interesse'].label = ''

@@ -18,10 +18,10 @@
             <div class="row ">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <form method="post" action="">{% csrf_token %}
+                    <form id="form" method="post" action="">{% csrf_token %}
                         {{ form.as_p }}
                         <div class="text-center">
-                            <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
+                            <button id="enviar" class="btn btn-primary btn-lg" type="submit">Enviar</button>
                         </div>
 
                     </form>
@@ -38,6 +38,18 @@
     <script>
         $(document).ready(function () {
             $('.contato-menu').addClass('checked');
+
+            $('#enviar').click(function () {
+                    var form = document.getElementById('form');
+                    for (var i = 0; i < form.elements.length; i++) {
+                        if (form.elements[i].value === '' && form.elements[i].hasAttribute('required')) {
+                            $('#loading').hide();
+                            swal("Alerta", "Preencha todos os campos obrigatorios", "info");
+                            return false;
+                        }
+                    }
+                    $('#loading').show();
+                });
         });
     </script>
     <!-- ========================= SECTION CONTENT END// ========================= -->

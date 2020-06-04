@@ -92,7 +92,8 @@ class RejeiteContratoForm(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upd
 
     def form_valid(self, form):
         cliente = ContratoDeServico.objects.get(pk=self.kwargs.get(self.pk_url_kwarg)).cliente
-        send_mail_and_telegram(cliente, 'Oi, seu contrato gerado foi rejeitado pelo profissional. Por favor, entre no sistema e entre em contato com o profissional.', 'Contrato de Servico foi rejeitado.')
+        send_mail_and_telegram(cliente, 'Oi, seu contrato gerado foi rejeitado pelo profissional. Por favor, entre no sistema e entre em contato com o profissional.',
+                               'Contrato de Servico foi rejeitado.')
         messages.success(self.request, 'A Administracao ira avaliar o processo.')
         return super(RejeiteContratoForm, self).form_valid(form)
 
@@ -358,6 +359,12 @@ class RemoveCupom(LoginRequiredMixin, ProfessionalUserRequiredMixin, DeleteView)
         return super(RemoveCupom, self).delete(self.request, *args, **kwargs)
 
 
+class DocumentoContratoComCliente(LoginRequiredMixin, ProfessionalUserRequiredMixin, DetailView):
+    model = ContratoDeServico
+    template_name = 'documento-contrato.html'
+    context_object_name = 'contrato'
+
+
 class DocumentoContratoProfissional(LoginRequiredMixin, ProfessionalUserRequiredMixin, DetailView):
     model = Processo
     template_name = 'panel/documento-contrato-meiafolha.html'
@@ -558,9 +565,10 @@ def get_month_data(request):
 
         for saida in saidas_dia:
             sum_saida_dia += saida.valor
+        val_sum = sum_entrada_dia - sum_saida_dia
         array.append([
             calendar.timegm(data_busca_entradas.timetuple()) * 1000,
-            float(sum_entrada_dia - sum_saida_dia)
+            float(val_sum)
         ])
 
     return JsonResponse(array, safe=False)
