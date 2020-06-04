@@ -4,7 +4,7 @@ from django.contrib import admin
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
     ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem, Entrada, Saida, Interesse, Proposta, Processo
-from app.views.TelegramAPI import get_chat_ids
+from app.views.TelegramAPI import get_chat_ids, send_mail_and_telegram
 
 
 def approve_selected(modeladmin, request, queryset):
@@ -16,10 +16,23 @@ def desapprove_selected(modeladmin, request, queryset):
 
 
 def abrir_processo_selected(modeladmin, request, queryset):
+    print(queryset)
+    send_mail_and_telegram(queryset.first().profissional_socio,
+                           'A proposta depois de aceita, gerou um processo.\n Neste Processo, estamos aguardando o pagamento '
+                           'das taxas para poder dar andamento ao processo e liberar o documento de contrato para ambos os profissionais. Por favor, acesse o sistema para realizar o pagamento, e '
+                           'envie o comprovante para o administrador atraves do botao laranja AJUDA.',
+                           'Processo em aberto aguardando pagamento.')
     queryset.update(status='ABERTO')
 
 
 def dar_andamento_selected(modeladmin, request, queryset):
+    proc = queryset.first()
+    send_mail_and_telegram(proc.profissional_socio,
+                           'Pagamento das taxas realizado com sucesso. O processo esta em andamento, e um documento de contrato foi gerado com sucesso. Por favor, acesso o sistema para verificar. Obrigado.',
+                           'Processo em andamento.')
+    send_mail_and_telegram(proc.profissional_dono,
+                           'Pagamento das taxas realizado com sucesso. O processo esta em andamento, e um documento de contrato foi gerado com sucesso. Por favor, acesso o sistema para verificar. Obrigado.',
+                           'Processo em andamento.')
     queryset.update(status='EM ANDAMENTO')
 
 
@@ -281,7 +294,7 @@ class ProcessoAdmin(admin.ModelAdmin):
         'titulo',
     )
     actions = [dar_andamento_selected, abrir_processo_selected]
-    list_display = ('profissional_socio', 'profissional_socio', 'id', 'titulo',
+    list_display = ('profissional_dono', 'profissional_socio', 'id', 'titulo',
                     'interesse', 'proposta', 'descricao', 'status', 'motivo', 'created_at')
 
 

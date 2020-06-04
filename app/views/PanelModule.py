@@ -62,6 +62,13 @@ def finalizar_contrato_servico(request, pk):
         contrato = ContratoDeServico.objects.get(id=pk)
         contrato.status = 'REALIZADO'
         contrato.save()
+        send_mail_and_telegram(contrato.cliente, 'Oi, \n Seu contrato foi finalizado, e por isso '
+                                                 'pedimos que avalie o servico '
+                                                 'realizado. Por favor, entre em nosso sistema e '
+                                                 'acesse o menu Contratos. Procure pelos botoes '
+                                                 'AVALIAR, e realize seus comentarios e nota para'
+                                                 'o servico que foi feito. Agradecemos por tudo,'
+                                                 ' e conte conosco para os demais servicos.', 'Contrato finalizado.')
     except (Exception,):
         messages.error(request, 'Erro ao finalizar servico, tente novamente.')
     return redirect('/painel')
@@ -72,7 +79,7 @@ def andamento_contrato_servico(request, pk):
         contrato = ContratoDeServico.objects.get(id=pk)
         contrato.status = 'EM ANDAMENTO'
         contrato.save()
-        send_mail_and_telegram(contrato.cliente, 'Oi, seu contrato mudou de status. Agora ele esta em andamento. Obrigado pela preferencia.', 'Parece que o status do contrato de servico mudou.')
+        send_mail_and_telegram(contrato.cliente, 'Oi, seu contrato mudou de status. Agora ele esta em andamento. Obrigado pela preferencia.', 'O status do seu contrato de servico mudou.')
     except (Exception,):
         messages.error(request, 'Erro ao dar andamento no servico, tente novamente.')
     return redirect('/painel')
@@ -664,6 +671,11 @@ def generate_process(request, pk, ):
     proc.save()
     mensagem = 'Sua proposta foi aceita. Acesse o sistema do SUPRIR para checar o status do novo processo gerado.'
     send_mail_and_telegram(proposta.profissional_socio, mensagem, 'Sua proposta foi aceita.')
+    send_mail_and_telegram(proc.profissional_dono,
+                           'A proposta depois de aceita, gerou um processo.\n Neste Processo, estamos aguardando o pagamento '
+                           'das taxas para poder dar andamento ao processo e liberar o documento de contrato para ambos os profissionais. Por favor, acesse o sistema para realizar o pagamento, e '
+                           'envie o comprovante para o administrador atraves do botao laranja AJUDA.',
+                           'Processo aguardando pagamento.')
     messages.success(request, 'Proposta Aceita com sucesso. Um Processo foi aberto e está aguardando pagamento.')
     return redirect('/painel/processos/')
 
@@ -743,5 +755,8 @@ class FinalizarProcesso(LoginRequiredMixin, ProfessionalUserRequiredMixin, Delet
         self.object = self.get_object()
         self.object.status = 'REALIZADO'
         self.object.save()
+        proc = Processo.objects.get(pk=self.kwargs.get(self.pk_url_kwarg))
+        send_mail_and_telegram(proc.profissional_socio, 'O seu processo no Modulo Faz Que Eu Faco que estava em andamento foi finalizado. Obrigado.', 'Processo finalizado.')
+        send_mail_and_telegram(proc.profissional_dono, 'O seu processo no Modulo Faz Que Eu Faco que estava em andamento foi finalizado. Obrigado.', 'Processo finalizado.')
         success_url = self.get_success_url()
         return HttpResponseRedirect(success_url)

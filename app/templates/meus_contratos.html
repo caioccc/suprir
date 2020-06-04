@@ -107,7 +107,7 @@
                                             </td>
                                             <td>{{ contrato.published_at|date:"d/m/Y G:i" }}</td>
                                             <td>
-                                                {% if contrato.status != 'REJEITADO' %}
+                                                {% if contrato.status != 'REJEITADO' and contrato.status != 'ABERTO' %}
                                                     <a href="{% url 'documento-contrato' contrato.pk %}" target="_blank">
                                                         <i class="fa fa-file-alt"></i>
                                                     </a>
