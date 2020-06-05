@@ -575,7 +575,7 @@ def get_month_data(request):
         val_sum = sum_entrada_dia - sum_saida_dia
         array.append([
             calendar.timegm(data_busca_entradas.timetuple()) * 1000,
-            float(val_sum)
+            float(val_sum.amount)
         ])
 
     return JsonResponse(array, safe=False)
