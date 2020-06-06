@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic.base import ContextMixin
 
 from app.forms import ServicoSearchForm
-from app.models import CategoriaDeProfissional, Profissional, ContratoDeServico, Proposta, Processo
+from app.models import CategoriaDeProfissional, Profissional, ContratoDeServico, Proposta, Processo, GeneralMessage
 
 
 class UserLoggedMixin(object):
@@ -47,10 +47,12 @@ class ProfessionalUserRequiredMixin(AccessMixin, ContextMixin):
             Q(profissional_dono=self.request.user.profissional) | Q(profissional_socio=self.request.user.profissional),
             Q(status__in=['AGUARDANDO PAGAMENTO', 'ABERTO'])
         )
+        general_message = GeneralMessage.objects.filter(status=True)
         kwargs['new_contracts'] = new_contracts
         kwargs['new_propostas'] = new_propostas
         kwargs['alerta_contratos'] = alerta_contratos
         kwargs['alerta_processos'] = alerta_processos
+        kwargs['general_message'] = general_message.first()
         return super(ProfessionalUserRequiredMixin, self).get_context_data(**kwargs)
 
     def dispatch(self, request, *args, **kwargs):

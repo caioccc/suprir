@@ -598,3 +598,19 @@ class Processo(TimeStamped):
 
     def __str__(self):
         return u'%s' % self.id
+
+
+class GeneralMessage(TimeStamped):
+    class Meta:
+        verbose_name = u'Mensagem Geral do Sistema'
+        verbose_name_plural = u'Mensagens Gerais do sistema'
+
+    title = models.CharField(max_length=300, blank=True, null=True)
+    message = models.TextField(blank=True, )
+    status = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u'%s' % self.id
+
+    def __str__(self):
+        return u'%s' % self.id

@@ -394,6 +394,14 @@
 
             {% endblock %}
 
+            {% if general_message %}
+                <div class="callout callout-info">
+                    <h4>{{ general_message.title }}</h4>
+
+                    <p>{{ general_message.message }}</p>
+                </div>
+            {% endif %}
+
         </section>
         <!-- /.content -->
     </div>

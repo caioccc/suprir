@@ -235,6 +235,15 @@
                         <a class="nav-link contato-menu"
                            href="{% url 'fale-conosco' %}">Fale Conosco</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Para o Cliente</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'como-funciona' %}">Como Funciona</a>
+                            <a class="dropdown-item" href="{% url 'perguntas-frequentes' %}">Perguntas Frequentes</a>
+                            <a class="dropdown-item" href="{% url 'regras-e-termos' %}">Regras e termos</a>
+                            <a class="dropdown-item" href="{% url 'politica-de-privacidade' %}">Politicas de Privacidade</a>
+                        </div>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
                     <li class="nav-item">
@@ -271,15 +280,18 @@
                     <h6 class="title">Organização</h6>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'sobre' %}">Sobre Nós</a></li>
-                        <li><a href="#">Regras e Termos</a>
+                        <li><a href="{% url 'regras-e-termos' %}">Regras e Termos</a>
+                        </li>
+                        <li><a href="{% url 'politica-de-privacidade' %}">Politicas de Privacidade</a>
                         </li>
                     </ul>
                 </aside>
                 <aside class="col-md col-6">
                     <h6 class="title">Ajuda</h6>
                     <ul class="list-unstyled">
+                        <li><a href="{% url 'como-funciona' %}">Como Funciona</a></li>
+                        <li><a href="{% url 'perguntas-frequentes' %}">Perguntas Frequentes</a></li>
                         <li><a href="{% url 'fale-conosco' %}">Fale Conosco</a></li>
-                        <li><a href="#">Ajuda na Tela</a></li>
                     </ul>
                 </aside>
                 <aside class="col-md col-6">

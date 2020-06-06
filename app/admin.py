@@ -3,8 +3,17 @@ from django.contrib import admin
 # Register your models here.
 from app.models import FotoServico, AdicionalDeServico, Servico, CarrinhoDeServicos, ItemServico, \
     AdicionalEscolhido, Cliente, CategoriaDeProfissional, Profissional, CategoriaDeServico, FormaPagamento, \
-    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem, Entrada, Saida, Interesse, Proposta, Processo, EmailOuTelegramaAdmin
+    ContratoDeServico, ComentarioServico, Mensagem, Cupom, ItemCupom, TelegramBot, RecycleTelegramItem, Entrada, Saida, Interesse, Proposta, Processo, EmailOuTelegramaAdmin, GeneralMessage
 from app.views.TelegramAPI import get_chat_ids, send_mail_and_telegram
+
+
+def approve_selected_professionals(modeladmin, request, queryset):
+    for profissional in queryset:
+        send_mail_and_telegram(profissional,
+                               'Oi, \n Sua conta foi aprovada em nosso sistema. Por favor, acesse nosso site '
+                               'e cadastre os seus servicos para poder receber pedidos de servico.',
+                               'Sua Conta foi aprovada.')
+    queryset.update(is_approved=True)
 
 
 def approve_selected(modeladmin, request, queryset):
@@ -50,6 +59,7 @@ def get_new_itens(modeladmin, request, queryset):
 
 
 approve_selected.short_description = "Aprovar itens selecionados"
+approve_selected_professionals.short_description = "Aprovar profissionais selecionados"
 desapprove_selected.short_description = "Desaprovar itens selecionados"
 get_new_itens.short_description = "Recuperar novos contatos"
 dar_andamento_selected.short_description = "Dar Andamento aos itens selecionados"
@@ -105,7 +115,7 @@ class ProfissionalAdmin(admin.ModelAdmin):
     inlines = [
         ServicoInline,
     ]
-    actions = [approve_selected, desapprove_selected]
+    actions = [approve_selected_professionals, desapprove_selected]
     search_fields = (
         'user__first_name', 'cpf', 'cnpj',
     )
@@ -305,6 +315,10 @@ class MensagemAdminAdmin(admin.ModelAdmin):
     list_display = ('user', 'message', 'id', 'title', 'enviado', 'created_at')
 
 
+class GeneralMessageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'message', 'id', 'status', 'created_at')
+
+
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(Profissional, ProfissionalAdmin)
 admin.site.register(CategoriaDeProfissional, CategoriaDeProfissionalAdmin)
@@ -329,3 +343,4 @@ admin.site.register(Interesse, InteresseAdmin)
 admin.site.register(Proposta, PropostaAdmin)
 admin.site.register(Processo, ProcessoAdmin)
 admin.site.register(EmailOuTelegramaAdmin, MensagemAdminAdmin)
+admin.site.register(GeneralMessage, GeneralMessageAdmin)

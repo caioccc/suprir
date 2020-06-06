@@ -368,3 +368,19 @@ class AvaliacaoView(LoginRequiredMixin, CustomContextMixin, UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, 'Ocorreu algum erro, tente novamente')
         return super(AvaliacaoView, self).form_invalid(form)
+
+
+class RegrasETermos(CustomContextMixin, TemplateView):
+    template_name = 'regras_e_termos.html'
+
+
+class ComoFunciona(CustomContextMixin, TemplateView):
+    template_name = 'como_funciona.html'
+
+
+class PoliticaPrivacidade(CustomContextMixin, TemplateView):
+    template_name = 'politica_privacidade.html'
+
+
+class PerguntasFrequentes(CustomContextMixin, TemplateView):
+    template_name = 'perguntas_frequentes.html'

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <section class="section-pagetop bg-light">
+        <div class="container">
+            <h2 class="title-page">Como Funciona ?</h2>
+        </div> <!-- container .// -->
+    </section>
+
+
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content bg-white padding-y">
+        <div class="container">
+
+            <h5 class="card-title">O Que É ?</h5>
+            <p>O Suprir tem como finalidade apoiar a cada
+                profissional com suas profissões e serviços,
+                destacando seus logotipos, como também suas
+                áreas de atuação. </p>
+            <br><br>
+
+            <h5 class="card-title">Como Funciona ?</h5>
+            <p>Nosso sistema tem como finalidade apoiar a cada profissional que
+                desenvolve sua atividade laboral, e que
+                alcançar também seus negócios e produtos. O
+                grupo no WhatsApp já está em pleno
+                funcionamento ajudando os nossos irmãos com
+                suas respectivas profissões. Lembrando que o
+                objetivo maior é cumprir o desejo do Senhor que
+                é abençoar os nossos irmãos.</p>
+            <br><br>
+
+            <a href="javascript: history.back()" class="btn btn-light"> « Voltar</a>
+
+
+        </div> <!-- container .//  -->
+    </section>
+
+    <script>
+        $(document).ready(function () {
+            $('.sobre-menu').addClass('checked');
+        });
+    </script>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}
