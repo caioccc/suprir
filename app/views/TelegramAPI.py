@@ -1,7 +1,6 @@
 import requests
 from django.core.mail import send_mail
 
-from app.models import ContratoDeServico
 
 BOT_TOKEN = '1072888475:AAGL8G9-Pv1K7wsLpRlmGgh5xEDeZfom-GY'
 
@@ -12,7 +11,7 @@ def telegram_bot_sendtext(chat_id, message):
     return response.json()
 
 
-def make_message_telegram(contratoDeServico=ContratoDeServico):
+def make_message_telegram(contratoDeServico):
     message = '<b>NOVO CONTRATO GERADO</b>\n\n<pre> Cliente: ' + contratoDeServico.cliente.user.first_name + ' ' + \
               contratoDeServico.cliente.user.last_name + '</pre>\n\n<pre>Valor Total: ' + str(contratoDeServico.carrinho.valor_total) + '</pre>\n\n<pre>' + \
               contratoDeServico.carrinho.forma_pagamento.forma + '</pre>\n<pre>Telefone Cliente: ' + contratoDeServico.cliente.user.username + '</pre>\n\n<pre>Link:</pre>' + \
@@ -58,3 +57,15 @@ def send_mail_and_telegram(object_custom_user, mensagem, titulo_email, ):
     except (Exception,):
         print('Erro ao notificar ' + titulo_email + ' para ' + str(object_custom_user) +
               ' via email')
+
+
+def send_mail_and_telegram_admin(object_custom_user, mensagem, titulo_email):
+    try:
+        if object_custom_user.telegram_bot:
+            telegram_bot_sendtext(chat_id=str(object_custom_user.telegram_bot.chat_id), message=mensagem)
+    except (Exception,):
+        print('Erro ao notificar ' + titulo_email + ' para ' + str(object_custom_user) +
+              ' via telegram')
+    if object_custom_user.email:
+        send_mail(subject=titulo_email, message=mensagem,
+                  from_email='suporte.suprir@gmail.com', recipient_list=(str(object_custom_user.email),))

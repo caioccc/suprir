@@ -10,6 +10,8 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 
+from app.views.TelegramAPI import send_mail_and_telegram_admin
+
 
 class TimeStamped(models.Model):
     class Meta:
@@ -89,6 +91,36 @@ class TelegramBot(TimeStamped):
     last_name = models.CharField(max_length=300, blank=True, null=True)
     username = models.CharField(max_length=300, blank=True, null=True)
     is_approved = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return u'%s' % self.chat_id
+
+    def __str__(self):
+        return u'%s' % self.chat_id
+
+
+class EmailOuTelegramaAdmin(TimeStamped):
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+    message = models.TextField()
+    title = models.CharField(max_length=200)
+    enviado = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        customuser = None
+        try:
+            customuser = self.user.cliente
+        except (Exception,):
+            print('Nao eh cliente')
+        try:
+            customuser = self.user.profissional
+        except (Exception,):
+            print('Nao eh profissional')
+        try:
+            send_mail_and_telegram_admin(customuser, self.message, self.title)
+            self.enviado = True
+        except (Exception,):
+            print('erro ao enviar mensagem')
+        return super(EmailOuTelegramaAdmin, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'%s' % self.id

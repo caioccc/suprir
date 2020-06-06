@@ -71,9 +71,13 @@ class LoginView(CustomContextMixin, FormView):
 
         if user:
             if profissional:
+                profissional.is_online = True
+                profissional.save()
                 url = '/painel/'
                 self.success_url = url
             elif cliente:
+                cliente.is_online = True
+                cliente.save()
                 url = '/'
                 self.success_url = url
             elif user.is_superuser:
@@ -93,6 +97,20 @@ class LogoutView(RedirectView):
     permanent = False
 
     def get(self, request, *args, **kwargs):
+        customuser = None
+        try:
+            customuser = self.request.user.cliente
+        except (Exception,):
+            print('Nao eh cliente')
+        try:
+            customuser = self.request.user.profissional
+        except (Exception,):
+            print('Nao eh profissional')
+        try:
+            customuser.is_online = False
+            customuser.save()
+        except (Exception,):
+            print('Erro ao setar online offline no logout')
         logout(self.request)
         return super(LogoutView, self).get(request, *args, **kwargs)
 
