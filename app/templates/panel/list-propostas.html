@@ -10,7 +10,8 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    {% include 'utils/breadcrumb.html' with title='Lista de Propostas' subtitle='Veja abaixo a lista de propostas recebidas para seus interesses cadastrados.' link1='Faz Que Eu Faço' link2='Propostas' %}
+    <div class="row" style="margin-top: 30px">
         <div class="col-md-12">
             <div class="box box-primary" id="contratos_de_servico">
                 <div class="box-header">

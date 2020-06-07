@@ -10,7 +10,9 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    {% include 'utils/breadcrumb.html' with title='Lista de Interesses' subtitle='Veja a lista de interesses cadastrados.' link1='Faz Que Eu Faço' link2='Interesses' %}
+
+    <div class="row" style="margin-top: 30px">
         <div class="col-md-12">
             <div class="box box-primary" id="">
                 <div class="box-header">

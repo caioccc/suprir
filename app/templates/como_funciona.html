@@ -14,14 +14,8 @@
     <section class="section-content bg-white padding-y">
         <div class="container">
 
-            <h5 class="card-title">O Que É ?</h5>
-            <p>O Suprir tem como finalidade apoiar a cada
-                profissional com suas profissões e serviços,
-                destacando seus logotipos, como também suas
-                áreas de atuação. </p>
-            <br><br>
-
-            <h5 class="card-title">Como Funciona ?</h5>
+            <img src="{% static 'theme-store/img/org.jpg' %}" class="img-responsive img-thumbnail"/>
+            <hr/>
             <p>Nosso sistema tem como finalidade apoiar a cada profissional que
                 desenvolve sua atividade laboral, e que
                 alcançar também seus negócios e produtos. O
@@ -30,6 +24,12 @@
                 suas respectivas profissões. Lembrando que o
                 objetivo maior é cumprir o desejo do Senhor que
                 é abençoar os nossos irmãos.</p>
+            <p>O Sistema funciona de maneira bem simples. Inicialmente um <b>Profissional</b> cadastra
+                seus serviços e aguarda por pedidos de serviço. Um <b>Cliente</b> acessa nossa loja de serviços,
+                se cadastra e faz login no sistema. Assim, ele pode contatar o profissional para tirar duvidas.
+                Então, ele contrata um serviço e gera um contrato, e por fim aguarda o profissional dar andamento
+                ao contrato aberto. Pronto! Um documento de contrato vai ser gerado para ser impresso e assinado,
+                para ambas as partes.</p>
             <br><br>
 
             <a href="javascript: history.back()" class="btn btn-light"> « Voltar</a>
@@ -40,7 +40,6 @@
 
     <script>
         $(document).ready(function () {
-            $('.sobre-menu').addClass('checked');
         });
     </script>
     <!-- ========================= SECTION CONTENT END// ========================= -->

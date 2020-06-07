@@ -3,6 +3,8 @@
 {% load filters %}
 {% load djmoney %}
 {% block content %}
+{% include 'utils/breadcrumb.html' with title='Lista de Saidas' subtitle='Veja as saidas que vao preencher seu painel e informar indicadores' link1='Fluxo de Caixa' link2='Saidas' %}
+
 
     <style>
         .small-box .icon {
@@ -10,7 +12,7 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    <div class="row" style="margin-top: 30px;">
         <div class="col-md-12">
             <div class="box box-primary" id="contratos_de_servico">
                 <div class="box-header">

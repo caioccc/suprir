@@ -10,7 +10,9 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    {% include 'utils/breadcrumb.html' with title='Comentários' subtitle='Veja os comentários que recebeu após a realização dos serviços prestados.' link1='Comentários' %}
+
+    <div class="row" style="margin-top: 30px">
         <div class="col-md-12">
             <div class="box box-primary" id="contratos_de_servico">
                 <div class="box-header">

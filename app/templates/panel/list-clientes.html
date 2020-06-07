@@ -10,7 +10,9 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    {% include 'utils/breadcrumb.html' with title='Meus Clientes' subtitle='Aqui ficam registrados todos os clientes que realizaram algum tipo de contrato com você dentro do sistema.' link1='Meus Clientes' %}
+
+    <div class="row" style="margin-top: 30px">
         <div class="col-md-12">
             <div class="box box-primary" id="clientes">
                 <div class="box-header">

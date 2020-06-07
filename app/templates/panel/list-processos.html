@@ -10,7 +10,8 @@
         }
     </style>
     {% include 'utils/loading.html' %}
-    <div class="row">
+    {% include 'utils/breadcrumb.html' with title='Lista de Processos' subtitle='Veja a lista de processos gerados.' link1='Faz Que Eu Faço' link2='Processos' %}
+    <div class="row" style="margin-top: 30px">
         <div class="col-md-12">
             <div class="box box-primary" id="list_processos">
                 <div class="box-header">
