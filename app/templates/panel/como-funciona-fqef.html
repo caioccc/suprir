@@ -1,0 +1,52 @@
+{% extends 'panel/base.html' %}
+{% load staticfiles %}
+{% load filters %}
+
+{% block content %}
+    {% include 'utils/breadcrumb.html' with title='Como Funciona o Faz Que Eu Faço' subtitle='Veja abaixo detalhes do modulo.' link1='Faz Que Eu Faço' link2='Como Funciona' %}
+
+    <div class="box box-primary" style="margin-top: 30px;">
+        <div class="box-header">
+            <h3 class="box-title">
+                <center style="font-size: 20px;">Como Funciona?</center>
+            </h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <img src="{% static 'theme-store/img/org_2_fqef.jpg' %}" class="img-responsive img-thumbnail"/>
+                    <p></p>
+                    <p>Inicialmente, um Profissional qualquer, denominado DONO, registrado, aprovado e logado no sistema,
+                        abre o menu Faz Que Eu Faço, e cadastra seus Interesses, e por fim aguarda.</p>
+
+                    <p>Um Segundo Profissional, denominado SOCIO, pesquisa por interesses cadastrados e Faz Propostas
+                        para aquele interesse desejado.</p>
+
+                    <p>Daí, então, o Profissional DONO, recebendo notificações por email, telegram e no sistema
+                        do SUPRIR, checará as propostas recebidas, e irá avaliar elas. Caso Rejeite alguma proposta,
+                        porá fim a ela. Caso Aceite ao menos 1 proposta, o sistema irá gerar um Processo,
+                        vinculando ambos os profissionais.</p>
+
+                    <p>Assim, para dar continuidade ao Processo, será necessário o pagamento de uma taxa no valor de R$10,00 (dez reais),
+                        podendo ser paga por ambos os profissionais, DONO e SOCIO, e serão representadas no Status (Aguardando pagamento
+                        DONO ou Aguardando pagamento SOCIO). Uma vez a taxa sendo paga, o Administrador do
+                        sistema irá liberar o processo, dando ANDAMENTO ao Processo, e liberando o arquivo de Contrato
+                        que vincula ambos os profissionais.</p>
+                    <p>Então, qualquer profissional poderá então finalizar o Processo, tornando o seu
+                        status REALIZADO.</p>
+                </div>
+            </div>
+            <hr/>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#faz').addClass('active');
+            $('#como_funciona').addClass('active');
+        });
+    </script>
+
+{% endblock %}

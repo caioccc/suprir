@@ -43,7 +43,7 @@ class ContractUpdateView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upda
         if self.request.POST:
             data['carrinho_form'] = FormCarrinho(self.request.POST, instance=self.object.carrinho)
             data['itemservicoset'] = ItemServicoViewFormSet(self.request.POST, self.request.FILES,
-                                                        instance=self.object.carrinho)
+                                                            instance=self.object.carrinho)
         else:
             data['carrinho_form'] = FormCarrinho(instance=self.object.carrinho)
             data['itemservicoset'] = ItemServicoViewFormSet(instance=self.object.carrinho)
@@ -760,3 +760,7 @@ class FinalizarProcesso(LoginRequiredMixin, ProfessionalUserRequiredMixin, Delet
         send_mail_and_telegram(proc.profissional_dono, 'O seu processo no Modulo Faz Que Eu Faco que estava em andamento foi finalizado. Obrigado.', 'Processo finalizado.')
         success_url = self.get_success_url()
         return HttpResponseRedirect(success_url)
+
+
+class ComoFuncionaFQEF(LoginRequiredMixin, ProfessionalUserRequiredMixin, TemplateView):
+    template_name = 'panel/como-funciona-fqef.html'
