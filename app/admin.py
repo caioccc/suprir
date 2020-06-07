@@ -93,7 +93,7 @@ class AdicionalEscolhidoInline(admin.TabularInline):
 class ClienteAdmin(admin.ModelAdmin):
     list_filter = ('estado', 'cidade', 'is_online',)
     search_fields = (
-        'user__first_name', 'cpf', 'cnpj',
+        'user__first_name', 'cpf', 'cnpj', 'email'
     )
     inlines = [CarrinhoInline, ]
     list_display = (
@@ -268,7 +268,6 @@ class RecycleTelegramItemAdmin(admin.ModelAdmin):
 
 
 class EntradaAdmin(admin.ModelAdmin):
-    list_filter = ('profissional', 'tipo_pagamento')
     search_fields = (
         'cliente',
     )
@@ -277,7 +276,6 @@ class EntradaAdmin(admin.ModelAdmin):
 
 
 class SaidaAdmin(admin.ModelAdmin):
-    list_filter = ('profissional', 'tipo_pagamento')
     search_fields = (
         'cliente',
     )
@@ -286,22 +284,25 @@ class SaidaAdmin(admin.ModelAdmin):
 
 
 class InteresseAdmin(admin.ModelAdmin):
+    list_filter = ('profissional_dono__estado', 'profissional_dono__cidade',)
     search_fields = (
-        'titulo',
+        'titulo', 'profissional_dono__cpf', 'profissional_dono__cnpj',
     )
     list_display = ('profissional_dono', 'id', 'titulo', 'descricao', 'status', 'created_at')
 
 
 class PropostaAdmin(admin.ModelAdmin):
+    list_filter = ('profissional_socio__estado', 'profissional_socio__cidade',)
     search_fields = (
-        'titulo',
+        'titulo', 'profissional_socio__cpf', 'profissional_socio__cnpj',
     )
     list_display = ('profissional_socio', 'id', 'titulo', 'interesse', 'descricao', 'status', 'created_at')
 
 
 class ProcessoAdmin(admin.ModelAdmin):
+    list_filter = ('profissional_dono__estado', 'profissional_dono__cidade', 'status')
     search_fields = (
-        'titulo',
+        'titulo', 'profissional_dono__cpf', 'profissional_dono__cnpj'
     )
     actions = [dar_andamento_selected, abrir_processo_selected]
     list_display = ('profissional_dono', 'profissional_socio', 'id', 'titulo',

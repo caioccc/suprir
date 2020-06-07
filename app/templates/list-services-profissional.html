@@ -123,8 +123,10 @@
                                             <a href="{% url 'view-servico' servico.pk %}"
                                                class="btn btn-outline-primary"> <i class="fa fa-plus"></i> Contratar
                                             </a>
-                                            <a href="tel:{{ servico.profissional.user.username }}"
-                                               class="btn btn-light"><i class="fa fa-phone-alt"></i> Contato </a>
+                                            {% if user.is_authenticated %}
+                                                <a href="tel:{{ servico.profissional.user.username }}"
+                                                   class="btn btn-light"><i class="fa fa-phone-alt"></i> Contato </a>
+                                            {% endif %}
                                         </p>
                                     </div> <!-- info-aside.// -->
                                 </aside> <!-- col.// -->

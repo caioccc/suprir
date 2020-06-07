@@ -398,7 +398,7 @@ class StartSystem(RedirectView):
     def create_payments_form(self):
         for paym in FormaPagamento.objects.all():
             paym.delete()
-        payments = ['BOLETO', 'CRÉDITO', 'DÉBITO', 'DINHEIRO', ]
+        payments = ['CRÉDITO', 'DÉBITO', 'DINHEIRO', ]
         for pay in payments:
             pay = FormaPagamento(forma=pay)
             pay.save()
@@ -672,7 +672,7 @@ class StartTestSystem(RedirectView):
     def create_payments_form(self):
         for paym in FormaPagamento.objects.all():
             paym.delete()
-        payments = ['BOLETO', 'CRÉDITO', 'DÉBITO', 'DINHEIRO', ]
+        payments = ['CRÉDITO', 'DÉBITO', 'DINHEIRO', ]
         for pay in payments:
             pay = FormaPagamento(forma=pay)
             pay.save()

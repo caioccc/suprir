@@ -49,10 +49,56 @@
                                                 {{ processo.profissional_socio }}
                                             </td>
                                             <td>
-                                                {{ processo.interesse.titulo }}
+                                                <button type="button" class="btn btn-default"
+                                                        data-toggle="modal" data-target="#modali_{{ processo.interesse.id }}"
+                                                        data-original-title="Visualizar Interesse"><i
+                                                        class="fa fa-eye"></i> Ver Interesse
+                                                </button>
+                                                <div class="modal fade" tabindex="-1" role="dialog" id="modali_{{ processo.interesse.id }}">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Interesse ID #{{ processo.interesse.id }}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                {{ processo.interesse.titulo }}
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </td>
                                             <td>
-                                                {{ processo.proposta.titulo }}
+                                                <button type="button" class="btn btn-default"
+                                                        data-toggle="modal" data-target="#modalp_{{ processo.proposta.id }}"
+                                                        data-original-title="Visualizar Proposta"><i
+                                                        class="fa fa-eye"></i> Ver Proposta
+                                                </button>
+                                                <div class="modal fade" tabindex="-1" role="dialog" id="modalp_{{ processo.proposta.id }}">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Proposta ID #{{ processo.proposta.id }}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                {{ processo.proposta.titulo }}
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </td>
                                             <td>
                                                 {% if processo.status == 'AGUARDANDO PAGAMENTO' %}

@@ -198,13 +198,21 @@
                                         </div> <!-- price-wrap.// -->
                                         <small class="text-warning">{{ servico.profissional.cidade }}-{{ servico.profissional.estado }}</small>
 
-                                        <p class="text-muted mt-3">{{ servico.profissional }}</p>
+                                        <p class="text-muted mt-3">{{ servico.profissional }}
+                                            {% if servico.profissional.is_online %}
+                                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                                            {% else %}
+                                                <a href="#"><i class="fa fa-circle " style="color: #b94a48;"></i> Offline</a>
+                                            {% endif %}
+                                        </p>
                                         <p class="mt-3">
                                             <a href="{% url 'view-servico' servico.pk %}"
                                                class="btn btn-outline-primary"> <i class="fa fa-plus"></i> Contratar
                                             </a>
-                                            <a href="tel:{{ servico.profissional.user.username }}"
-                                               class="btn btn-light"><i class="fa fa-phone-alt"></i> Contato </a>
+                                            {% if user.is_authenticated %}
+                                                <a href="tel:{{ servico.profissional.user.username }}"
+                                                   class="btn btn-light"><i class="fa fa-phone-alt"></i> Contato </a>
+                                            {% endif %}
                                         </p>
                                     </div> <!-- info-aside.// -->
                                 </aside> <!-- col.// -->

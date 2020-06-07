@@ -96,6 +96,11 @@
                             <figcaption class="info-wrap">
                                 <a href="#"
                                    class="title mb-2"> {{ profissional.user.first_name }} {{ profissional.user.last_name }}</a>
+                                {% if profissional.is_online %}
+                                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                                {% else %}
+                                    <a href="#"><i class="fa fa-circle " style="color: #b94a48;"></i> Offline</a>
+                                {% endif %}
                                 <div class="price-wrap" data-toggle="tooltip" title=""
                                      data-original-title="{{ profissional.categoria.descricao }}">
                                     <span class="price">{{ profissional.categoria }}</span>
@@ -112,10 +117,12 @@
                                 <br/>
 
                                 <div class="text-center">
-                                    <a href="tel:{{ profissional.user.username }}"
-                                       class="btn btn-outline-primary text-center"> <i class="fa fa-phone-alt"></i>
-                                        Entrar em Contato
-                                    </a>
+                                    {% if user.is_authenticated %}
+                                        <a href="tel:{{ profissional.user.username }}"
+                                           class="btn btn-outline-primary text-center"> <i class="fa fa-phone-alt"></i>
+                                            Entrar em Contato
+                                        </a>
+                                    {% endif %}
                                     <hr/>
                                     <a href="{% url 'list-services-profissional' profissional.pk %}"
                                        class="btn btn-app text-center"> <i class="fa fa-list-alt"></i> Ver Serviços

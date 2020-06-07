@@ -14,7 +14,7 @@ from django.views.generic import ListView, UpdateView
 from djmoney.money import Money
 
 from app.forms import FormContrato, FormCarrinho, ItemServicoFormSet, FormServico, FotoServicoFormSet, FormProfissional, \
-    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida, FormInteresse, FormProposta, FormProcesso
+    FormUser, FormRejeiteContrato, FormCreateCupom, FormEditCupom, FormEntrada, FormSaida, FormInteresse, FormProposta, FormProcesso, ItemServicoViewFormSet
 from app.mixins.CustomMixins import ProfessionalUserRequiredMixin
 from app.models import ContratoDeServico, Servico, ComentarioServico, Cliente, Profissional, Cupom, Entrada, Saida, Interesse, Proposta, Processo
 from app.views.TelegramAPI import send_mail_and_telegram
@@ -42,11 +42,11 @@ class ContractUpdateView(LoginRequiredMixin, ProfessionalUserRequiredMixin, Upda
         data = super(ContractUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
             data['carrinho_form'] = FormCarrinho(self.request.POST, instance=self.object.carrinho)
-            data['itemservicoset'] = ItemServicoFormSet(self.request.POST, self.request.FILES,
+            data['itemservicoset'] = ItemServicoViewFormSet(self.request.POST, self.request.FILES,
                                                         instance=self.object.carrinho)
         else:
             data['carrinho_form'] = FormCarrinho(instance=self.object.carrinho)
-            data['itemservicoset'] = ItemServicoFormSet(instance=self.object.carrinho)
+            data['itemservicoset'] = ItemServicoViewFormSet(instance=self.object.carrinho)
         return data
 
     def form_valid(self, form):

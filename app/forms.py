@@ -115,7 +115,7 @@ class FormRegisterProfissional(ModelForm, FormRegisterCliente):
 class FormCarrinho(ModelForm, BaseForm):
     class Meta:
         model = CarrinhoDeServicos
-        fields = ['cliente', 'valor_total', 'forma_pagamento',]
+        fields = ['cliente', 'valor_total', 'forma_pagamento', ]
 
     def __init__(self, *args, **kwargs):
         super(FormCarrinho, self).__init__(*args, **kwargs)
@@ -140,6 +140,9 @@ class FormContrato(ModelForm, BaseForm):
 
 
 ItemServicoFormSet = inlineformset_factory(CarrinhoDeServicos, ItemServico, form=FormItemServico, extra=1)
+
+ItemServicoViewFormSet = inlineformset_factory(CarrinhoDeServicos, ItemServico,
+                                               form=FormItemServico, extra=0)
 
 
 class FormServico(ModelForm, BaseForm):
@@ -171,6 +174,9 @@ class FormFotoServico(ModelForm, BaseForm):
 
 FotoServicoFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico,
                                            extra=1, min_num=1, max_num=5)
+
+FotoServicoViewFormSet = inlineformset_factory(Servico, FotoServico, form=FormFotoServico, extra=0,
+                                               min_num=1, max_num=5)
 
 
 class FormProfissional(ModelForm, BaseForm):

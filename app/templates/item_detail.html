@@ -139,10 +139,12 @@
                                     </form>
                                 {% endif %}
                                 <br/>
-                                <a href="tel:{{ servico.profissional.user.username }}"
-                                   class="btn btn-light">
-                                    <i class="fas fa-envelope"></i> <span class="text">Contatar</span>
-                                </a>
+                                {% if user.is_authenticated %}
+                                    <a href="tel:{{ servico.profissional.user.username }}"
+                                       class="btn btn-light">
+                                        <i class="fas fa-envelope"></i> <span class="text">Contatar</span>
+                                    </a>
+                                {% endif %}
                             </div> <!-- col.// -->
                         </div> <!-- row.// -->
 

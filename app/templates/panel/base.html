@@ -371,21 +371,21 @@
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-warning"></i> Alerta!</h4>
-                    Você tem {{ alerta_contratos|length }} Contrato(s) em Aberto ou Em Andamento. Por favor, atente para estes contratos.
+                    Você tem {{ alerta_contratos|length }} Contrato(s) em Aberto ou Em Andamento. <a href="{% url 'dashboard-profissional' %}">Por favor, atente para estes contratos clicando aqui!</a>
                 </div>
             {% endif %}
             {% if new_propostas|length > 0 %}
                 <div class="alert alert-info alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-info"></i> Novas Propostas!</h4>
-                    Você tem {{ new_propostas|length }} novas proposta(s).
+                    Você tem {{ new_propostas|length }} novas proposta(s). <a href="{% url 'list-propostas' %}"> Acesse elas aqui!</a>
                 </div>
             {% endif %}
             {% if alerta_processos|length > 0 %}
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-warning"></i> Alerta!</h4>
-                    Você tem {{ alerta_processos|length }} Processo(s) aguardando pagamento de taxas. Por favor, atente para estes processos.
+                    Você tem {{ alerta_processos|length }} Processo(s) aguardando pagamento de taxas. <a href="{% url 'list-processos' %}"> Por favor, atente para estes processos clicando aqui!</a>
                 </div>
             {% endif %}
 
@@ -398,7 +398,7 @@
                 <div class="callout callout-info">
                     <h4>{{ general_message.title }}</h4>
 
-                    <p>{{ general_message.message }}</p>
+                    <p>{{ general_message.message|safe }}</p>
                 </div>
             {% endif %}
 
