@@ -211,71 +211,71 @@ class FormUser(ModelForm, BaseForm):
         self.fields['first_name'].label = 'Nome'
         self.fields['last_name'].label = 'Sobrenome'
 
-
-class ServicoSearchForm(BaseForm):
-    query = forms.CharField(
-        required=False,
-        label='Busque por titulo ou categoria!',
-        widget=forms.TextInput(attrs={'placeholder': 'Digite algum termo ...'})
-    )
-    CHOICES_ESTADO = [(state, state) for state in
-                      Profissional.objects.order_by('estado').values_list('estado', flat=True).exclude(
-                          estado=None).distinct()]
-    CHOICES_ESTADO.append(('', 'Todos'))
-    CHOICES_CIDADE = [(city, city) for city in
-                      Profissional.objects.order_by('cidade').values_list('cidade', flat=True).exclude(
-                          cidade=None).distinct()]
-    CHOICES_CIDADE.append(('', 'Todos'))
-    estado = forms.CharField(
-        required=False,
-        widget=forms.Select(choices=CHOICES_ESTADO)
-    )
-    cidade = forms.CharField(
-        required=False,
-        widget=forms.Select(choices=CHOICES_CIDADE)
-    )
-    preco_min = forms.IntegerField(
-        required=False,
-        label='Min',
-        widget=forms.NumberInput(attrs={'placeholder': 'R$ 0'})
-    )
-    preco_max = forms.IntegerField(
-        required=False,
-        label='Max',
-        widget=forms.NumberInput(attrs={'placeholder': 'R$ 1000'})
-    )
-    ordering = forms.CharField(
-        required=False, label='',
-        widget=forms.TextInput(attrs={'class': 'hidden', })
-    )
-
-
-class ProfissionalSearchForm(BaseForm):
-    query_p = forms.CharField(
-        required=False,
-        label='Busque por telefone',
-        widget=forms.TextInput(attrs={'placeholder': 'Digite algum numero ...'})
-    )
-    CHOICES_ESTADO = [(state, state) for state in
-                      Profissional.objects.order_by('estado').values_list('estado', flat=True).exclude(
-                          estado=None).distinct()]
-    CHOICES_ESTADO.append(('', 'Todos'))
-    CHOICES_CIDADE = [(city, city) for city in
-                      Profissional.objects.order_by('cidade').values_list('cidade', flat=True).exclude(
-                          cidade=None).distinct()]
-    CHOICES_CIDADE.append(('', 'Todos'))
-    estado = forms.CharField(
-        required=False,
-        widget=forms.Select(choices=CHOICES_ESTADO)
-    )
-    cidade = forms.CharField(
-        required=False,
-        widget=forms.Select(choices=CHOICES_CIDADE)
-    )
-    ordering = forms.CharField(
-        required=False, label='',
-        widget=forms.TextInput(attrs={'class': 'hidden', })
-    )
+#
+# class ServicoSearchForm(BaseForm):
+#     query = forms.CharField(
+#         required=False,
+#         label='Busque por titulo ou categoria!',
+#         widget=forms.TextInput(attrs={'placeholder': 'Digite algum termo ...'})
+#     )
+#     CHOICES_ESTADO = [(state, state) for state in
+#                       Profissional.objects.order_by('estado').values_list('estado', flat=True).exclude(
+#                           estado=None).distinct()]
+#     CHOICES_ESTADO.append(('', 'Todos'))
+#     CHOICES_CIDADE = [(city, city) for city in
+#                       Profissional.objects.order_by('cidade').values_list('cidade', flat=True).exclude(
+#                           cidade=None).distinct()]
+#     CHOICES_CIDADE.append(('', 'Todos'))
+#     estado = forms.CharField(
+#         required=False,
+#         widget=forms.Select(choices=CHOICES_ESTADO)
+#     )
+#     cidade = forms.CharField(
+#         required=False,
+#         widget=forms.Select(choices=CHOICES_CIDADE)
+#     )
+#     preco_min = forms.IntegerField(
+#         required=False,
+#         label='Min',
+#         widget=forms.NumberInput(attrs={'placeholder': 'R$ 0'})
+#     )
+#     preco_max = forms.IntegerField(
+#         required=False,
+#         label='Max',
+#         widget=forms.NumberInput(attrs={'placeholder': 'R$ 1000'})
+#     )
+#     ordering = forms.CharField(
+#         required=False, label='',
+#         widget=forms.TextInput(attrs={'class': 'hidden', })
+#     )
+#
+#
+# class ProfissionalSearchForm(BaseForm):
+#     query_p = forms.CharField(
+#         required=False,
+#         label='Busque por telefone',
+#         widget=forms.TextInput(attrs={'placeholder': 'Digite algum numero ...'})
+#     )
+#     CHOICES_ESTADO = [(state, state) for state in
+#                       Profissional.objects.order_by('estado').values_list('estado', flat=True).exclude(
+#                           estado=None).distinct()]
+#     CHOICES_ESTADO.append(('', 'Todos'))
+#     CHOICES_CIDADE = [(city, city) for city in
+#                       Profissional.objects.order_by('cidade').values_list('cidade', flat=True).exclude(
+#                           cidade=None).distinct()]
+#     CHOICES_CIDADE.append(('', 'Todos'))
+#     estado = forms.CharField(
+#         required=False,
+#         widget=forms.Select(choices=CHOICES_ESTADO)
+#     )
+#     cidade = forms.CharField(
+#         required=False,
+#         widget=forms.Select(choices=CHOICES_CIDADE)
+#     )
+#     ordering = forms.CharField(
+#         required=False, label='',
+#         widget=forms.TextInput(attrs={'class': 'hidden', })
+#     )
 
 
 class FormMensagem(ModelForm, BaseForm):
