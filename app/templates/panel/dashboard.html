@@ -139,7 +139,13 @@
                                                 <a href="{% url 'editar-contrato' contrato.id %}">{{ contrato.id }}</a>
                                             </td>
                                             <td>{{ contrato.cliente.telefone_1 }}</td>
-                                            <td>{% money_localize contrato.carrinho.valor_total %}</td>
+                                            <td>
+                                                {% if not contrato.carrinho|check_is_valor_a_combinar %}
+                                                    {% money_localize contrato.carrinho.valor_total %}
+                                                {% else %}
+                                                    Valor a Combinar
+                                                {% endif %}
+                                            </td>
                                             <td> {{ contrato.carrinho.forma_pagamento.forma }}</td>
                                             <td>
                                                 {% if contrato.status == 'REALIZADO' %}
@@ -224,7 +230,13 @@
                                                                     </div>
                                                                 {% endfor %}
                                                                 <b>Valor Total:</b>
-                                                                <p>{{ contrato.carrinho.valor_total }}</p>
+                                                                <p>
+                                                                    {% if not contrato.carrinho|check_is_valor_a_combinar %}
+                                                                        {{ contrato.carrinho.valor_total }}
+                                                                    {% else %}
+                                                                        Valor a Combinar
+                                                                    {% endif %}
+                                                                </p>
                                                             </div>
                                                             <div class="modal-footer">
 
