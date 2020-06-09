@@ -1,5 +1,5 @@
 dj-database-url
-Django==1.11.17
+Django==1.11.29
 gunicorn
 psycopg2-binary
 pycpfcnpj
