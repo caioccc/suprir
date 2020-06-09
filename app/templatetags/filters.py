@@ -7,6 +7,17 @@ register = template.Library()
 
 
 @register.filter
+def check_is_valor_a_combinar(carrinho):
+    try:
+        for item in carrinho.itemservico_set.all():
+            if item.servico.valor_a_combinar:
+                return True
+        return False
+    except (Exception,):
+        return False
+
+
+@register.filter
 def get_user_name(user):
     try:
         return user.first_name

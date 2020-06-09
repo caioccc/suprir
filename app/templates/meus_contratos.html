@@ -66,7 +66,13 @@
                                                 </a>
                                             </td>
                                             <td>{{ contrato.carrinho.forma_pagamento }}</td>
-                                            <td>{% money_localize contrato.carrinho.valor_total %}</td>
+                                            <td>
+                                                {% if not contrato.carrinho|check_is_valor_a_combinar %}
+                                                    {% money_localize contrato.carrinho.valor_total %}
+                                                {% else %}
+                                                    Valor a Combinar
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 {% if contrato.status == 'REALIZADO' %}
                                                     <label class="label label-success"

@@ -193,8 +193,16 @@
                                 <aside class="col-sm-3">
                                     <div class="info-aside">
                                         <div class="price-wrap">
-                                            <span class="h5 price">{% money_localize servico.valor_base %}</span>
-                                            <small class="text-muted">/por serviço</small>
+                                            {% if servico.valor_a_combinar %}
+                                                <span class="h5 price">
+                                                Valor a Combinar
+                                                </span>
+                                            {% else %}
+                                                <span class="h5 price">
+                                                {% money_localize servico.valor_base %}
+                                                </span>
+                                                <small class="text-muted">/por serviço</small>
+                                            {% endif %}
                                         </div> <!-- price-wrap.// -->
                                         <small class="text-warning">{{ servico.profissional.cidade }}-{{ servico.profissional.estado }}</small>
 

@@ -148,7 +148,7 @@ ItemServicoViewFormSet = inlineformset_factory(CarrinhoDeServicos, ItemServico,
 class FormServico(ModelForm, BaseForm):
     class Meta:
         model = Servico
-        fields = ['titulo', 'descricao', 'valor_base', 'disponivel', 'profissional']
+        fields = ['titulo', 'descricao', 'valor_a_combinar', 'valor_base', 'disponivel', 'profissional']
 
     def __init__(self, *args, **kwargs):
         super(FormServico, self).__init__(*args, **kwargs)
@@ -158,6 +158,7 @@ class FormServico(ModelForm, BaseForm):
         for field_name, field in self.fields.items():
             field.widget.attrs['required'] = True
         self.fields['disponivel'].widget.attrs['required'] = False
+        self.fields['valor_a_combinar'].widget.attrs['required'] = False
 
 
 class FormFotoServico(ModelForm, BaseForm):

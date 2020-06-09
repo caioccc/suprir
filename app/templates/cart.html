@@ -35,7 +35,14 @@
                                         </td>
                                         <td>
                                             <div class="price-wrap">
-                                                <var class="price">{{ item.valor_total }}</var>
+                                                <var class="price">
+                                                    {% if not item.servico.valor_a_combinar %}
+                                                        {{ item.valor_total }}
+                                                    {% else %}
+                                                        Valor a Combinar
+                                                    {% endif %}
+
+                                                </var>
                                             </div> <!-- price-wrap .// -->
                                         </td>
                                         <td class="text-right">
@@ -56,10 +63,12 @@
                                 {% if carrinho.profissional.receber_pelo_sistema %}
 
                                 {% else %}
+                                    <!--
                                     <button type="submit" id="gerar"
                                             class="btn btn-primary float-md-right"> Gerar Contrato <i
                                             class="fa fa-chevron-right"></i>
                                     </button>
+                                    -->
                                 {% endif %}
                                 {% if carrinho.profissional %}
                                     <a href="{% url 'list-services-profissional' carrinho.profissional.id %}"
@@ -102,7 +111,6 @@
                                     <div class="input-group">
                                         <select name="forma" class="form-control">
                                             <option value="DINHEIRO" selected>DINHEIRO</option>
-                                            <option value="BOLETO">BOLETO</option>
                                             <option value="CRÉDITO">CRÉDITO</option>
                                             <option value="DÉBITO">DÉBITO</option>
                                         </select>
@@ -114,7 +122,13 @@
                             <div class="card-body">
                                 <dl class="dlist-align">
                                     <dt>Subtotal:</dt>
-                                    <dd class="text-right">{{ carrinho.subtotal }}</dd>
+                                    <dd class="text-right">
+                                        {% if not carrinho|check_is_valor_a_combinar %}
+                                            {{ carrinho.subtotal }}
+                                        {% else %}
+                                            Valor a Combinar
+                                        {% endif %}
+                                    </dd>
                                 </dl>
                                 {% if carrinho.cupom %}
                                     <dl class="dlist-align">
@@ -124,11 +138,29 @@
                                 {% endif %}
                                 <dl class="dlist-align">
                                     <dt>Total:</dt>
-                                    <dd class="text-right  h5"><strong>{{ carrinho.valor_total }}</strong></dd>
+
+                                    {% if not carrinho|check_is_valor_a_combinar %}
+                                        <dd class="text-right h5"><strong>
+                                            {{ carrinho.valor_total }}
+                                        </strong></dd>
+                                    {% else %}
+                                        <dd class="text-right"><strong>
+                                            Valor a Combinar
+                                        </strong></dd>
+                                    {% endif %}
+
+
                                 </dl>
                                 <hr>
                                 <p class="text-center mb-3">
-                                    <img src="{% static 'theme-store/img/cards-marks.png' %}" height="26">
+                                    {% if carrinho.profissional.receber_pelo_sistema %}
+
+                                    {% else %}
+                                        <button type="submit" id="gerar"
+                                                class="btn btn-primary btn-block"> Gerar Contrato <i
+                                                class="fa fa-chevron-right"></i>
+                                        </button>
+                                    {% endif %}
                                 </p>
 
                             </div> <!-- card-body.// -->

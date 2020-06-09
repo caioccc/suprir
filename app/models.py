@@ -217,6 +217,7 @@ class Servico(TimeStamped):
     profissional = models.ForeignKey(Profissional, blank=True, null=True)
     disponivel = models.BooleanField(default=True)
     is_approved = models.BooleanField(default=True)
+    valor_a_combinar = models.BooleanField(default=False)
     valor_base = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
 
     def __str__(self):
@@ -375,13 +376,16 @@ class ItemServico(TimeStamped):
     valor_total = MoneyField(max_digits=14, decimal_places=2, validators=[MinValueValidator(Money(0, 'BRL'))])
 
     def save(self, *args, **kwargs):
-        valor_base = self.servico.valor_base
-        valor_opcionais = 0.0
-        if self.adicionalescolhido_set.first():
-            for opc in self.adicionalescolhido_set.all():
-                valor_opcionais = valor_opcionais + opc.adicional.valor
-        valor_unitario = valor_base + valor_opcionais
-        self.valor_total = valor_unitario
+        if not self.servico.valor_a_combinar:
+            valor_base = self.servico.valor_base
+            valor_opcionais = 0.0
+            if self.adicionalescolhido_set.first():
+                for opc in self.adicionalescolhido_set.all():
+                    valor_opcionais = valor_opcionais + opc.adicional.valor
+            valor_unitario = valor_base + valor_opcionais
+            self.valor_total = valor_unitario
+        else:
+            self.valor_total = Money(0, 'BRL')
         super(ItemServico, self).save(*args, **kwargs)
 
     def __unicode__(self):

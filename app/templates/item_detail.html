@@ -95,7 +95,12 @@
                         </div> <!-- rating-wrap.// -->
 
                         <div class="mb-3">
-                            <var class="price h4">{% money_localize servico.valor_base %}</var>
+                            {% if servico.valor_a_combinar %}
+                                <var class="price h4">Valor a Combinar</var>
+                            {% else %}
+                                <var class="price h4">{% money_localize servico.valor_base %}</var>
+                            {% endif %}
+
                         </div> <!-- price-detail-wrap .// -->
 
                         <p>{{ servico.descricao }} </p>

@@ -148,7 +148,7 @@ class ServicoAdmin(admin.ModelAdmin):
         'profissional__user__first_name', 'categoria__categoria',
     )
     list_display = (
-        'titulo', 'id', 'categoria', 'valor_base', 'profissional', 'disponivel', 'is_approved', 'created_at')
+        'titulo', 'id', 'categoria', 'valor_a_combinar', 'valor_base', 'profissional', 'disponivel', 'is_approved', 'created_at')
 
 
 class AdicionalDeServicoAdmin(admin.ModelAdmin):

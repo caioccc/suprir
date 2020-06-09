@@ -83,12 +83,22 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('[name=valor_base_1]').addClass('hidden');
-            $('[name=valor_base]').change(function () {
-                $(this).val($(this).val().replace(',', '.'))
+            if ($('[name=valor_a_combinar]').is(':checked')) {
+                if ($('[name=valor_a_combinar]').prop("checked") == true) {
+                    $('[name=valor_base_0]').hide();
+                } else if ($('[name=valor_a_combinar]').prop("checked") == false) {
+                    $('[name=valor_base_0]').show();
+                }
+            }
+
+            $('[name=valor_a_combinar]').click(function () {
+                if ($(this).prop("checked") == true) {
+                    $('[name=valor_base_0]').hide();
+                } else if ($(this).prop("checked") == false) {
+                    $('[name=valor_base_0]').show();
+                }
             });
-            $('[name=valor_base]').focusout(function () {
-                $(this).val($(this).val().replace(',', '.'))
-            });
+
             $('input[type=checkbox]').removeClass('form-control');
             $('.add-row').click(function (evt) {
                 $('input[type=checkbox]').removeClass('form-control');

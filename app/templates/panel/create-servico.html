@@ -76,6 +76,13 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('[name=valor_base_1]').addClass('hidden');
+            $('[name=valor_a_combinar]').click(function () {
+                if ($(this).prop("checked") == true) {
+                    $('[name=valor_base_0]').hide();
+                } else if ($(this).prop("checked") == false) {
+                    $('[name=valor_base_0]').show();
+                }
+            });
             $('[name=valor_base]').change(function () {
                 $(this).val($(this).val().replace(',', '.'))
             });
