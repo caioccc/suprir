@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Suprir - Contrato de Servico</title>
+    <title>Contrato de Servico</title>
 </head>
 <body>
 <div style="margin: 8px 20px 8px 20px;">
@@ -18,7 +18,10 @@
             </h2></li>
     </ol>
     <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;"> {{ contrato.profissional }}, {% if contrato.profissional.cnpj %} pessoa jur&iacute;dica de direito privado, inscrita no CNPJ n&deg; {{ contrato.profissional.cnpj }},{% else %} pessoa fis&iacute;ca de direito privado, inscrita no CPF n&deg; {{ contrato.profissional.cpf }}, {% endif %}com sede em {{ contrato.profissional.endereco }},{{ contrato.profissional.numero }} , doravante denominado&nbsp;</span><span
+        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;"> {{ contrato.profissional }},
+            {% if contrato.profissional.cnpj %} pessoa jur&iacute;dica de direito privado, inscrita no CNPJ n&deg; {{ contrato.profissional.cnpj }},{% else %} pessoa fis&iacute;ca de direito privado,
+                inscrita no CPF n&deg; {{ contrato.profissional.cpf }}, {% endif %}
+            com sede em {{ contrato.profissional.endereco }},{{ contrato.profissional.numero }} , doravante denominado&nbsp;</span><span
             style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CONTRATADA&nbsp;</span><span
             style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">e neste ato representada na forma de seus atos constitutivos, residente e domiciliado em {{ contrato.profissional.cidade }}-{{ contrato.profissional.estado }}, e;</span>
     </p>
@@ -27,224 +30,80 @@
             style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CONTRATANTE&nbsp;</span><span
             style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">e neste ato representada na forma de seus atos constitutivos, residente e domiciliado em {{ contrato.cliente.cidade }}-{{ contrato.cliente.estado }}.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Decidem as partes, na melhor forma de direito, celebrar o presente CONTRATO DE PRESTA&Ccedil;&Atilde;O DE SERVI&Ccedil;OS, que reger-se-&aacute; mediante as cl&aacute;usulas e condi&ccedil;&otilde;es adiante estipuladas.&nbsp;</span>
+    <h2 class="western" align="center">&nbsp;</h2>
+    <p class="western"><span style="color: #000000;">Decidem as partes, na melhor forma de direito, celebrar o presente CONTRATO DE PRESTA&Ccedil;&Atilde;O DE SERVI&Ccedil;OS, que reger-se-&aacute; mediante as cl&aacute;usulas e condi&ccedil;&otilde;es adiante estipuladas. </span>
     </p>
-    <ol style="margin-top:0;margin-bottom:0;">
-        <ol start="3" style="margin-top:0;margin-bottom:0;">
-            <li dir="ltr"
-                style="list-style-type:decimal;font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -54pt;padding-left: 10.8pt;">
-                <h2 dir="ltr"
-                    style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-                    <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA PRIMEIRA - DO OBJETO</span>
-                </h2></li>
-        </ol>
-    </ol>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">1.1</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;O presente contrato tem por objeto a presta&ccedil;&atilde;o de servi&ccedil;os profissionais especializados em ________ por parte da CONTRATADA de acordo com os termos e condi&ccedil;&otilde;es detalhados neste contrato.</span>
+    <h2 class="western">CL&Aacute;USULA PRIMEIRA - DO OBJETO</h2>
+    <p class="western"><span style="color: #000000;"><strong>1.1</strong></span><span style="color: #000000;"> O presente contrato tem por objeto a presta&ccedil;&atilde;o de servi&ccedil;os profissionais especializados em _______________________ por parte da CONTRATADA de acordo com os termos e condi&ccedil;&otilde;es detalhados neste contrato.</span>
     </p>
-    <ol style="margin-top:0;margin-bottom:0;">
-        <ol start="4" style="margin-top:0;margin-bottom:0;">
-            <li dir="ltr"
-                style="list-style-type:decimal;font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -54pt;padding-left: 10.8pt;">
-                <h2 dir="ltr"
-                    style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-                    <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA SEGUNDA - OBRIGA&Ccedil;&Otilde;ES DA CONTRATANTE</span>
-                </h2></li>
-        </ol>
-    </ol>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">2.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATANTE dever&aacute; fornecer &agrave; CONTRATADA todas as informa&ccedil;&otilde;es necess&aacute;rias &agrave; realiza&ccedil;&atilde;o do servi&ccedil;o, devendo especificar os detalhes necess&aacute;rios &agrave; perfeita consecu&ccedil;&atilde;o do mesmo.</span>
+    <h2 class="western">CL&Aacute;USULA SEGUNDA - OBRIGA&Ccedil;&Otilde;ES DA CONTRATANTE</h2>
+    <p class="western"><span style="color: #000000;"><strong>2.1 </strong></span><span style="color: #000000;">A CONTRATANTE dever&aacute; fornecer &agrave; CONTRATADA todas as informa&ccedil;&otilde;es necess&aacute;rias &agrave; realiza&ccedil;&atilde;o do servi&ccedil;o, devendo especificar os detalhes necess&aacute;rios &agrave; perfeita consecu&ccedil;&atilde;o do mesmo.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">2.2&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATANTE &eacute; obrigada ainda a disponibilizar: ________&nbsp;</span>
+    <p class="western"><span style="color: #000000;"><strong>2.2</strong></span><span style="color: #000000;"> A CONTRATANTE dever&aacute; efetuar o pagamento na forma e condi&ccedil;&otilde;es estabelecidas na cl&aacute;usula quinta.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">2.3</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;A CONTRATANTE dever&aacute; efetuar o pagamento na forma e condi&ccedil;&otilde;es estabelecidas na cl&aacute;usula quinta.</span>
+    <h2 class="western">CL&Aacute;USULA TERCEIRA - OBRIGA&Ccedil;&Otilde;ES DA CONTRATADA</h2>
+    <p class="western"><span style="color: #000000;"><strong>3.1</strong></span><span style="color: #000000;"> A CONTRATADA dever&aacute; prestar os servi&ccedil;os solicitados pela CONTRATANTE conforme descritivo, especifica&ccedil;&otilde;es e prazos previstos no ANEXO I.</span>
     </p>
-    <ol style="margin-top:0;margin-bottom:0;">
-        <ol start="5" style="margin-top:0;margin-bottom:0;">
-            <li dir="ltr"
-                style="list-style-type:decimal;font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -54pt;padding-left: 10.8pt;">
-                <h2 dir="ltr"
-                    style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-                    <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA TERCEIRA - OBRIGA&Ccedil;&Otilde;ES DA CONTRATADA</span>
-                </h2></li>
-        </ol>
-    </ol>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">3.1</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;A CONTRATADA dever&aacute; prestar os servi&ccedil;os solicitados pela CONTRATANTE conforme descritivo, especifica&ccedil;&otilde;es e prazos previstos no ANEXO I.</span>
+    <p class="western"><span style="color: #000000;"><strong>3.2 </strong></span><span style="color: #000000;">A CONTRATADA se obriga a manter absoluto sigilo sobre as opera&ccedil;&otilde;es, dados, estrat&eacute;gias, materiais, informa&ccedil;&otilde;es e documentos da CONTRATANTE, mesmo ap&oacute;s a conclus&atilde;o dos servi&ccedil;os ou do t&eacute;rmino da rela&ccedil;&atilde;o contratual.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">3.2&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATADA se obriga a manter absoluto sigilo sobre as opera&ccedil;&otilde;es, dados, estrat&eacute;gias, materiais, informa&ccedil;&otilde;es e documentos da CONTRATANTE, mesmo ap&oacute;s a conclus&atilde;o dos servi&ccedil;os ou do t&eacute;rmino da rela&ccedil;&atilde;o contratual.</span>
+    <p class="western"><span style="color: #000000;"><strong>3.3</strong></span><span style="color: #000000;"> Os contratos, informa&ccedil;&otilde;es, dados, materiais e documentos inerentes &agrave; CONTRATANTE ou a seus clientes dever&atilde;o ser utilizados, pela CONTRATADA, por seus funcion&aacute;rios ou contratados, estritamente para cumprimento dos servi&ccedil;os solicitados pela CONTRATANTE, sendo VEDADO a comercializa&ccedil;&atilde;o ou utiliza&ccedil;&atilde;o para outros fins. </span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">3.3</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;Os contratos, informa&ccedil;&otilde;es, dados, materiais e documentos inerentes &agrave; CONTRATANTE ou a seus clientes dever&atilde;o ser utilizados, pela CONTRATADA, por seus funcion&aacute;rios ou contratados, estritamente para cumprimento dos servi&ccedil;os solicitados pela CONTRATANTE, sendo VEDADO a comercializa&ccedil;&atilde;o ou utiliza&ccedil;&atilde;o para outros fins.&nbsp;</span>
+    <p class="western"><span style="color: #000000;"><strong>3.4</strong></span><span style="color: #000000;"> Ser&aacute; de responsabilidade da CONTRATADA todo o &ocirc;nus trabalhista ou tribut&aacute;rio referente aos funcion&aacute;rios utilizados para a presta&ccedil;&atilde;o do servi&ccedil;o objeto deste instrumento, ficando a CONTRATANTE isenta de qualquer obriga&ccedil;&atilde;o em rela&ccedil;&atilde;o a eles.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">3.4</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;Ser&aacute; de responsabilidade da CONTRATADA todo o &ocirc;nus trabalhista ou tribut&aacute;rio referente aos funcion&aacute;rios utilizados para a presta&ccedil;&atilde;o do servi&ccedil;o objeto deste instrumento, ficando a CONTRATANTE isenta de qualquer obriga&ccedil;&atilde;o em rela&ccedil;&atilde;o a eles.</span>
+    <p class="western"><span style="color: #000000;"><strong>3.5 </strong></span><span style="color: #000000;">A CONTRATADA dever&aacute; fornecer os respectivos documentos fiscais, referente ao(s) pagamento(s) do presente instrumento.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">3.5&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATADA dever&aacute; fornecer os respectivos documentos fiscais, referente ao(s) pagamento(s) do presente instrumento.</span>
+    <h2 class="western">CL&Aacute;USULA QUARTA - DOS SERVI&Ccedil;OS</h2>
+    <p class="western"><span style="color: #000000;"><strong>4.1</strong></span><span style="color: #000000;"> A CONTRATADA atuar&aacute; nos servi&ccedil;os contratados de acordo com as especifica&ccedil;&otilde;es descritas no ANEXO I, que passa ser parte integrante do presente contrato.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA QUARTA - DOS SERVI&Ccedil;OS</span>
+    <p class="western"><span style="color: #000000;"><strong>4.2</strong></span><span style="color: #000000;"> Os servi&ccedil;os ter&atilde;o in&iacute;cio em ________ dias corridos da assinatura do presente contrato.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">4.1</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;A CONTRATADA atuar&aacute; nos servi&ccedil;os contratados de acordo com as especifica&ccedil;&otilde;es descritas no ANEXO I, que passa ser parte integrante do presente contrato.</span>
+    <h2 class="western">CL&Aacute;USULA QUINTA - DA RESPONSABILIDE PELA INEXECU&Ccedil;&Atilde;O</h2>
+    <p class="western"><span style="color: #000000;"><strong>5.1 </strong></span><span style="color: #000000;">A CONTRATADA</span><span style="color: #000000;"><strong>, </strong></span><span
+            style="color: #000000;">embora n&atilde;o</span> <span style="color: #000000;">tenha dever de exclusividade em rela&ccedil;&atilde;o &agrave; CONTRATANTE, responde na forma da lei por perdas e danos pela inexecu&ccedil;&atilde;o total ou parcial dos servi&ccedil;os contratados, pelo modo e no tempo d</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">4.2</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;Os servi&ccedil;os ter&atilde;o in&iacute;cio em ________ dias corridos da assinatura do presente contrato.</span>
+    <p class="western"><span style="color: #000000;">evidos. </span></p>
+    <p class="western"><span style="color: #000000;"><strong>5.2 </strong></span><span style="color: #000000;">A CONTRATADA ter&aacute; ger&ecirc;ncia integral do servi&ccedil;o que lhe &eacute; destinado, com TOTAL AUTONOMIA, sem cumprimento de hor&aacute;rios ou ordens, devendo atender exclusivamente o cronograma firmado entre as partes.</span>
     </p>
-    <ol style="margin-top:0;margin-bottom:0;">
-        <ol start="6" style="margin-top:0;margin-bottom:0;">
-            <li dir="ltr"
-                style="list-style-type:decimal;font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -54pt;padding-left: 10.8pt;">
-                <h2 dir="ltr"
-                    style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-                    <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA QUINTA - DA EXCLUSIVIDADE</span>
-                </h2></li>
-        </ol>
-    </ol>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATADA atuar&aacute;&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">COM EXCLUSIVIDADE</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;dentro do ________ , N&Atilde;O podendo exercer sua atividade para outras empresas, ou efetuar neg&oacute;cios em nome e por conta pr&oacute;pria.</span>
+    <h2 class="western">CL&Aacute;USULA SEXTA - DO PRE&Ccedil;O E DAS CONDI&Ccedil;&Otilde;ES DE PAGAMENTO</h2>
+    <p class="western"><span style="color: #000000;"><strong>6.1 </strong></span><span style="color: #000000;">Os servi&ccedil;os OBJETO deste contrato ser&atilde;o remunerados pela quantia total de _______ ( ), devendo o pagamento ocorrer na forma e prazo a ser estipulados pelos contratantes. </span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.2&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATADA ter&aacute; ger&ecirc;ncia integral na ________ que lhe &eacute; destinada, com TOTAL AUTONOMIA, sem cumprimento de hor&aacute;rios ou ordens, devendo atender exclusivamente o cronograma firmado entre as partes.</span>
+    <p class="western"><span style="color: #000000;"><strong>6.2 </strong></span><span style="color: #000000;">No caso de atraso no pagamento superior a 10 dias, ser&atilde;o aplicados juros morat&oacute;rios no valor de 1 % a.m, calculados sobre o valor global do contrato.</span>
     </p>
-    <ol style="margin-top:0;margin-bottom:0;">
-        <ol start="7" style="margin-top:0;margin-bottom:0;">
-            <li dir="ltr"
-                style="list-style-type:decimal;font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;margin-left: -54pt;padding-left: 10.8pt;">
-                <h2 dir="ltr"
-                    style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-                    <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA QUINTA - DA EXCLUSIVIDADE</span>
-                </h2></li>
-        </ol>
-    </ol>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.1 A CONTRATADA atuar&aacute; SEM EXCLUSIVIDADE dentro do segmento da CONTRATANTE, podendo exercer sua atividade para outras empresas, ou efetuar neg&oacute;cios em nome e por conta pr&oacute;pria, desde que n&atilde;o se trate de atividade concorrente com a CONTRATANTE, quais sejam ________ .</span>
+    <p class="western"><span style="color: #000000;"><strong>6.3 </strong></span><span style="color: #000000;">Considera-se o cumprimento integral do contrato o momento em que todos os servi&ccedil;os especificados no contrato tenham sido conclu&iacute;dos, mediante aprova&ccedil;&atilde;o e revis&atilde;o final da CONTRATANTE ou outra forma de entrega especificada em conformidade com o trabalho ou servi&ccedil;o contratado.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA QUINTA - DO PRE&Ccedil;O E DAS CONDI&Ccedil;&Otilde;ES DE PAGAMENTO</span>
+    <h2 class="western">CL&Aacute;USULA S&Eacute;TIMA - DO DESCUMPRIMENTO</h2>
+    <p class="western"><span style="color: #000000;"><strong>7.1 </strong></span><span style="color: #000000;">O descumprimento de qualquer uma das cl&aacute;usulas por qualquer parte, implicar&aacute; na rescis&atilde;o imediata deste contrato, n&atilde;o isentando a CONTRATADA de suas responsabilidades referentes ao zelo com informa&ccedil;&otilde;es e dados da CONTRATANTE.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Os servi&ccedil;os OBJETO deste contrato ser&atilde;o remunerados pela quantia total de ________ , a serem divididos em ________ pagamentos, da seguinte forma:</span>
+    <p class="western"><span style="color: #000000;"><strong>6.2 </strong></span><span style="color: #000000;">Caso o devedor descumpra</span> <span style="color: #000000;">qualquer uma das cl&aacute;usulas deste contrato de modo a n&atilde;o cumprir a obriga&ccedil;&atilde;o assumida ou caso seja constitu&iacute;do em mora, pagar&aacute; ao credor multa em valor n&atilde;o inferior a 50 % sobre o valor do contrato.</span>
     </p>
-    <p dir="ltr"
-       style="line-height:1.7999999999999998;margin-left: 113.4pt;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        _________________________________________________</p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Os servi&ccedil;os OBJETO deste contrato ser&atilde;o remunerados no valor de R$ ________ por ________ , a ser pago em at&eacute; 5 dias ap&oacute;s a entrega.</span>
+    <h2 class="western">CL&Aacute;USULA OITAVA - DO PRAZO E VALIDADE</h2>
+    <p class="western"><span style="color: #000000;"><strong>8.1 </strong></span><span style="color: #000000;">A CONTRATADA dever&aacute; realizar os servi&ccedil;os dentro do prazo estipulado entre as partes, exceto quando se tratar de trabalho aut&ocirc;nomo no qual seu t&eacute;rmino dependa da coopera&ccedil;&atilde;o de outras pessoas. Contudo, &eacute; de sua inteira responsabilidade comunicar a impossibilidade de cumprimento, bem como os motivos para tal e o novo prazo previsto, estando em sua compet&ecirc;ncia a capacidade para tal avalia&ccedil;&atilde;o.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.2&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">No caso de atraso no pagamento superior a 10 dias, ser&aacute; devida multa morat&oacute;ria no valor de ________ sobre a parcela inadimplida, al&eacute;m da atualiza&ccedil;&atilde;o do valor pelo ________ .</span>
+    <p class="western"><span style="color: #000000;"><strong>8.2 </strong></span><span style="color: #000000;">Este instrumento &eacute; v&aacute;lido pelo prazo estipulado entre as partes, a seguir descrito ( ), vigendo at&eacute; a finaliza&ccedil;&atilde;o do servi&ccedil;o, ora contratado, ou encerramento do contrato. </span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">5.3&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Considera-se o cumprimento integral do contrato o momento em que todos os servi&ccedil;os especificados no ANEXO I tenham sido conclu&iacute;dos, mediante aprova&ccedil;&atilde;o e revis&atilde;o final da CONTRATANTE ou outra forma de entrega especificada no ANEXO I.</span>
+    <h2 class="western">CL&Aacute;USULA NONA - DA RESCIS&Atilde;O IMOTIVADA</h2>
+    <p class="western"><a name="_GoBack"></a> <span style="color: #000000;"><strong>9.1 </strong></span><span style="color: #000000;">A parte lesada pelo inadimplemento pode pedir a resolu&ccedil;&atilde;o do contrato, se n&atilde;o preferir exigir-lhe o cumprimento, cabendo, em qualquer dos casos, indeniza&ccedil;&atilde;o por perdas e danos. </span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA SEXTA - DO DESCUMPRIMENTO</span>
+    <h2 class="western">CL&Aacute;USULA D&Eacute;CIMA - DAS DISPOSI&Ccedil;&Otilde;ES GERAIS</h2>
+    <p class="western"><span style="color: #000000;"><strong>10.1 </strong></span><span style="color: #000000;">Fica pactuada a total inexist&ecirc;ncia de v&iacute;nculo trabalhista entre as partes, excluindo as obriga&ccedil;&otilde;es previdenci&aacute;rias e os encargos sociais, n&atilde;o havendo entre CONTRATADA e CONTRATANTE qualquer tipo de rela&ccedil;&atilde;o de subordina&ccedil;&atilde;o. </span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">6.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">O descumprimento de qualquer uma das cl&aacute;usulas por qualquer parte, implicar&aacute; na rescis&atilde;o imediata deste contrato, n&atilde;o isentando a CONTRATADA de suas responsabilidades referentes ao zelo com informa&ccedil;&otilde;es e dados da CONTRATANTE.</span>
+    <p class="western"><span style="color: #000000;"><strong>10.2</strong></span><span style="color: #000000;"> A contrata&ccedil;&atilde;o da CONTRATADA, cumpridas todas as formalidades legais, com ou sem exclusividade, de forma cont&iacute;nua ou n&atilde;o, afasta a qualidade de empregado prevista no art. 3&ordm; da CLT, nos termos do art. 442-B da CLT. </span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">6.2&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Havendo descumprimento deste contrato, ser&aacute; devida multa de ________ sobre o valor do contrato.</span>
+    <p class="western"><span style="color: #000000;"><strong>10.3</strong></span><span style="color: #000000;"> A toler&acirc;ncia, por qualquer das partes, com rela&ccedil;&atilde;o ao descumprimento de qualquer termo ou condi&ccedil;&atilde;o aqui ajustado, n&atilde;o ser&aacute; considerada como desist&ecirc;ncia em exigir o cumprimento de disposi&ccedil;&atilde;o nele contida, nem representar&aacute; nova&ccedil;&atilde;o com rela&ccedil;&atilde;o &agrave; obriga&ccedil;&atilde;o passada, presente ou futura, no tocante ao termo ou condi&ccedil;&atilde;o cujo descumprimento foi tolerado.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA S&Eacute;TIMA - DO PRAZO E VALIDADE</span>
+    <h2 class="western">CL&Aacute;USULA D&Eacute;CIMA PRIMEIRA - DO FORO</h2>
+    <p class="western"><span style="color: #000000;"><strong>10.1 </strong></span><span style="color: #000000;">Para dirimir quaisquer controv&eacute;rsias oriundas do presente contrato, as partes elegem o foro da Comarca de Campina Grande &ndash; PB.</span>
     </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">7.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">A CONTRATADA dever&aacute; realizar os servi&ccedil;os dentro dos prazos determinados no cronograma previsto no ANEXO I, sendo sua responsabilidade comunicar a impossibilidade de cumprimento, bem como os motivos para tal e o novo prazo previsto, estando em sua compet&ecirc;ncia a capacidade para tal avalia&ccedil;&atilde;o.</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">7.2&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Este instrumento &eacute; v&aacute;lido por prazo indeterminado, vigendo at&eacute; a finaliza&ccedil;&atilde;o do servi&ccedil;o, ora contratado, ou encerramento do contrato, n&atilde;o ficando as partes isentas de seus compromissos &eacute;ticos ap&oacute;s invalida&ccedil;&atilde;o do mesmo.</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA OITAVA - DA RESCIS&Atilde;O IMOTIVADA</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">8.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Poder&aacute; o presente instrumento ser rescindido por qualquer das partes, em qualquer momento, sem que haja qualquer tipo de motivo relevante, respeitando-se um per&iacute;odo m&iacute;nimo de ________ dias, devendo ent&atilde;o somente ser finalizadas e pagas as etapas que j&aacute; estiverem em andamento.</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA NONA - DAS DISPOSI&Ccedil;&Otilde;ES GERAIS</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">9.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Fica pactuada a total inexist&ecirc;ncia de v&iacute;nculo trabalhista entre as partes, excluindo as obriga&ccedil;&otilde;es previdenci&aacute;rias e os encargos sociais, n&atilde;o havendo entre CONTRATADA e CONTRATANTE qualquer tipo de rela&ccedil;&atilde;o de subordina&ccedil;&atilde;o.&nbsp;</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">9.2</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;A contrata&ccedil;&atilde;o da CONTRATADA, cumpridas todas as formalidades legais, com ou sem exclusividade, de forma cont&iacute;nua ou n&atilde;o, afasta a qualidade de empregado prevista no art. 3&ordm; da CLT, nos termos do art. 442-B da CLT.&nbsp;</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">9.3</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">&nbsp;A toler&acirc;ncia, por qualquer das partes, com rela&ccedil;&atilde;o ao descumprimento de qualquer termo ou condi&ccedil;&atilde;o aqui ajustado, n&atilde;o ser&aacute; considerada como desist&ecirc;ncia em exigir o cumprimento de disposi&ccedil;&atilde;o nele contida, nem representar&aacute; nova&ccedil;&atilde;o com rela&ccedil;&atilde;o &agrave; obriga&ccedil;&atilde;o passada, presente ou futura, no tocante ao termo ou condi&ccedil;&atilde;o cujo descumprimento foi tolerado.</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CL&Aacute;USULA D&Eacute;CIMA - DO FORO</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">10.1&nbsp;</span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Para dirimir quaisquer controv&eacute;rsias oriundas do presente contrato, as partes elegem o foro da Comarca de ________ do Estado de ________ .</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Por estarem assim justos e de acordo, firmam o presente instrumento, em duas vias de igual teor, juntamente com 2 (duas) testemunhas.</span>
-    </p>
-    <p><br></p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">___________________________ , ________________________ .</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: center;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;"><br></span><span
-            style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">__________________________________&nbsp;</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: center;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">_________________________________&nbsp;</span>
-    </p>
-    <p><br></p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">TESTEMUNHAS:</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">___________________________________&nbsp;</span>
-    </p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">____________________________________&nbsp;</span>
-    </p>
-    <p><br></p>
-    <p dir="ltr" style="line-height:1.7999999999999998;text-align: justify;margin-top:19.85pt;margin-bottom:19.85pt;">
-        <span style="font-size:12pt;font-family:Georgia;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">ANEXOS:</span>
-    </p>
+    <p class="western"><span style="color: #000000;">Por estarem assim justos e de acordo, firmam o presente instrumento, em duas vias de igual teor, juntamente com 2 (duas) testemunhas.</span></p>
+
+    <br/><br/><br/><br/><br/>
+    <p class="western"><span style="color: #000000;">TESTEMUNHAS:</span></p>
+    <p class="western"><span style="color: #000000;">________</span>_________________________</p>
+    <p class="western"><span style="color: #000000;">_________________________________ </span></p>
 </div>
 
 <script>
-     window.print();
+    window.print();
 </script>
 </body>
 </html>
