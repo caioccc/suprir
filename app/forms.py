@@ -159,6 +159,7 @@ class FormServico(ModelForm, BaseForm):
             field.widget.attrs['required'] = True
         self.fields['disponivel'].widget.attrs['required'] = False
         self.fields['valor_a_combinar'].widget.attrs['required'] = False
+        self.fields['valor_base'].widget.attrs['required'] = False
 
 
 class FormFotoServico(ModelForm, BaseForm):
