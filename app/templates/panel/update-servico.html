@@ -86,6 +86,8 @@
             if ($('[name=valor_a_combinar]').is(':checked')) {
                 if ($('[name=valor_a_combinar]').prop("checked") == true) {
                     $('[name=valor_base_0]').hide();
+                    $('[name=valor_base_0]').val('0.0');
+                    $('[name=valor_base_0]').attr('required', false);
                 } else if ($('[name=valor_a_combinar]').prop("checked") == false) {
                     $('[name=valor_base_0]').show();
                 }

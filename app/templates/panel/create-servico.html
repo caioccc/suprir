@@ -76,10 +76,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('[name=valor_base_1]').addClass('hidden');
-            $('[name=valor_base_1]').attr('required', false);
             $('[name=valor_a_combinar]').click(function () {
                 if ($(this).prop("checked") == true) {
                     $('[name=valor_base_0]').hide();
+                    $('[name=valor_base_0]').val('0.0');
                     $('[name=valor_base_0]').attr('required', false);
                 } else if ($(this).prop("checked") == false) {
                     $('[name=valor_base_0]').show();
